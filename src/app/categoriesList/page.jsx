@@ -32,7 +32,7 @@ const Page = () => {
     useEffect(() => {
         // Check screen size to switch between table & card view
         const checkScreenSize = () => {
-            setIsMobile(window.innerWidth < 768); // Change view if width is below 768px
+            setIsMobile(window.innerWidth < 1000); // Change view if width is below 768px
         };
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
@@ -140,7 +140,7 @@ const Page = () => {
                             <p><strong>Display Order:</strong> {row.quantity}</p>
                             <p><strong>Featured:</strong> {row.required}</p>
                             <p><strong>Status:</strong> <span className={`px-2 py-1 rounded ${row.status === "Active" ? "bg-green-200 text-green-800" : row.status === "Pending" ? "bg-yellow-200 text-yellow-800" : "bg-red-200 text-red-800"}`}>{row.status}</span></p>
-                            <p><button><strong>Category Courses:</strong> {row.description}</button></p>
+                            <p><button><strong>Category Cour:</strong> {row.description}</button></p>
                             <div className="flex justify-between mt-3">
                                 <button className="text-blue-500 hover:text-blue-700">View Courses</button>
                                 <button className="text-blue-500 hover:text-blue-700">Edit</button>
