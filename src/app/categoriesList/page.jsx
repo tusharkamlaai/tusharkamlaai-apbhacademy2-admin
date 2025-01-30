@@ -18,26 +18,29 @@ const rowsData = [
     { id: "9", title: "Blockchain", quantity: "2", required: "No", status: "Active", description: "Courses(9)" }
 ];
 
-console.log(rowsData,"PPP")
+console.log(rowsData, "PPP")
 
 const Page = () => {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
     const [currentPage, setCurrentPage] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
+    const [hasMounted, setHasMounted] = useState(false);
 
     const router = useRouter();
     const rowsPerPage = 5;
 
     useEffect(() => {
-        // Check screen size to switch between table & card view
+        setHasMounted(true);
         const checkScreenSize = () => {
-            setIsMobile(window.innerWidth < 1000); // Change view if width is below 768px
+            setIsMobile(window.innerWidth < 768);
         };
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
+
+
 
     const sortedData = useMemo(() => {
         let sortableItems = [...rowsData];
@@ -61,6 +64,11 @@ const Page = () => {
         const end = start + rowsPerPage;
         return sortedData.slice(start, end);
     }, [sortedData, currentPage]);
+
+
+    if (!hasMounted) {
+        return null;
+    }
 
     return (
         <>
@@ -133,16 +141,16 @@ const Page = () => {
             ) : (
                 <div className="grid gap-4 mt-5">
                     {displayedRows.map((row, index) => (
-                        
+
                         <div key={index} className="bg-white p-4 shadow rounded-lg border">
                             <h3 className="font-semibold text-lg">{row.title}</h3>
                             <p><strong>ID:</strong> {row.id}</p>
                             <p><strong>Display Order:</strong> {row.quantity}</p>
                             <p><strong>Featured:</strong> {row.required}</p>
                             <p><strong>Status:</strong> <span className={`px-2 py-1 rounded ${row.status === "Active" ? "bg-green-200 text-green-800" : row.status === "Pending" ? "bg-yellow-200 text-yellow-800" : "bg-red-200 text-red-800"}`}>{row.status}</span></p>
-                            <p><button><strong>Category Cour:</strong> {row.description}</button></p>
+                            <p><button><strong>Catgry Courses:</strong> {row.description}</button></p>
                             <div className="flex justify-between mt-3">
-                                <button className="text-blue-500 hover:text-blue-700">View Courses</button>
+                                {/* <button className="text-blue-500 hover:text-blue-700">View Courses</button> */}
                                 <button className="text-blue-500 hover:text-blue-700">Edit</button>
                             </div>
                         </div>
