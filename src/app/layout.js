@@ -28,7 +28,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import ListIcon from '@mui/icons-material/List';
 import CategoryIcon from '@mui/icons-material/Category';
-
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -371,6 +371,56 @@ export default function RootLayout({ children }) {
                     </ListItemIcon>
                     <ListItemText
                       primary={'Categories List'}
+                      sx={[
+                        open
+                          ? {
+                            opacity: 1,
+                          }
+                          : {
+                            opacity: 0,
+                          },
+                      ]}
+                    />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+
+              <ListItem disablePadding sx={{ display: 'block' }}>
+                <Link href="/faqs">
+                  <ListItemButton
+                    sx={[
+                      {
+                        minHeight: 48,
+                        px: 2.5,
+                      },
+                      open
+                        ? {
+                          justifyContent: 'initial',
+                        }
+                        : {
+                          justifyContent: 'center',
+                        },
+                    ]}
+                  >
+                    <ListItemIcon
+                      sx={[
+                        {
+                          minWidth: 0,
+                          justifyContent: 'center',
+                        },
+                        open
+                          ? {
+                            mr: 3,
+                          }
+                          : {
+                            mr: 'auto',
+                          },
+                      ]}
+                    >
+                      <LiveHelpIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={'FAQs List'}
                       sx={[
                         open
                           ? {

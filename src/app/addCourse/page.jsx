@@ -10,13 +10,13 @@ const page = () => {
 
   return (
     <>
-      <h2 className='font-semibold text-[25px] mb-5'>Add New Course</h2>
+      <h2 className='font-semibold lg:text-[25px] mb-5'>Add New Course</h2>
       <div className='items-center justify-center flex'>
         <Card className='lg:w-[70%] '>
           <CardContent>
             <h2 className='font-semibold text-[20px] mb-3'>New Course</h2>
             <hr />
-            <div className='px-10'>
+            <div >
               <Container component="main" className=''>
                 <Box component="form" noValidate sx={{ mt: 1 }}>
                   <Grid container spacing={2}>
@@ -78,7 +78,7 @@ const page = () => {
                     In the next step, you will add translations, Videos and Questionnaire of this course.
                   </Typography>
 
-                  <div className="flex gap-5">
+                  <div className="flex gap-3">
                     <Button
                       type="submit"
                       variant="contained"

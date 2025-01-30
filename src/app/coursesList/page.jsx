@@ -64,23 +64,14 @@ const page = () => {
     };
     return (
         <>
-            <div className='justify-between flex mb-5'>
-                <div><h2 className='font-semibold text-[25px] mb-5'>Courses List</h2></div>
-                <div className='flex gap-5 '>
-                    <div>
-                        <Button onClick={() => router.push('/addCourse')} variant="contained" className='flex gap-5'>
-                            <span>Add Course</span>
-                            <span><AddIcon /></span>
-                        </Button>
-                    </div>
-                    <div>
-                        <Button variant="contained" className='flex gap-5'>
-                            <span>Download Course</span>
-                        </Button>
-                    </div>
+            <div className='justify-between lg:flex mb-5'>
+                <div>
+                    <h2 className='font-semibold lg:text-[25px] mb-5'>Courses List</h2>
                 </div>
+            </div>
 
-                <div> <TextField
+            <div className='lg:flex justify-between mb-5'>
+            <div> <TextField
                     id="Search"
                     label="Search..."
                     variant="outlined"
@@ -89,7 +80,33 @@ const page = () => {
                 />
                 </div>
 
+                <div className='gap-3 flex mt-5 lg:mt-0'>
+                    <Button onClick={() => router.push('/addCourse')} variant="contained" className='flex gap-5'>
+                        <span>Add Course</span>
+                        <span><AddIcon /></span>
+                    </Button>
+
+                    <Button variant="contained">
+                        <span>Download Course</span>
+                    </Button>
+                </div>
+               
             </div>
+            
+
+            {/* <div className="flex gap-5 mb-5">
+                <div>
+                    <Button onClick={() => router.push('/addCourse')} variant="contained" className='flex gap-5'>
+                        <span>Add Course</span>
+                        <span><AddIcon /></span>
+                    </Button>
+                </div>
+                <div>
+                    <Button variant="contained" className='flex gap-5'>
+                        <span>Download Course</span>
+                    </Button>
+                </div>
+            </div> */}
 
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
                 <div className="hidden md:block">
@@ -129,8 +146,8 @@ const page = () => {
                                 </div>
                             ))}
                             <div className="pt-4 flex justify-between">
-                                <button  className="text-blue-500 hover:text-blue-700">Edit</button>
-                                <button  className="text-green-500 hover:text-green-700">Manage</button>
+                                <button className="text-blue-500 hover:text-blue-700">Edit</button>
+                                <button className="text-green-500 hover:text-green-700">Manage</button>
                             </div>
                         </div>
                     ))}
