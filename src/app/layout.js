@@ -1,70 +1,85 @@
-'use client'
+"use client";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import * as React from "react";
+import { styled, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import MuiDrawer from "@mui/material/Drawer";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import CssBaseline from "@mui/material/CssBaseline";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 import Link from "next/link";
-import { useMediaQuery } from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
-import ListIcon from '@mui/icons-material/List';
-import CategoryIcon from '@mui/icons-material/Category';
-import LiveHelpIcon from '@mui/icons-material/LiveHelp';
+import { useMediaQuery } from "@mui/material";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
+import ListIcon from "@mui/icons-material/List";
+import CategoryIcon from "@mui/icons-material/Category";
+import LiveHelpIcon from "@mui/icons-material/LiveHelp";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import Button from "@mui/material/Button";
+import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import Person3Icon from "@mui/icons-material/Person3";
+import profile from '../../src/assets/profile.png';
+import Image from 'next/image'
 const drawerWidth = 240;
+
+const menuItems = [
+  { href: "/addCourse", icon: <AddToPhotosIcon />, text: "Add Course" },
+  { href: "/coursesList", icon: <ListIcon />, text: "Courses List" },
+  { href: "/categoriesList", icon: <CategoryIcon />, text: "Categories List" },
+  { href: "/faqs", icon: <LiveHelpIcon />, text: "FAQs List" },
+  { href: "/usersList", icon: <PeopleOutlineIcon />, text: "Users List" },
+];
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
 }));
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
@@ -74,7 +89,7 @@ const AppBar = styled(MuiAppBar, {
       style: {
         marginLeft: drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
+        transition: theme.transitions.create(["width", "margin"], {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
         }),
@@ -83,33 +98,31 @@ const AppBar = styled(MuiAppBar, {
   ],
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    variants: [
-      {
-        props: ({ open }) => open,
-        style: {
-          ...openedMixin(theme),
-          '& .MuiDrawer-paper': openedMixin(theme),
-        },
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  variants: [
+    {
+      props: ({ open }) => open,
+      style: {
+        ...openedMixin(theme),
+        "& .MuiDrawer-paper": openedMixin(theme),
+        boxShadow: "3px 0 8px rgba(0, 0, 0, 0.1)",
       },
-      {
-        props: ({ open }) => !open,
-        style: {
-          ...closedMixin(theme),
-          '& .MuiDrawer-paper': closedMixin(theme),
-        },
+    },
+    {
+      props: ({ open }) => !open,
+      style: {
+        ...closedMixin(theme),
+        "& .MuiDrawer-paper": closedMixin(theme),
       },
-    ],
-  }),
-);
-
-
-
+    },
+  ],
+}));
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -127,9 +140,10 @@ const geistMono = Geist_Mono({
 // };
 
 export default function RootLayout({ children }) {
-
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm') && theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(
+    theme.breakpoints.down("sm") && theme.breakpoints.down("md")
+  );
 
   const [open, setOpen] = React.useState(!isMobile);
 
@@ -145,15 +159,18 @@ export default function RootLayout({ children }) {
     setOpen(false);
   };
 
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: "flex" }}>
           <CssBaseline />
-          <AppBar position="fixed" open={open}>
+          <AppBar
+            position="fixed"
+            open={open}
+            style={{ background: "white", color: "black" }}
+          >
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -164,11 +181,12 @@ export default function RootLayout({ children }) {
                   {
                     marginRight: 5,
                   },
-                  open && { display: 'none' },
+                  open && { display: "none" },
                 ]}
               >
                 <MenuIcon />
               </IconButton>
+              <div style={{ flexGrow: 1 }} />
               <Typography variant="h6" noWrap component="div">
                 Tushar
               </Typography>
@@ -176,15 +194,80 @@ export default function RootLayout({ children }) {
           </AppBar>
           <Drawer variant="permanent" open={open}>
             <DrawerHeader>
+              <Typography>
+
+                <div className="flex gap-2 items-center">
+                <Image src={profile} alt="Description" width={30} height={30} />
+
+                <button className="relative right-">ABC -Admin Login</button>
+
+                </div>
+
+               
+              </Typography>
               <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                {theme.direction === "rtl" ? (
+                  <ChevronRightIcon />
+                ) : (
+                  <MenuOpenIcon />
+                )}
               </IconButton>
             </DrawerHeader>
             <Divider />
-
             <Divider />
             <List>
-              <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <Link href="/">
+                  <ListItemButton
+                    sx={[
+                      {
+                        minHeight: 60,
+                        px: 2.5,
+                      },
+                      open
+                        ? {
+                            justifyContent: "initial",
+                          }
+                        : {
+                            justifyContent: "center",
+                          },
+                    ]}
+                  >
+                    <ListItemIcon
+                      sx={[
+                        {
+                          minWidth: 0,
+                          justifyContent: "center",
+                        },
+                        open
+                          ? {
+                              mr: 3,
+                            }
+                          : {
+                              mr: "auto",
+                            },
+                      ]}
+                    >
+                      <Person3Icon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"Admin Login"}
+                      sx={[
+                        open
+                          ? {
+                              opacity: 1,
+                            }
+                          : {
+                              opacity: 0,
+                            },
+                      ]}
+                    />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+              <Divider />
+
+              <ListItem disablePadding sx={{ display: "block" }}>
                 <Link href="/">
                   <ListItemButton
                     sx={[
@@ -194,247 +277,105 @@ export default function RootLayout({ children }) {
                       },
                       open
                         ? {
-                          justifyContent: 'initial',
-                        }
+                            justifyContent: "initial",
+                          }
                         : {
-                          justifyContent: 'center',
-                        },
+                            justifyContent: "center",
+                          },
                     ]}
                   >
                     <ListItemIcon
                       sx={[
                         {
                           minWidth: 0,
-                          justifyContent: 'center',
+                          justifyContent: "center",
                         },
                         open
                           ? {
-                            mr: 3,
-                          }
+                              mr: 3,
+                            }
                           : {
-                            mr: 'auto',
-                          },
+                              mr: "auto",
+                            },
                       ]}
                     >
                       <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary={'Dashboard'}
+                      primary={"Dashboard"}
                       sx={[
                         open
                           ? {
-                            opacity: 1,
-                          }
+                              opacity: 1,
+                            }
                           : {
-                            opacity: 0,
-                          },
+                              opacity: 0,
+                            },
                       ]}
                     />
                   </ListItemButton>
                 </Link>
               </ListItem>
               <Divider />
-
-              <ListItem disablePadding sx={{ display: 'block', mt: 3 }}>
-                <Link href="/addCourse">
-                  <ListItemButton
-                    sx={[
-                      {
-                        minHeight: 48,
-                        px: 2.5,
-                      },
-                      open
-                        ? {
-                          justifyContent: 'initial',
-                        }
-                        : {
-                          justifyContent: 'center',
-                        },
-                    ]}
-                  >
-                    <ListItemIcon
-                      sx={[
-                        {
-                          minWidth: 0,
-                          justifyContent: 'center',
-                        },
-                        open
-                          ? {
-                            mr: 3,
-                          }
-                          : {
-                            mr: 'auto',
-                          },
-                      ]}
+              <div className="mt-5">
+                {menuItems.map((items, index) => {
+                  return (
+                    <ListItem
+                      key={index}
+                      disablePadding
+                      sx={{ display: "block" }}
                     >
-                      <AddToPhotosIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={'Add Course'}
-                      sx={[
-                        open
-                          ? {
-                            opacity: 1,
-                          }
-                          : {
-                            opacity: 0,
-                          },
-                      ]}
-                    />
-                  </ListItemButton>
-                </Link>
-              </ListItem>
-
-              <ListItem disablePadding sx={{ display: 'block' }}>
-                <Link href="/coursesList">
-                  <ListItemButton
-                    sx={[
-                      {
-                        minHeight: 48,
-                        px: 2.5,
-                      },
-                      open
-                        ? {
-                          justifyContent: 'initial',
-                        }
-                        : {
-                          justifyContent: 'center',
-                        },
-                    ]}
-                  >
-                    <ListItemIcon
-                      sx={[
-                        {
-                          minWidth: 0,
-                          justifyContent: 'center',
-                        },
-                        open
-                          ? {
-                            mr: 3,
-                          }
-                          : {
-                            mr: 'auto',
-                          },
-                      ]}
-                    >
-                      <ListIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={'Courses List'}
-                      sx={[
-                        open
-                          ? {
-                            opacity: 1,
-                          }
-                          : {
-                            opacity: 0,
-                          },
-                      ]}
-                    />
-                  </ListItemButton>
-                </Link>
-              </ListItem>
-
-              <ListItem disablePadding sx={{ display: 'block' }}>
-                <Link href="/categoriesList">
-                  <ListItemButton
-                    sx={[
-                      {
-                        minHeight: 48,
-                        px: 2.5,
-                      },
-                      open
-                        ? {
-                          justifyContent: 'initial',
-                        }
-                        : {
-                          justifyContent: 'center',
-                        },
-                    ]}
-                  >
-                    <ListItemIcon
-                      sx={[
-                        {
-                          minWidth: 0,
-                          justifyContent: 'center',
-                        },
-                        open
-                          ? {
-                            mr: 3,
-                          }
-                          : {
-                            mr: 'auto',
-                          },
-                      ]}
-                    >
-                      <CategoryIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={'Categories List'}
-                      sx={[
-                        open
-                          ? {
-                            opacity: 1,
-                          }
-                          : {
-                            opacity: 0,
-                          },
-                      ]}
-                    />
-                  </ListItemButton>
-                </Link>
-              </ListItem>
-
-              <ListItem disablePadding sx={{ display: 'block' }}>
-                <Link href="/faqs">
-                  <ListItemButton
-                    sx={[
-                      {
-                        minHeight: 48,
-                        px: 2.5,
-                      },
-                      open
-                        ? {
-                          justifyContent: 'initial',
-                        }
-                        : {
-                          justifyContent: 'center',
-                        },
-                    ]}
-                  >
-                    <ListItemIcon
-                      sx={[
-                        {
-                          minWidth: 0,
-                          justifyContent: 'center',
-                        },
-                        open
-                          ? {
-                            mr: 3,
-                          }
-                          : {
-                            mr: 'auto',
-                          },
-                      ]}
-                    >
-                      <LiveHelpIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={'FAQs List'}
-                      sx={[
-                        open
-                          ? {
-                            opacity: 1,
-                          }
-                          : {
-                            opacity: 0,
-                          },
-                      ]}
-                    />
-                  </ListItemButton>
-                </Link>
-              </ListItem>
-
+                      <Link href={items.href}>
+                        <ListItemButton
+                          sx={[
+                            {
+                              minHeight: 48,
+                              px: 2.5,
+                            },
+                            open
+                              ? {
+                                  justifyContent: "initial",
+                                }
+                              : {
+                                  justifyContent: "center",
+                                },
+                          ]}
+                        >
+                          <ListItemIcon
+                            sx={[
+                              {
+                                minWidth: 0,
+                                justifyContent: "center",
+                              },
+                              open
+                                ? {
+                                    mr: 3,
+                                  }
+                                : {
+                                    mr: "auto",
+                                  },
+                            ]}
+                          >
+                            {items.icon}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={items.text}
+                            sx={[
+                              open
+                                ? {
+                                    opacity: 1,
+                                  }
+                                : {
+                                    opacity: 0,
+                                  },
+                            ]}
+                          />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  );
+                })}
+              </div>
             </List>
           </Drawer>
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

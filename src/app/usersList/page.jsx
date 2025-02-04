@@ -7,85 +7,27 @@ import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/navigation";
 
 const rowsData = [
-    {
-        "ID": "1",
-        "Category": "Coding",
-        "Course_Name": "HTML",
-        "Course_Code": "12345",
-        "Module": "HTML_course",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    },
-    {
-        "ID": "2",
-        "Category": "Coding",
-        "Course_Name": "HTML",
-        "Course_Code": "12345",
-        "Module": "HTML_course",
-        "Featured": "No",
-        "In_Portal": "Inactive",
-        "In_Training": "Inactive",
-        "Languages": "0"
-    },
-    {
-        "ID": "3",
-        "Category": "Course",
-        "Course_Name": "Javascript",
-        "Course_Code": "123",
-        "Module": "Module",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    },
-    {
-        "ID": "4",
-        "Category": "Machine Learning",
-        "Course_Name": "Python",
-        "Course_Code": "123",
-        "Module": "Learning_Module",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    },
-    {
-        "ID": "5",
-        "Category": "demo_Category",
-        "Course_Name": "demo1",
-        "Course_Code": "123",
-        "Module": "demo_module",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    },
-    {
-        "ID": "6",
-        "Category": "Category 2",
-        "Course_Name": "Course 2",
-        "Course_Code": "563",
-        "Module": "Module 2",
-        "Featured": "No",
-        "In_Portal": "Inactive",
-        "In_Training": "Inactive",
-        "Languages": "0"
-    },
-    {
-        "ID": "7",
-        "Category": "Category 4",
-        "Course_Name": "Course 4",
-        "Course_Code": "456",
-        "Module": "Module 4",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    }
-]
-
+  {
+    id: 1,
+    name: "Tushar",
+    mobile: "7888010088",
+    bpNumber: "12345",
+    state: "Maharashtra",
+    city: "Mumbai",
+    district: "Mumbai",
+    status: "Active",
+  },
+  {
+    id: 2,
+    name: "user",
+    mobile: "7770080488",
+    bpNumber: "12345",
+    state: "Maharashtra",
+    city: "Mumbai",
+    district: "Mumbai",
+    status: "Active",
+  },
+];
 
 console.log(rowsData, "PPP");
 
@@ -138,7 +80,7 @@ const Page = () => {
   return (
     <>
       <div className="justify-between lg:flex mb-5">
-        <h2 className="font-semibold lg:text-[25px] mb-5">Manage Courses</h2>
+        <h2 className="font-semibold lg:text-[25px] mb-5">Manage Users</h2>
       </div>
 
       <div className="lg:flex justify-between">
@@ -154,18 +96,24 @@ const Page = () => {
 
         <div className="gap-3 flex mt-5 lg:mt-0">
           <Button
-            onClick={() => router.push("/addCourse")}
+            onClick={() => router.push("/usersList/addUsers")}
             variant="contained"
             className="flex gap-5"
           >
-            <span>Add Course</span>
+            <span>Add User</span>
             <span>
               <AddIcon />
             </span>
           </Button>
 
           <Button variant="contained">
-            <span>Download Course</span>
+            <span>Download Users</span>
+          </Button>
+          <Button variant="contained">
+            <span>Bulk Update BP Numbers</span>
+          </Button>
+          <Button variant="contained">
+            <span> Bulk Update Users</span>
           </Button>
         </div>
       </div>
@@ -176,7 +124,17 @@ const Page = () => {
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                {["ID", "Category", "Course Name", "Course Code", "Module", "Featured", "In Portal", "In Training", "Languages","Manage", "Actions"].map((header, index) => (
+                {[
+                  "ID",
+                  "Name",
+                  "Mobile",
+                  "BP Number",
+                  "State",
+                  "City",
+                  "District",
+                  "Status",
+                  "Details",
+                ].map((header, index) => (
                   <th key={index} className="px-3 py-3">
                     {header}
                   </th>
@@ -189,24 +147,17 @@ const Page = () => {
                   key={rowIndex}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 >
-                  <td className="px-6 py-4">{row.ID}</td>
-                  <td className="px-6 py-4">{row.Category}</td>
-                  <td className="px-6 py-4">{row.Course_Name}</td>
-                  <td className="px-6 py-4">{row.Course_Code}</td>
-                  <td className="px-6 py-4">{row.Module}</td>
-                  <td className="px-6 py-4">{row.Featured}</td>
-                  <td className="px-6 py-4">{row.In_Portal}</td>
-                  <td className="px-6 py-4">{row.In_Training}</td>
-                  <td className="px-6 py-4">{row.Languages}</td>
-                  <td className="px-6 py-4">
-                  <button className="text-blue-500 hover:text-blue-700">
-                      Manage
-                    </button>
-                  </td>
-
+                  <td className="px-6 py-4">{row.id}</td>
+                  <td className="px-6 py-4">{row.name}</td>
+                  <td className="px-6 py-4">{row.mobile}</td>
+                  <td className="px-6 py-4">{row.bpNumber}</td>
+                  <td className="px-6 py-4">{row.state}</td>
+                  <td className="px-6 py-4">{row.city}</td>
+                  <td className="px-6 py-4">{row.district}</td>
+                  <td className="px-6 py-4">{row.status}</td>
                   <td className="px-6 py-4">
                     <button className="text-blue-500 hover:text-blue-700">
-                      Edit
+                      Details
                     </button>
                   </td>
                 </tr>
@@ -235,44 +186,38 @@ const Page = () => {
       ) : (
         <div className="grid gap-4 mt-5">
           {displayedRows.map((row, index) => (
-      <div key={index} className="bg-white p-4 shadow rounded-lg border">
-        <p>
-          <strong>ID:</strong> {row.ID}
-        </p>
-        <p>
-          <strong>Category:</strong> {row.Category}
-        </p>
-        <p>
-          <strong>Course Name:</strong> {row.Course_Name}
-        </p>
-        <p>
-          <strong>Course Code:</strong> {row.Course_Code}
-        </p>
-        <p>
-          <strong>Module:</strong> {row.Module}
-        </p>
-        <p>
-          <strong>Featured:</strong> {row.Featured}
-        </p>
-        <p>
-          <strong>In Portal:</strong> {row.In_Portal}
-        </p>
-        <p>
-          <strong>In Training:</strong> {row.In_Training}
-        </p>
-        <p>
-          <strong>Languages:</strong> {row.Languages}
-        </p>
-        <div className="flex justify-between mt-3">
-          <button className="text-blue-500 hover:text-blue-700">
-            Manage
-          </button>
-          <button className="text-blue-500 hover:text-blue-700">
-            Edit
-          </button>
-        </div>
-      </div>
-    ))}
+            <div key={index} className="bg-white p-4 shadow rounded-lg border">
+              <p>
+                <strong>ID:</strong> {row.id}
+              </p>
+              <p>
+                <strong>Name:</strong> {row.name}
+              </p>
+              <p>
+                <strong>Mobile Number:</strong> {row.mobile}
+              </p>
+              <p>
+                <strong>BP Number:</strong> {row.bpNumber}
+              </p>
+              <p>
+                <strong>State:</strong> {row.state}
+              </p>
+              <p>
+                <strong>City:</strong> {row.city}
+              </p>
+              <p>
+                <strong>District:</strong> {row.district}
+              </p>
+              <p>
+                <strong>Status:</strong> {row.status}
+              </p>
+              <div className="flex justify-between mt-3">
+                <button className="text-blue-500 hover:text-blue-700">
+                  Details
+                </button>
+              </div>
+            </div>
+          ))}
 
           <div className="flex justify-between p-4">
             <button

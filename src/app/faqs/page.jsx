@@ -73,7 +73,7 @@ const Page = () => {
     return (
         <>
             <div className='justify-between lg:flex mb-5'>
-                <h2 className='font-semibold lg:text-[25px] mb-5'>Manage Categories</h2>
+                <h2 className='font-semibold lg:text-[25px] mb-5'>Manage FAQs</h2>
             </div>
 
             <div className='lg:flex justify-between'>
@@ -87,16 +87,16 @@ const Page = () => {
                     />
                 </div>
 
-                <Button className='mb-5' onClick={() => router.push('/addCourse')} variant="contained" startIcon={<AddIcon />}>
+                <Button className='mb-5' onClick={() => router.push('/faqs/addFaqs')} variant="contained" startIcon={<AddIcon />}>
                     Add New
                 </Button>
             </div>
 
             {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
             {!isMobile ? (
-                <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block hidden">
+                <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block hidden bg-white">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 {["ID", "FAQ", "Display Order", "Status", "Translate Lang.", "Actions"].map((header, index) => (
                                     <th key={index} className="px-6 py-3">{header}</th>
