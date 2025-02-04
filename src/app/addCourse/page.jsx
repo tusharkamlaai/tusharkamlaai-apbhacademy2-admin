@@ -89,7 +89,7 @@ const page = () => {
 
                     <Button
                       type="submit"
-                      variant="contained"
+                      variant="outlined"
                     >
                       Cancel
                     </Button>

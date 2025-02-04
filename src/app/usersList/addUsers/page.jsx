@@ -179,7 +179,7 @@ const Page = () => {
                     <Button type="submit" variant="contained">
                       Save
                     </Button>
-                    <Button type="reset" variant="contained">
+                    <Button type="reset" variant="outlined">
                       Cancel
                     </Button>
                   </div>

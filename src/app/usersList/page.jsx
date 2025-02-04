@@ -83,40 +83,26 @@ const Page = () => {
         <h2 className="font-semibold lg:text-[25px] mb-5">Manage Users</h2>
       </div>
 
-      <div className="lg:flex justify-between">
-        <div className="mb-5 lg:mb-0">
-          <TextField
-            id="Search"
-            label="Search..."
-            variant="outlined"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+      <div className="flex flex-col lg:flex-row gap-3 mt-5 lg:mt-0">
+  <Button
+    onClick={() => router.push("/usersList/addUsers")}
+    variant="contained"
+    className="flex gap-2 justify-center items-center w-full lg:w-auto"
+  >
+    <span>Add User</span>
+    <AddIcon />
+  </Button>
 
-        <div className="gap-3 flex mt-5 lg:mt-0">
-          <Button
-            onClick={() => router.push("/usersList/addUsers")}
-            variant="contained"
-            className="flex gap-5"
-          >
-            <span>Add User</span>
-            <span>
-              <AddIcon />
-            </span>
-          </Button>
-
-          <Button variant="contained">
-            <span>Download Users</span>
-          </Button>
-          <Button variant="contained">
-            <span>Bulk Update BP Numbers</span>
-          </Button>
-          <Button variant="contained">
-            <span> Bulk Update Users</span>
-          </Button>
-        </div>
-      </div>
+  <Button variant="contained" className="w-full lg:w-auto">
+    <span>Download Users</span>
+  </Button>
+  <Button variant="contained" className="w-full lg:w-auto">
+    <span>Bulk Update BP Numbers</span>
+  </Button>
+  <Button variant="contained" className="w-full lg:w-auto">
+    <span>Bulk Update Users</span>
+  </Button>
+</div>
 
       {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
       {!isMobile ? (
