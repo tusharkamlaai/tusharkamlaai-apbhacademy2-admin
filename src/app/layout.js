@@ -34,8 +34,13 @@ import Button from "@mui/material/Button";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import Person3Icon from "@mui/icons-material/Person3";
-import profile from '../../src/assets/profile.png';
-import Image from 'next/image'
+import profile from "../../src/assets/profile.png";
+import logo from "../../src/assets/logo.png";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
+import Image from "next/image";
+
+import { useRouter } from "next/navigation";
 const drawerWidth = 240;
 
 const menuItems = [
@@ -187,23 +192,19 @@ export default function RootLayout({ children }) {
                 <MenuIcon />
               </IconButton>
               <div style={{ flexGrow: 1 }} />
-              <Typography variant="h6" noWrap component="div">
-                Tushar
-              </Typography>
+                <div className="flex items-center gap-3">
+                  <span><AccountCircleIcon /></span>
+                  <span>Wellcome ABC -Admin Login</span>
+                </div>
             </Toolbar>
           </AppBar>
           <Drawer variant="permanent" open={open}>
             <DrawerHeader>
               <Typography>
-
                 <div className="flex gap-2 items-center">
-                <Image src={profile} alt="Description" width={30} height={30} />
-
-                <button className="relative right-">ABC -Admin Login</button>
-
+                  <Image src={logo} alt="Description" width={30} height={30} />
+                  <button className="relative right-">AP Color Academy</button>
                 </div>
-
-               
               </Typography>
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === "rtl" ? (
@@ -217,7 +218,7 @@ export default function RootLayout({ children }) {
             <Divider />
             <List>
               <ListItem disablePadding sx={{ display: "block" }}>
-                <Link href="/">
+                <Link href="/profile">
                   <ListItemButton
                     sx={[
                       {
@@ -248,10 +249,15 @@ export default function RootLayout({ children }) {
                             },
                       ]}
                     >
-                      <Person3Icon />
+                      <Image
+                        src={profile}
+                        alt="Description"
+                        width={30}
+                        height={30}
+                      />
                     </ListItemIcon>
                     <ListItemText
-                      primary={"Admin Login"}
+                      primary={"ABC -Admin Login"}
                       sx={[
                         open
                           ? {
@@ -377,6 +383,8 @@ export default function RootLayout({ children }) {
                 })}
               </div>
             </List>
+            <Divider />
+            <Divider />
           </Drawer>
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
