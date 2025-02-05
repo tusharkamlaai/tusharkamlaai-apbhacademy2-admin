@@ -5,87 +5,88 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import CourseEdit from "./[id]/page";
 
 const rowsData = [
-    {
-        "ID": "1",
-        "Category": "Coding",
-        "Course_Name": "HTML",
-        "Course_Code": "12345",
-        "Module": "HTML_course",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    },
-    {
-        "ID": "2",
-        "Category": "Coding",
-        "Course_Name": "HTML",
-        "Course_Code": "12345",
-        "Module": "HTML_course",
-        "Featured": "No",
-        "In_Portal": "Inactive",
-        "In_Training": "Inactive",
-        "Languages": "0"
-    },
-    {
-        "ID": "3",
-        "Category": "Course",
-        "Course_Name": "Javascript",
-        "Course_Code": "123",
-        "Module": "Module",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    },
-    {
-        "ID": "4",
-        "Category": "Machine Learning",
-        "Course_Name": "Python",
-        "Course_Code": "123",
-        "Module": "Learning_Module",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    },
-    {
-        "ID": "5",
-        "Category": "demo_Category",
-        "Course_Name": "demo1",
-        "Course_Code": "123",
-        "Module": "demo_module",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    },
-    {
-        "ID": "6",
-        "Category": "Category 2",
-        "Course_Name": "Course 2",
-        "Course_Code": "563",
-        "Module": "Module 2",
-        "Featured": "No",
-        "In_Portal": "Inactive",
-        "In_Training": "Inactive",
-        "Languages": "0"
-    },
-    {
-        "ID": "7",
-        "Category": "Category 4",
-        "Course_Name": "Course 4",
-        "Course_Code": "456",
-        "Module": "Module 4",
-        "Featured": "No",
-        "In_Portal": "Active",
-        "In_Training": "Active",
-        "Languages": "1"
-    }
-]
-
+  {
+    ID: "1",
+    Category: "Coding",
+    Course_Name: "HTML",
+    Course_Code: "12345",
+    Module: "HTML_course",
+    Featured: "No",
+    In_Portal: "Active",
+    In_Training: "Active",
+    Languages: "1",
+  },
+  {
+    ID: "2",
+    Category: "Coding",
+    Course_Name: "HTML",
+    Course_Code: "12345",
+    Module: "HTML_course",
+    Featured: "No",
+    In_Portal: "Inactive",
+    In_Training: "Inactive",
+    Languages: "0",
+  },
+  {
+    ID: "3",
+    Category: "Course",
+    Course_Name: "Javascript",
+    Course_Code: "123",
+    Module: "Module",
+    Featured: "No",
+    In_Portal: "Active",
+    In_Training: "Active",
+    Languages: "1",
+  },
+  {
+    ID: "4",
+    Category: "Machine Learning",
+    Course_Name: "Python",
+    Course_Code: "123",
+    Module: "Learning_Module",
+    Featured: "No",
+    In_Portal: "Active",
+    In_Training: "Active",
+    Languages: "1",
+  },
+  {
+    ID: "5",
+    Category: "demo_Category",
+    Course_Name: "demo1",
+    Course_Code: "123",
+    Module: "demo_module",
+    Featured: "No",
+    In_Portal: "Active",
+    In_Training: "Active",
+    Languages: "1",
+  },
+  {
+    ID: "6",
+    Category: "Category 2",
+    Course_Name: "Course 2",
+    Course_Code: "563",
+    Module: "Module 2",
+    Featured: "No",
+    In_Portal: "Inactive",
+    In_Training: "Inactive",
+    Languages: "0",
+  },
+  {
+    ID: "7",
+    Category: "Category 4",
+    Course_Name: "Course 4",
+    Course_Code: "456",
+    Module: "Module 4",
+    Featured: "No",
+    In_Portal: "Active",
+    In_Training: "Active",
+    Languages: "1",
+  },
+];
 
 console.log(rowsData, "PPP");
 
@@ -154,7 +155,7 @@ const Page = () => {
 
         <div className="gap-3 flex mt-5 lg:mt-0">
           <Button
-            onClick={() => router.push("/addCourse")}
+            onClick={() => router.push("coursesList/addCourse")}
             variant="contained"
             className="flex gap-5"
           >
@@ -176,7 +177,19 @@ const Page = () => {
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                {["ID", "Category", "Course Name", "Course Code", "Module", "Featured", "In Portal", "In Training", "Languages","Manage", "Actions"].map((header, index) => (
+                {[
+                  "ID",
+                  "Category",
+                  "Course Name",
+                  "Course Code",
+                  "Module",
+                  "Featured",
+                  "In Portal",
+                  "In Training",
+                  "Languages",
+                  "Manage",
+                  "Actions",
+                ].map((header, index) => (
                   <th key={index} className="px-3 py-3">
                     {header}
                   </th>
@@ -199,15 +212,19 @@ const Page = () => {
                   <td className="px-6 py-4">{row.In_Training}</td>
                   <td className="px-6 py-4">{row.Languages}</td>
                   <td className="px-6 py-4">
-                  <button className="text-blue-500 hover:text-blue-700">
-                      Manage
-                    </button>
+                    <Link href={`/coursesList/manage/${row.ID}`}>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        Manage
+                      </button>
+                    </Link>
                   </td>
 
                   <td className="px-6 py-4">
-                    <button className="text-blue-500 hover:text-blue-700">
-                      Edit
-                    </button>
+                    <Link href={`/coursesList/${row.ID}`}>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        Edit
+                      </button>
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -235,44 +252,44 @@ const Page = () => {
       ) : (
         <div className="grid gap-4 mt-5">
           {displayedRows.map((row, index) => (
-      <div key={index} className="bg-white p-4 shadow rounded-lg border">
-        <p>
-          <strong>ID:</strong> {row.ID}
-        </p>
-        <p>
-          <strong>Category:</strong> {row.Category}
-        </p>
-        <p>
-          <strong>Course Name:</strong> {row.Course_Name}
-        </p>
-        <p>
-          <strong>Course Code:</strong> {row.Course_Code}
-        </p>
-        <p>
-          <strong>Module:</strong> {row.Module}
-        </p>
-        <p>
-          <strong>Featured:</strong> {row.Featured}
-        </p>
-        <p>
-          <strong>In Portal:</strong> {row.In_Portal}
-        </p>
-        <p>
-          <strong>In Training:</strong> {row.In_Training}
-        </p>
-        <p>
-          <strong>Languages:</strong> {row.Languages}
-        </p>
-        <div className="flex justify-between mt-3">
-          <button className="text-blue-500 hover:text-blue-700">
-            Manage
-          </button>
-          <button className="text-blue-500 hover:text-blue-700">
-            Edit
-          </button>
-        </div>
-      </div>
-    ))}
+            <div key={index} className="bg-white p-4 shadow rounded-lg border">
+              <p>
+                <strong>ID:</strong> {row.ID}
+              </p>
+              <p>
+                <strong>Category:</strong> {row.Category}
+              </p>
+              <p>
+                <strong>Course Name:</strong> {row.Course_Name}
+              </p>
+              <p>
+                <strong>Course Code:</strong> {row.Course_Code}
+              </p>
+              <p>
+                <strong>Module:</strong> {row.Module}
+              </p>
+              <p>
+                <strong>Featured:</strong> {row.Featured}
+              </p>
+              <p>
+                <strong>In Portal:</strong> {row.In_Portal}
+              </p>
+              <p>
+                <strong>In Training:</strong> {row.In_Training}
+              </p>
+              <p>
+                <strong>Languages:</strong> {row.Languages}
+              </p>
+              <div className="flex justify-between mt-3">
+                <button className="text-blue-500 hover:text-blue-700">
+                  Manage
+                </button>
+                <button className="text-blue-500 hover:text-blue-700">
+                  Edit
+                </button>
+              </div>
+            </div>
+          ))}
 
           <div className="flex justify-between p-4">
             <button

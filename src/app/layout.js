@@ -44,7 +44,11 @@ import { useRouter } from "next/navigation";
 const drawerWidth = 240;
 
 const menuItems = [
-  { href: "/addCourse", icon: <AddToPhotosIcon />, text: "Add Course" },
+  {
+    href: "/coursesList/addCourse",
+    icon: <AddToPhotosIcon />,
+    text: "Add Course",
+  },
   { href: "/coursesList", icon: <ListIcon />, text: "Courses List" },
   { href: "/categoriesList", icon: <CategoryIcon />, text: "Categories List" },
   { href: "/faqs", icon: <LiveHelpIcon />, text: "FAQs List" },
@@ -192,15 +196,20 @@ export default function RootLayout({ children }) {
                 <MenuIcon />
               </IconButton>
               <div style={{ flexGrow: 1 }} />
-                <div className="flex items-center gap-3">
-                  <span><AccountCircleIcon /></span>
-                  <span>Wellcome ABC -Admin Login</span>
-                </div>
+              <div className="flex items-center gap-3">
+                <span>
+                  <AccountCircleIcon />
+                </span>
+                <span>
+                  {" "}
+                  <button>Wellcome ABC -Admin Login</button>{" "}
+                </span>
+              </div>
             </Toolbar>
           </AppBar>
           <Drawer variant="permanent" open={open}>
             <DrawerHeader>
-              <Typography>
+              <Typography component="div">
                 <div className="flex gap-2 items-center">
                   <Image src={logo} alt="Description" width={30} height={30} />
                   <button className="relative right-">AP Color Academy</button>
