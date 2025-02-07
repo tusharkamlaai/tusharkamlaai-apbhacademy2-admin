@@ -227,12 +227,11 @@ export default function CourseMange() {
                       </Link>
                     </td>
                     <td className="px-6 py-4">
-                    <Link href={`/coursesList/Questionairre/${row.ID}`}>
-                      <button className="text-blue-500 hover:text-blue-700">
-                        (Add Now)
-                      </button>
+                      <Link href={`/coursesList/Questionairre/${row.ID}`}>
+                        <button className="text-blue-500 hover:text-blue-700">
+                          (Add Now)
+                        </button>
                       </Link>
-
                     </td>
                   </tr>
                 ))}
@@ -300,21 +299,27 @@ export default function CourseMange() {
                   </span>
                 </p>
                 <div className="flex justify-between mt-3">
-                  <button className="text-blue-500 hover:text-blue-700">
-                    Translation
-                  </button>
+                  <Link href={`/coursesList/translationAdd/${row.ID}`}>
+                    <button className="text-blue-500 hover:text-blue-700">
+                      (Add Now)
+                    </button>
+                  </Link>
                 </div>
 
                 <div className="flex justify-between mt-3">
-                  <button className="text-blue-500 hover:text-blue-700">
-                    Videos
-                  </button>
+                  <Link href={`/coursesList/CourseVideos/${row.ID}`}>
+                    <button className="text-blue-500 hover:text-blue-700">
+                      (Add Now)
+                    </button>
+                  </Link>
                 </div>
 
                 <div className="flex justify-between mt-3">
-                  <button className="text-blue-500 hover:text-blue-700">
-                    Questionairre
-                  </button>
+                  <Link href={`/coursesList/Questionairre/${row.ID}`}>
+                    <button className="text-blue-500 hover:text-blue-700">
+                      (Add Now)
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))}

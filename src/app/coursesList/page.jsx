@@ -189,26 +189,30 @@ export default function BasicTabs() {
       </div>
 
       <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
-      {isMobileTab ? (
-        <Select
-          value={value}
-          onChange={handleSelectChange}
-          fullWidth
-          displayEmpty
-        >
-          <MenuItem value={0}>Courses List</MenuItem>
-          <MenuItem value={1}>Add Course</MenuItem>
-          <MenuItem value={2}>Download Course</MenuItem>
-        </Select>
-      ) : (
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Courses List" />
-          <Tab label="Add Course" />
-          <Tab label="Download Course" />
-        </Tabs>
-      )}
-    </Box>
+        <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
+          {isMobileTab ? (
+            <Select
+              value={value}
+              onChange={handleSelectChange}
+              fullWidth
+              displayEmpty
+            >
+              <MenuItem value={0}>Courses List</MenuItem>
+              <MenuItem value={1}>Add Course</MenuItem>
+              <MenuItem value={2}>Download Course</MenuItem>
+            </Select>
+          ) : (
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Courses List" />
+              <Tab label="Add Course" />
+              <Tab label="Download Course" />
+            </Tabs>
+          )}
+        </Box>
         <CustomTabPanel value={value} index={0}>
           <div className="lg:flex justify-end">
             <div className="mb-5 lg:mb-0">
@@ -354,12 +358,16 @@ export default function BasicTabs() {
                     <strong>Languages:</strong> {row.Languages}
                   </p>
                   <div className="flex justify-between mt-3">
-                    <button className="text-blue-500 hover:text-blue-700">
-                      Manage
-                    </button>
-                    <button className="text-blue-500 hover:text-blue-700">
-                      Edit
-                    </button>
+                    <Link href={`/coursesList/manage/${row.ID}`}>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        Manage
+                      </button>
+                    </Link>
+                    <Link href={`/coursesList/${row.ID}`}>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        Edit
+                      </button>
+                    </Link>
                   </div>
                 </div>
               ))}
