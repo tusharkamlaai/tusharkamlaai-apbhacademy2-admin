@@ -300,25 +300,34 @@ export default function CourseMange() {
                 </p>
                 <div className="flex justify-between mt-3">
                   <Link href={`/coursesList/translationAdd/${row.ID}`}>
-                    <button className="text-blue-500 hover:text-blue-700">
-                      (Add Now)
-                    </button>
+                    <div className="flex items-center gap-3">
+                      <p>Questionairre:</p>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        (Add Now)
+                      </button>
+                    </div>
                   </Link>
                 </div>
 
                 <div className="flex justify-between mt-3">
                   <Link href={`/coursesList/CourseVideos/${row.ID}`}>
-                    <button className="text-blue-500 hover:text-blue-700">
-                      (Add Now)
-                    </button>
+                    <div className="flex items-center gap-3">
+                      <p>Videos:</p>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        (Add Now)
+                      </button>
+                    </div>
                   </Link>
                 </div>
 
                 <div className="flex justify-between mt-3">
                   <Link href={`/coursesList/Questionairre/${row.ID}`}>
-                    <button className="text-blue-500 hover:text-blue-700">
-                      (Add Now)
-                    </button>
+                    <div className="flex items-center gap-3">
+                      <p>Translation:</p>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        (Add Now)
+                      </button>
+                    </div>
                   </Link>
                 </div>
               </div>
