@@ -12,10 +12,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useParams } from "next/navigation";
+import Checkbox from "@mui/material/Checkbox";
+import { useRouter } from 'next/navigation'
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const CourseEdit = () => {
   const params = useParams();
-
 
   const rowsData = [
     {
@@ -97,8 +100,6 @@ const CourseEdit = () => {
     },
   ];
 
-
-
   return (
     <>
       <h2 className="font-semibold lg:text-[25px] mb-5"> Course Edit</h2>
@@ -153,6 +154,20 @@ const CourseEdit = () => {
                       />
                     </Grid>
                     <Grid item xs={12}>
+                      <div className="">
+                        <span>
+                          Tag <Checkbox {...label} /> Featured
+                        </span>
+                        <span className="block">
+                          Portal Status <Checkbox {...label} /> Active on Portal
+                        </span>
+                        <span className="block">
+                          Training Status <Checkbox {...label} /> Active in
+                          Training
+                        </span>
+                      </div>
+                    </Grid>
+                    <Grid item xs={12}>
                       <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
                         Course Display Image
                       </Typography>
@@ -165,16 +180,7 @@ const CourseEdit = () => {
                     </Grid>
                   </Grid>
 
-                  <Typography
-                    className="text-[15px] text-gray-600"
-                    variant="body1"
-                    sx={{ mt: 5, mb: 2 }}
-                  >
-                    In the next step, you will add translations, Videos and
-                    Questionnaire of this course.
-                  </Typography>
-
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 mt-10">
                     <Button type="submit" variant="contained">
                       Update
                     </Button>

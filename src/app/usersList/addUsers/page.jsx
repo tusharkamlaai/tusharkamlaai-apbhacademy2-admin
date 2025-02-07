@@ -16,7 +16,7 @@ import {
   Select,
 } from "@mui/material";
 
-const Page = () => {
+const AddUser = () => {
   const [age, setAge] = useState("");
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
@@ -44,7 +44,7 @@ const Page = () => {
       districts: [
         {
           name: "Mumbai",
-          cities: ["Mumbai", "Navi Mumbai"]
+          cities: ["Mumbai", "Navi Mumbai"],
         },
       ],
     },
@@ -60,7 +60,6 @@ const Page = () => {
 
   return (
     <>
-      <h2 className="font-semibold lg:text-[25px] mb-5">Add New User</h2>
       <div className="items-center justify-center flex">
         <Card className="lg:w-[70%]">
           <CardContent>
@@ -193,5 +192,4 @@ const Page = () => {
   );
 };
 
-export default Page;
-
+export default AddUser;

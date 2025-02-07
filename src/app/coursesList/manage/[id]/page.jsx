@@ -9,6 +9,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const rowsData = [
   { ID: 1, Language: "English", Portal: "Active", Training: "Active" },
@@ -98,7 +99,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
+export default function CourseMange() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -163,11 +164,11 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <div className="justify-between lg:flex mb-5">
-          <h2 className="font-semibold lg:text-[25px] mb-5">Manage FAQs</h2>
+        <div className="justify-between lg:flex ">
+          <h2 className="font-semibold lg:text-[25px] mb-5">Course Name</h2>
         </div>
 
-        <div className="lg:flex justify-between">
+        <div className="lg:flex justify-end">
           <div className="mb-5 lg:mb-0">
             <TextField
               id="Search"
@@ -177,15 +178,6 @@ export default function BasicTabs() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-
-          <Button
-            className="mb-5"
-            onClick={() => router.push("/faqs/addFaqs")}
-            variant="contained"
-            startIcon={<AddIcon />}
-          >
-            Add New
-          </Button>
         </div>
 
         {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
@@ -221,19 +213,26 @@ export default function BasicTabs() {
                     <td className="px-6 py-4">{row.Training}</td>
 
                     <td className="px-6 py-4">
-                      <button className="text-blue-500 hover:text-blue-700">
-                        (Add Now)
-                      </button>
+                      <Link href={`/coursesList/translationAdd/${row.ID}`}>
+                        <button className="text-blue-500 hover:text-blue-700">
+                          (Add Now)
+                        </button>
+                      </Link>
                     </td>
                     <td className="px-6 py-4">
-                      <button className="text-blue-500 hover:text-blue-700">
-                        (Add Now)
-                      </button>
+                      <Link href={`/coursesList/CourseVideos/${row.ID}`}>
+                        <button className="text-blue-500 hover:text-blue-700">
+                          (Add Now)
+                        </button>
+                      </Link>
                     </td>
                     <td className="px-6 py-4">
+                    <Link href={`/coursesList/Questionairre/${row.ID}`}>
                       <button className="text-blue-500 hover:text-blue-700">
                         (Add Now)
                       </button>
+                      </Link>
+
                     </td>
                   </tr>
                 ))}

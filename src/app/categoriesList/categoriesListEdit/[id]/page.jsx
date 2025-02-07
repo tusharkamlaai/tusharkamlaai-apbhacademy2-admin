@@ -6,6 +6,8 @@ import CardContent from "@mui/material/CardContent";
 import { TextField, Container, Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
+import { useRouter } from "next/navigation";
+
 const AddCategories = () => {
   const [age, setAge] = useState("");
   const [state, setState] = useState("");
@@ -36,13 +38,15 @@ const AddCategories = () => {
     ? states.find((s) => s.name === state)?.districts
     : [];
 
+    const router = useRouter();
+
   return (
     <>
       {/* <h2 className="font-semibold lg:text-[25px] mb-5">Add New Category</h2> */}
       <div className="items-center justify-center flex">
         <Card className="lg:w-[90%] ">
           <CardContent>
-            <h2 className="font-semibold text-[20px] mb-3">New Category</h2>
+            <h2 className="font-semibold text-[20px] mb-3">Update Category</h2>
             <hr />
             <div>
               <Container component="main">
@@ -233,10 +237,15 @@ const AddCategories = () => {
                 <div className="mt-5 lg:flex flex-col items-center">
                   <div className="flex gap-3">
                     <span>
-                      <Button variant="contained">Save</Button>
+                      <Button variant="contained">Update</Button>
                     </span>
                     <span>
-                      <Button variant="outlined">Cancel</Button>
+                    <Button
+                            variant="outlined"
+                            onClick={() => router.back()}
+                          >
+                            Cancel
+                          </Button>
                     </span>
                   </div>
                 </div>

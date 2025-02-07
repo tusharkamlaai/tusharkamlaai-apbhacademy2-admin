@@ -1,16 +1,15 @@
 'use client'
 
-import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Button, TextField, Grid, Box, Container, Typography } from '@mui/material';
+import { useRouter } from "next/navigation";
 
-
-const page = () => {
-
+const AddCourses = () => {
+  const router = useRouter();
   return (
     <>
-      <h2 className='font-semibold lg:text-[25px] mb-5'>Add New Course</h2>
+      {/* <h2 className='font-semibold lg:text-[25px] mb-5'>Add New Course</h2> */}
       <div className='items-center justify-center flex'>
         <Card className='lg:w-[70%] '>
           <CardContent>
@@ -90,6 +89,7 @@ const page = () => {
                     <Button
                       type="submit"
                       variant="outlined"
+                      onClick={() => router.push('/')}
                     >
                       Cancel
                     </Button>
@@ -98,7 +98,6 @@ const page = () => {
                 </Box>
               </Container>
             </div>
-
           </CardContent>
         </Card>
       </div>
@@ -106,4 +105,4 @@ const page = () => {
   )
 }
 
-export default page
+export default AddCourses

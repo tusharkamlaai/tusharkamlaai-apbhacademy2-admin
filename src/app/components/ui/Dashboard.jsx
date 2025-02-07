@@ -101,7 +101,7 @@ const Dashboard = () => {
 
       <Grid container spacing={4}>
         {userData.map((data) => (
-          <Grid item key={data.id} xs={12} sm={6} md={3} lg={3}>
+          <Grid item key={data.id} xs={12} sm={6} md={6} lg={4}>
             <Card
               sx={{
                 minWidth: 275,

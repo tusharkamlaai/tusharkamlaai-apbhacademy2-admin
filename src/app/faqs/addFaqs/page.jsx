@@ -6,7 +6,10 @@ import CardContent from "@mui/material/CardContent";
 import { TextField, Container } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
-const Page = () => {
+import { useRouter } from "next/navigation";
+
+
+const AddFaqs = () => {
   const [age, setAge] = useState("");
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
@@ -36,9 +39,11 @@ const Page = () => {
     ? states.find((s) => s.name === state)?.districts
     : [];
 
+    const router = useRouter();
+
   return (
     <>
-      <h2 className="font-semibold lg:text-[25px] mb-5">Add FAQs</h2>
+      {/* <h2 className="font-semibold lg:text-[25px] mb-5">Add FAQs</h2> */}
       <div className="items-center justify-center flex">
         <Card className="lg:w-[90%] ">
           <CardContent>
@@ -54,7 +59,7 @@ const Page = () => {
                     id="english-question"
                     label="Question English"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -63,8 +68,8 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    // 
-                    sx={{  mb: 3 }}
+                    //
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -78,7 +83,7 @@ const Page = () => {
                     id="hindi-question"
                     label="Question हिन्दी (Hindi)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -87,8 +92,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -102,7 +106,7 @@ const Page = () => {
                     id="gujarati-question"
                     label="Question गुजराती (Gujarati)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -111,8 +115,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -126,7 +129,7 @@ const Page = () => {
                     id="marathi-question"
                     label="Question मराठी (Marathi)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -135,8 +138,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -150,7 +152,7 @@ const Page = () => {
                     id="malayalam-question"
                     label="Question മലയാളം (Malayalam)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -159,8 +161,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -174,7 +175,7 @@ const Page = () => {
                     id="kannada-question"
                     label="Question ಕನ್ನಡ (Kannada)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -183,8 +184,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -198,7 +198,7 @@ const Page = () => {
                     id="bangla-question"
                     label="Question বাংলা (Bangla)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -207,8 +207,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -222,7 +221,7 @@ const Page = () => {
                     id="odia-question"
                     label="Question ଓଡିଆ (Odia)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -231,8 +230,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -246,7 +244,7 @@ const Page = () => {
                     id="tamil-question"
                     label="Question தமிழ் (Tamil)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -255,8 +253,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -270,7 +267,7 @@ const Page = () => {
                     id="telugu-question"
                     label="Question తెలుగు (Telugu)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -279,8 +276,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -294,7 +290,7 @@ const Page = () => {
                     id="assamese-question"
                     label="Question অসমীয়া (Assamese)"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                   <TextField
@@ -303,8 +299,7 @@ const Page = () => {
                     multiline
                     rows={2}
                     variant="outlined"
-                    
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -321,7 +316,7 @@ const Page = () => {
                   <TextField
                     label="Display order"
                     variant="outlined"
-                    sx={{  mb: 3 }}
+                    sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                     type="number"
                   />
@@ -331,7 +326,7 @@ const Page = () => {
                       <Button variant="contained">Save</Button>
                     </span>
                     <span>
-                      <Button variant="outlined">Cancel</Button>
+                      <Button variant="outlined" >Cancel</Button>
                     </span>
                   </div>
                 </div>
@@ -344,4 +339,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default AddFaqs;

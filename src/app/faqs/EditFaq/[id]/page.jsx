@@ -3,10 +3,12 @@
 import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { TextField, Container, Typography } from "@mui/material";
+import { TextField, Container } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
-const AddCategories = () => {
+import { useRouter } from "next/navigation";
+
+const AddFaqs = () => {
   const [age, setAge] = useState("");
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
@@ -36,24 +38,36 @@ const AddCategories = () => {
     ? states.find((s) => s.name === state)?.districts
     : [];
 
+    const router = useRouter();
+
   return (
     <>
-      {/* <h2 className="font-semibold lg:text-[25px] mb-5">Add New Category</h2> */}
+      {/* <h2 className="font-semibold lg:text-[25px] mb-5">Add FAQs</h2> */}
       <div className="items-center justify-center flex">
         <Card className="lg:w-[90%] ">
           <CardContent>
-            <h2 className="font-semibold text-[20px] mb-3">New Category</h2>
+            <h2 className="font-semibold text-[20px] mb-3">Update FAQs</h2>
             <hr />
             <div>
               <Container component="main">
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in English:
+                    FAQ - English:
                   </label>
                   <TextField
                     id="english-question"
-                    label="In English"
+                    label="Question English"
                     variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="english-answer"
+                    label="Answer English"
+                    multiline
+                    rows={2}
+                    variant="outlined"
+                    //
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
@@ -62,11 +76,20 @@ const AddCategories = () => {
                 {/* Hindi */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in हिन्दी (Hindi):
+                    FAQ - हिन्दी (Hindi):
                   </label>
                   <TextField
                     id="hindi-question"
-                    label="In हिन्दी (Hindi)"
+                    label="Question हिन्दी (Hindi)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="hindi-answer"
+                    label="Answer हिन्दी (Hindi)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
@@ -76,11 +99,20 @@ const AddCategories = () => {
                 {/* Gujarati */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in गुजराती (Gujarati):
+                    FAQ - गुजराती (Gujarati):
                   </label>
                   <TextField
                     id="gujarati-question"
-                    label="In गुजराती (Gujarati)"
+                    label="Question गुजराती (Gujarati)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="gujarati-answer"
+                    label="Answer गुजराती (Gujarati)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
@@ -90,11 +122,20 @@ const AddCategories = () => {
                 {/* Marathi */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in मराठी (Marathi):
+                    FAQ - मराठी (Marathi):
                   </label>
                   <TextField
                     id="marathi-question"
-                    label="In मराठी (Marathi)"
+                    label="Question मराठी (Marathi)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="marathi-answer"
+                    label="Answer मराठी (Marathi)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
@@ -104,11 +145,20 @@ const AddCategories = () => {
                 {/* Malayalam */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in മലയാളം (Malayalam):
+                    FAQ - മലയാളം (Malayalam):
                   </label>
                   <TextField
                     id="malayalam-question"
-                    label="In മലയാളം (Malayalam)"
+                    label="Question മലയാളം (Malayalam)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="malayalam-answer"
+                    label="Answer മലയാളം (Malayalam)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
@@ -118,11 +168,20 @@ const AddCategories = () => {
                 {/* Kannada */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in ಕನ್ನಡ (Kannada):
+                    FAQ - ಕನ್ನಡ (Kannada):
                   </label>
                   <TextField
                     id="kannada-question"
-                    label="In ಕನ್ನಡ (Kannada)"
+                    label="Question ಕನ್ನಡ (Kannada)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="kannada-answer"
+                    label="Answer ಕನ್ನಡ (Kannada)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
@@ -132,11 +191,20 @@ const AddCategories = () => {
                 {/* Bangla */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in বাংলা (Bangla):
+                    FAQ - বাংলা (Bangla):
                   </label>
                   <TextField
                     id="bangla-question"
-                    label="In বাংলা (Bangla)"
+                    label="Question বাংলা (Bangla)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="bangla-answer"
+                    label="Answer বাংলা (Bangla)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
@@ -146,11 +214,20 @@ const AddCategories = () => {
                 {/* Odia */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in ଓଡିଆ (Odia):
+                    FAQ - ଓଡିଆ (Odia):
                   </label>
                   <TextField
                     id="odia-question"
-                    label="In ଓଡିଆ (Odia)"
+                    label="Question ଓଡିଆ (Odia)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="odia-answer"
+                    label="Answer ଓଡିଆ (Odia)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
@@ -160,11 +237,20 @@ const AddCategories = () => {
                 {/* Tamil */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in தமிழ் (Tamil):
+                    FAQ - தமிழ் (Tamil):
                   </label>
                   <TextField
                     id="tamil-question"
-                    label="In தமிழ் (Tamil)"
+                    label="Question தமிழ் (Tamil)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="tamil-answer"
+                    label="Answer தமிழ் (Tamil)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
@@ -174,11 +260,20 @@ const AddCategories = () => {
                 {/* Telugu */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in తెలుగు (Telugu):
+                    FAQ - తెలుగు (Telugu):
                   </label>
                   <TextField
                     id="telugu-question"
-                    label="In తెలుగు (Telugu)"
+                    label="Question తెలుగు (Telugu)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="telugu-answer"
+                    label="Answer తెలుగు (Telugu)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
@@ -188,38 +283,25 @@ const AddCategories = () => {
                 {/* Assamese */}
                 <div className="mt-5 lg:flex flex-col items-center">
                   <label htmlFor="" className="font-semibold mb-3">
-                    Category Name in অসমীয়া (Assamese):
+                    FAQ - অসমীয়া (Assamese):
                   </label>
                   <TextField
                     id="assamese-question"
-                    label="In অসমীয়া (Assamese)"
+                    label="Question অসমীয়া (Assamese)"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                  />
+                  <TextField
+                    id="assamese-answer"
+                    label="Answer অসমীয়া (Assamese)"
+                    multiline
+                    rows={2}
                     variant="outlined"
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
-                <div className="mt-5 flex flex-col lg:flex-row justify-center items-center px-5">
-                  <Typography variant="body1" className="mb-1 lg:mb-0 lg:mr-3">
-                    Category Image:
-                  </Typography>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    name="photo"
-                    style={{ width: "100%", maxWidth: "500px" }} // Ensures input does not stretch too far in larger screens
-                  />
-                </div>
-
-                <div className="text-center">
-                  <label className="font-semibold" htmlFor="">
-                    Tag
-                  </label>
-                  <Checkbox />
-                  <label className="font-semibold" htmlFor="">
-                    Featured
-                  </label>
-                </div>
-
                 <div className="text-center">
                   <label className="font-semibold" htmlFor="">
                     Status
@@ -229,14 +311,21 @@ const AddCategories = () => {
                     Active
                   </label>
                 </div>
-
                 <div className="mt-5 lg:flex flex-col items-center">
+                  <TextField
+                    label="Display order"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                    type="number"
+                  />
+
                   <div className="flex gap-3">
                     <span>
                       <Button variant="contained">Save</Button>
                     </span>
                     <span>
-                      <Button variant="outlined">Cancel</Button>
+                      <Button variant="outlined" onClick={() => router.back()}>Cancel</Button>
                     </span>
                   </div>
                 </div>
@@ -249,4 +338,4 @@ const AddCategories = () => {
   );
 };
 
-export default AddCategories;
+export default AddFaqs;
