@@ -1,22 +1,28 @@
-'use client'
+"use client";
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import { Button, TextField, Grid, Box, Container, Typography } from '@mui/material';
-import { useRouter } from "next/navigation";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import {
+  Button,
+  TextField,
+  Grid,
+  Box,
+  Container,
+  Typography,
+} from "@mui/material";
+import Link from "next/link";
 
 const AddCourses = () => {
-  const router = useRouter();
   return (
     <>
       {/* <h2 className='font-semibold lg:text-[25px] mb-5'>Add New Course</h2> */}
-      <div className='items-center justify-center flex'>
-        <Card className='lg:w-[70%] '>
+      <div className="items-center justify-center flex">
+        <Card className="lg:w-[70%] ">
           <CardContent>
-            <h2 className='font-semibold text-[20px] mb-3'>New Course</h2>
+            <h2 className="font-semibold text-[20px] mb-3">New Course</h2>
             <hr />
-            <div >
-              <Container component="main" className=''>
+            <div>
+              <Container component="main" className="">
                 <Box component="form" noValidate sx={{ mt: 1 }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
@@ -68,33 +74,34 @@ const AddCourses = () => {
                         type="file"
                         accept="image/*"
                         name="photo"
-                        style={{ width: '100%' }}
+                        style={{ width: "100%" }}
                       />
                     </Grid>
                   </Grid>
 
-                  <Typography className='text-[15px] text-gray-600' variant="body1" sx={{ mt: 5, mb: 2 }}>
-                    In the next step, you will add translations, Videos and Questionnaire of this course.
+                  <Typography
+                    className="text-[15px] text-gray-600"
+                    variant="body1"
+                    sx={{ mt: 5, mb: 2 }}
+                  >
+                    In the next step, you will add translations, Videos and
+                    Questionnaire of this course.
                   </Typography>
 
                   <div className="flex gap-3">
-                    <Button
-                      type="submit"
-                      variant="contained"
-
-                    >
+                    <Button type="submit" variant="contained">
                       Save
                     </Button>
 
-                    <Button
-                      type="submit"
-                      variant="outlined"
-                      onClick={() => router.push('/')}
-                    >
-                      Cancel
-                    </Button>
+                    <Link href="/">
+                      <Button
+                        type="submit"
+                        variant="outlined"
+                      >
+                        Cancel
+                      </Button>
+                    </Link>
                   </div>
-
                 </Box>
               </Container>
             </div>
@@ -102,7 +109,7 @@ const AddCourses = () => {
         </Card>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AddCourses
+export default AddCourses;
