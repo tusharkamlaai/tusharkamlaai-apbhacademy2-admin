@@ -62,7 +62,7 @@ const meetLinks = [
   {
     href: "/meet/NewGoogleMeetLink",
     icon: <InsertLinkIcon />,
-    text: "New Google meet Link",
+    text: "New Google meet Lks",
   },
   {
     href: "/meet/GoogleMeetingLink",
@@ -72,7 +72,7 @@ const meetLinks = [
   {
     href: "/meet/SendAssessmentLink",
     icon: <InsertLinkIcon />,
-    text: "Send Assessment Links",
+    text: "Send Assessment Lks",
   },
   {
     href: "/Assessment/ManageAssessmentLinks",
