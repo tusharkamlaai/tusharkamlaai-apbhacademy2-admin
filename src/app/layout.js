@@ -43,6 +43,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Image from "next/image";
 import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import { useRouter } from "next/navigation";
+import AddIcon from '@mui/icons-material/Add';
 const drawerWidth = 240;
 
 const menuItems = [
@@ -93,7 +94,7 @@ const trainers = [
   },
   {
     href: "/Trainer/AddNewTrainer",
-    icon: <PsychologyAltIcon />,
+    icon: <AddIcon />,
     text: "Add New Trainer",
   }
 ];
