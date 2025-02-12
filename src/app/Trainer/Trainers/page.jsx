@@ -1,96 +1,18 @@
 "use client";
 
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
 import React, { useState, useMemo, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import AddCourses from "./addCourse/page";
 import { Select, useMediaQuery, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import PropTypes from "prop-types";
+import Link from "next/link";
+import AddNewTrainer from "../AddNewTrainer/page";
 
-const rowsData = [
-  {
-    ID: "1",
-    Category: "Coding",
-    Course_Name: "HTML",
-    Course_Code: "12345",
-    Module: "HTML_course",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
-  },
-  {
-    ID: "2",
-    Category: "Coding",
-    Course_Name: "HTML",
-    Course_Code: "12345",
-    Module: "HTML_course",
-    Featured: "No",
-    In_Portal: "Inactive",
-    In_Training: "Inactive",
-    Languages: "0",
-  },
-  {
-    ID: "3",
-    Category: "Course",
-    Course_Name: "Javascript",
-    Course_Code: "123",
-    Module: "Module",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
-  },
-  {
-    ID: "4",
-    Category: "Machine Learning",
-    Course_Name: "Python",
-    Course_Code: "123",
-    Module: "Learning_Module",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
-  },
-  {
-    ID: "5",
-    Category: "demo_Category",
-    Course_Name: "demo1",
-    Course_Code: "123",
-    Module: "demo_module",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
-  },
-  {
-    ID: "6",
-    Category: "Category 2",
-    Course_Name: "Course 2",
-    Course_Code: "563",
-    Module: "Module 2",
-    Featured: "No",
-    In_Portal: "Inactive",
-    In_Training: "Inactive",
-    Languages: "0",
-  },
-  {
-    ID: "7",
-    Category: "Category 4",
-    Course_Name: "Course 4",
-    Course_Code: "456",
-    Module: "Module 4",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
-  },
-];
+const rowsData = [];
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -121,27 +43,30 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
+console.log(rowsData, "PPP");
+
+const Page = () => {
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
   const [value, setValue] = React.useState(0);
+  const theme = useTheme();
+
+  const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const headings = ["Manage Courses", "Add New Course", "Download Course"];
+  const headings = ["Manage Trainers", "Add New Trainers"];
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isMobile, setIsMobile] = useState(false); // Detect Mobile
-  const theme = useTheme();
-  const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
   const router = useRouter();
   const rowsPerPage = 5;
 
   useEffect(() => {
     // Check screen size to switch between table & card view
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 1200); // Change view if width is below 768px
+      setIsMobile(window.innerWidth < 768); // Change view if width is below 768px
     };
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
@@ -194,9 +119,8 @@ export default function BasicTabs() {
               fullWidth
               displayEmpty
             >
-              <MenuItem value={0}>Courses List</MenuItem>
-              <MenuItem value={1}>Add Course</MenuItem>
-              <MenuItem value={2}>Download Course</MenuItem>
+              <MenuItem value={0}>Trainer List</MenuItem>
+              <MenuItem value={1}>Add New Trainer</MenuItem>
             </Select>
           ) : (
             <Tabs
@@ -204,9 +128,8 @@ export default function BasicTabs() {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="Courses List" />
-              <Tab label="Add Course" />
-              <Tab label="Download Course" />
+              <Tab label="Trainer List" />
+              <Tab label="Add New Trainer" />
             </Tabs>
           )}
         </Box>
@@ -219,26 +142,9 @@ export default function BasicTabs() {
                 variant="outlined"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-[100%]"
+                fullWidth
               />
             </div>
-
-            {/* <div className="gap-3 flex mt-5 lg:mt-0">
-              <Button
-                onClick={() => router.push("coursesList/addCourse")}
-                variant="contained"
-                className="flex gap-5"
-              >
-                <span>Add Course</span>
-                <span>
-                  <AddIcon />
-                </span>
-              </Button>
-
-              <Button variant="contained">
-                <span>Download Course</span>
-              </Button>
-            </div> */}
           </div>
 
           {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
@@ -248,19 +154,17 @@ export default function BasicTabs() {
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     {[
-                      "ID",
-                      "Category",
-                      "Course Name",
-                      "Course Code",
-                      "Module",
-                      "Featured",
-                      "In Portal",
-                      "In Training",
-                      "Languages",
-                      "Manage",
-                      "Actions",
+                      "Trainer ID",
+                      "Name",
+                      "Email ID",
+                      "Mobile",
+                      "Division",
+                      "Region",
+                      "Status",
+                      "Edit",
+                      "Delete",
                     ].map((header, index) => (
-                      <th key={index} className="px-3 py-3">
+                      <th key={index} className="px-6 py-3">
                         {header}
                       </th>
                     ))}
@@ -272,25 +176,13 @@ export default function BasicTabs() {
                       key={rowIndex}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                     >
-                      <td className="px-6 py-4">{row.ID}</td>
-                      <td className="px-6 py-4">{row.Category}</td>
-                      <td className="px-6 py-4">{row.Course_Name}</td>
-                      <td className="px-6 py-4">{row.Course_Code}</td>
-                      <td className="px-6 py-4">{row.Module}</td>
-                      <td className="px-6 py-4">{row.Featured}</td>
-                      <td className="px-6 py-4">{row.In_Portal}</td>
-                      <td className="px-6 py-4">{row.In_Training}</td>
-                      <td className="px-6 py-4">{row.Languages}</td>
+                      <td className="px-6 py-4">{row.id}</td>
+                      <td className="px-6 py-4">{row.title}</td>
+                      <td className="px-6 py-4">{row.orderDis}</td>
+                      <td className="px-6 py-4">{row.Status}</td>
+                      <td className="px-6 py-4">{row.translate}</td>
                       <td className="px-6 py-4">
-                        <Link href={`/coursesList/manage/${row.ID}`}>
-                          <button className="text-blue-500 hover:text-blue-700">
-                            Manage
-                          </button>
-                        </Link>
-                      </td>
-
-                      <td className="px-6 py-4">
-                        <Link href={`/coursesList/${row.ID}`}>
+                        <Link href={`/faqs/EditFaq/${row.id}`}>
                           <button className="text-blue-500 hover:text-blue-700">
                             Edit
                           </button>
@@ -328,39 +220,33 @@ export default function BasicTabs() {
                   className="bg-white p-4 shadow rounded-lg border"
                 >
                   <p>
-                    <strong>ID:</strong> {row.ID}
+                    <strong>FAQ</strong> {row.title}
                   </p>
                   <p>
-                    <strong>Category:</strong> {row.Category}
+                    <strong>ID:</strong> {row.id}
                   </p>
                   <p>
-                    <strong>Course Name:</strong> {row.Course_Name}
+                    <strong>Display Order:</strong> {row.orderDis}
                   </p>
                   <p>
-                    <strong>Course Code:</strong> {row.Course_Code}
+                    <strong>Status:</strong>{" "}
+                    <span
+                      className={`px-2 py-1 rounded ${
+                        row.Status === "Active"
+                          ? "bg-green-200 text-green-800"
+                          : row.Status === "Pending"
+                          ? "bg-yellow-200 text-yellow-800"
+                          : "bg-red-200 text-red-800"
+                      }`}
+                    >
+                      {row.Status}
+                    </span>
                   </p>
                   <p>
-                    <strong>Module:</strong> {row.Module}
-                  </p>
-                  <p>
-                    <strong>Featured:</strong> {row.Featured}
-                  </p>
-                  <p>
-                    <strong>In Portal:</strong> {row.In_Portal}
-                  </p>
-                  <p>
-                    <strong>In Training:</strong> {row.In_Training}
-                  </p>
-                  <p>
-                    <strong>Languages:</strong> {row.Languages}
+                    <strong>Translate Lang.:</strong> {row.translate}
                   </p>
                   <div className="flex justify-between mt-3">
-                    <Link href={`/coursesList/manage/${row.ID}`}>
-                      <button className="text-blue-500 hover:text-blue-700">
-                        Manage
-                      </button>
-                    </Link>
-                    <Link href={`/coursesList/${row.ID}`}>
+                    <Link href={`/faqs/EditFaq/${row.id}`}>
                       <button className="text-blue-500 hover:text-blue-700">
                         Edit
                       </button>
@@ -392,12 +278,11 @@ export default function BasicTabs() {
           )}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <AddCourses />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          Item Three
+          <AddNewTrainer />
         </CustomTabPanel>
       </Box>
     </>
   );
-}
+};
+
+export default Page;

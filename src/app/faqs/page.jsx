@@ -255,9 +255,10 @@ const Page = () => {
                 <strong>Translate Lang.:</strong> {row.translate}
               </p>
               <div className="flex justify-between mt-3">
-                <button className="text-blue-500 hover:text-blue-700">
-                  Edit
-                </button>
+              <Link href={`/faqs/EditFaq/${row.id}`} >
+                    <button className="text-blue-500 hover:text-blue-700">
+                      Edit
+                    </button></Link>
               </div>
             </div>
           ))}

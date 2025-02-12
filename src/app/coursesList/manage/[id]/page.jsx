@@ -6,9 +6,6 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import React, { useState, useMemo, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const rowsData = [
@@ -111,7 +108,6 @@ export default function CourseMange() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
 
-  const router = useRouter();
   const rowsPerPage = 5;
 
   useEffect(() => {

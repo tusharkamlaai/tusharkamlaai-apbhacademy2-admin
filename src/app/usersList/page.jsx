@@ -12,6 +12,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import AddUser from "./addUsers/page";
+import Link from "next/link";
 
 const rowsData = [
   {
@@ -233,9 +234,11 @@ const Page = () => {
                       <td className="px-6 py-4">{row.district}</td>
                       <td className="px-6 py-4">{row.status}</td>
                       <td className="px-6 py-4">
-                        <button className="text-blue-500 hover:text-blue-700">
-                          Details
-                        </button>
+                        <Link href={`/usersList/ViewUser/${row.id}`}>
+                          <button className="text-blue-500 hover:text-blue-700">
+                            Details
+                          </button>
+                        </Link>
                       </td>
                     </tr>
                   ))}
@@ -293,9 +296,11 @@ const Page = () => {
                     <strong>Status:</strong> {row.status}
                   </p>
                   <div className="flex justify-between mt-3">
-                    <button className="text-blue-500 hover:text-blue-700">
-                      Details
-                    </button>
+                    <Link href={`/usersList/ViewUser/${row.id}`}>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        Details
+                      </button>
+                    </Link>
                   </div>
                 </div>
               ))}

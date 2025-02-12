@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import {
@@ -11,94 +10,14 @@ import {
   Container,
   Typography,
 } from "@mui/material";
-import { useParams } from "next/navigation";
 import Checkbox from "@mui/material/Checkbox";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const CourseEdit = () => {
-  const params = useParams();
-
-  const rowsData = [
-    {
-      ID: "1",
-      Category: "Coding",
-      Course_Name: "HTML",
-      Course_Code: "12345",
-      Module: "HTML_course",
-      Featured: "No",
-      In_Portal: "Active",
-      In_Training: "Active",
-      Languages: "1",
-    },
-    {
-      ID: "2",
-      Category: "Coding",
-      Course_Name: "HTML",
-      Course_Code: "12345",
-      Module: "HTML_course",
-      Featured: "No",
-      In_Portal: "Inactive",
-      In_Training: "Inactive",
-      Languages: "0",
-    },
-    {
-      ID: "3",
-      Category: "Course",
-      Course_Name: "Javascript",
-      Course_Code: "123",
-      Module: "Module",
-      Featured: "No",
-      In_Portal: "Active",
-      In_Training: "Active",
-      Languages: "1",
-    },
-    {
-      ID: "4",
-      Category: "Machine Learning",
-      Course_Name: "Python",
-      Course_Code: "123",
-      Module: "Learning_Module",
-      Featured: "No",
-      In_Portal: "Active",
-      In_Training: "Active",
-      Languages: "1",
-    },
-    {
-      ID: "5",
-      Category: "demo_Category",
-      Course_Name: "demo1",
-      Course_Code: "123",
-      Module: "demo_module",
-      Featured: "No",
-      In_Portal: "Active",
-      In_Training: "Active",
-      Languages: "1",
-    },
-    {
-      ID: "6",
-      Category: "Category 2",
-      Course_Name: "Course 2",
-      Course_Code: "563",
-      Module: "Module 2",
-      Featured: "No",
-      In_Portal: "Inactive",
-      In_Training: "Inactive",
-      Languages: "0",
-    },
-    {
-      ID: "7",
-      Category: "Category 4",
-      Course_Name: "Course 4",
-      Course_Code: "456",
-      Module: "Module 4",
-      Featured: "No",
-      In_Portal: "Active",
-      In_Training: "Active",
-      Languages: "1",
-    },
-  ];
+  const router = useRouter();
 
   return (
     <>
@@ -184,10 +103,15 @@ const CourseEdit = () => {
                     <Button type="submit" variant="contained">
                       Update
                     </Button>
-
-                    <Button type="submit" variant="outlined">
-                      Cancel
-                    </Button>
+                    <Link href="/coursesList">
+                      <Button
+                        type="submit"
+                        variant="outlined"
+                        onClick={() => router.back()}
+                      >
+                        Cancel
+                      </Button>
+                    </Link>
                   </div>
                 </Box>
               </Container>

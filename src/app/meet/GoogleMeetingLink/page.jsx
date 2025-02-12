@@ -1,94 +1,83 @@
 "use client";
 
-import PropTypes from "prop-types";
+import React, { useState, useMemo, useEffect } from "react";
+import TextField from "@mui/material/TextField";
+import { Select, useMediaQuery, MenuItem } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import React, { useState, useMemo, useEffect } from "react";
-import TextField from "@mui/material/TextField";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import AddCourses from "./addCourse/page";
-import { Select, useMediaQuery, MenuItem } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import PropTypes from "prop-types";
 
 const rowsData = [
   {
-    ID: "1",
-    Category: "Coding",
-    Course_Name: "HTML",
-    Course_Code: "12345",
-    Module: "HTML_course",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
+    ID: "001",
+    Trainer: "John Doe",
+    Course: "Advanced Python",
+    Language: "English",
+    MeetingDate: "2025-03-15",
+    Duration: "2 hours",
+    MeetingPassword: "py2025",
+    GoogleMeetingLink: "https://meet.google.com/example",
+    GoogleMeetingHost: "John Doe",
+    SendLink: true,
+    Details:
+      "Advanced Python course covering APIs, Web Scraping, and Automation.",
   },
   {
-    ID: "2",
-    Category: "Coding",
-    Course_Name: "HTML",
-    Course_Code: "12345",
-    Module: "HTML_course",
-    Featured: "No",
-    In_Portal: "Inactive",
-    In_Training: "Inactive",
-    Languages: "0",
+    ID: "002",
+    Trainer: "Jane Smith",
+    Course: "Web Development",
+    Language: "Spanish",
+    MeetingDate: "2025-03-16",
+    Duration: "3 hours",
+    MeetingPassword: "webdev25",
+    GoogleMeetingLink: "https://meet.google.com/example",
+    GoogleMeetingHost: "Jane Smith",
+    SendLink: true,
+    Details:
+      "Full stack web development, including HTML, CSS, JavaScript, and backend technologies.",
   },
   {
-    ID: "3",
-    Category: "Course",
-    Course_Name: "Javascript",
-    Course_Code: "123",
-    Module: "Module",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
+    ID: "003",
+    Trainer: "Alice Johnson",
+    Course: "Machine Learning",
+    Language: "French",
+    MeetingDate: "2025-03-17",
+    Duration: "4 hours",
+    MeetingPassword: "ML2025",
+    GoogleMeetingLink: "https://meet.google.com/example",
+    GoogleMeetingHost: "Alice Johnson",
+    SendLink: true,
+    Details:
+      "Introduction to machine learning, data preprocessing, and building predictive models.",
   },
   {
-    ID: "4",
-    Category: "Machine Learning",
-    Course_Name: "Python",
-    Course_Code: "123",
-    Module: "Learning_Module",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
+    ID: "004",
+    Trainer: "Bob Lee",
+    Course: "Digital Marketing",
+    Language: "German",
+    MeetingDate: "2025-03-18",
+    Duration: "1.5 hours",
+    MeetingPassword: "DigiMark25",
+    GoogleMeetingLink: "https://meet.google.com/example",
+    GoogleMeetingHost: "Bob Lee",
+    SendLink: true,
+    Details: "Covers SEO, SEM, content marketing, and social media strategies.",
   },
   {
-    ID: "5",
-    Category: "demo_Category",
-    Course_Name: "demo1",
-    Course_Code: "123",
-    Module: "demo_module",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
-  },
-  {
-    ID: "6",
-    Category: "Category 2",
-    Course_Name: "Course 2",
-    Course_Code: "563",
-    Module: "Module 2",
-    Featured: "No",
-    In_Portal: "Inactive",
-    In_Training: "Inactive",
-    Languages: "0",
-  },
-  {
-    ID: "7",
-    Category: "Category 4",
-    Course_Name: "Course 4",
-    Course_Code: "456",
-    Module: "Module 4",
-    Featured: "No",
-    In_Portal: "Active",
-    In_Training: "Active",
-    Languages: "1",
+    ID: "005",
+    Trainer: "Carol White",
+    Course: "Data Science",
+    Language: "Italian",
+    MeetingDate: "2025-03-19",
+    Duration: "3 hours",
+    MeetingPassword: "DS2025",
+    GoogleMeetingLink: "https://meet.google.com/example",
+    GoogleMeetingHost: "Carol White",
+    SendLink: false,
+    Details:
+      "Data analysis, visualization, and introductory predictive analytics.",
   },
 ];
 
@@ -121,27 +110,32 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
+
+const Page = () => {
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
+  const [hasMounted, setHasMounted] = useState(false);
   const [value, setValue] = React.useState(0);
+  const theme = useTheme();
+
+  const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const headings = ["Manage Courses", "Add New Course", "Download Course"];
+  const headings = [
+    "Manage Google Meeting Links",
+    "Create & Send Google Meeting Link",
+  ];
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isMobile, setIsMobile] = useState(false); // Detect Mobile
-  const theme = useTheme();
-  const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
-  const router = useRouter();
   const rowsPerPage = 5;
 
   useEffect(() => {
-    // Check screen size to switch between table & card view
+    setHasMounted(true);
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 1200); // Change view if width is below 768px
+      setIsMobile(window.innerWidth < 768);
     };
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
@@ -162,7 +156,7 @@ export default function BasicTabs() {
     if (searchTerm) {
       sortableItems = sortableItems.filter((item) =>
         Object.values(item).some((value) =>
-          value.toLowerCase().includes(searchTerm.toLowerCase())
+         String(value).toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
     }
@@ -174,6 +168,10 @@ export default function BasicTabs() {
     const end = start + rowsPerPage;
     return sortedData.slice(start, end);
   }, [sortedData, currentPage]);
+
+  if (!hasMounted) {
+    return null;
+  }
 
   const handleSelectChange = (event) => {
     setValue(event.target.value);
@@ -194,9 +192,8 @@ export default function BasicTabs() {
               fullWidth
               displayEmpty
             >
-              <MenuItem value={0}>Courses List</MenuItem>
-              <MenuItem value={1}>Add Course</MenuItem>
-              <MenuItem value={2}>Download Course</MenuItem>
+              <MenuItem value={0}> Google Meeting List List</MenuItem>
+              <MenuItem value={1}> Create New Google Meeting</MenuItem>
             </Select>
           ) : (
             <Tabs
@@ -204,14 +201,13 @@ export default function BasicTabs() {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="Courses List" />
-              <Tab label="Add Course" />
-              <Tab label="Download Course" />
+              <Tab label="Google Meeting List List" />
+              <Tab label=" Create New Google Meeting" />
             </Tabs>
           )}
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <div className="lg:flex justify-end">
+          <div className="lg:flex justAdd Categorify-end justify-end">
             <div className="mb-5 lg:mb-0">
               <TextField
                 id="Search"
@@ -219,48 +215,30 @@ export default function BasicTabs() {
                 variant="outlined"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-[100%]"
+                className="w-full"
               />
             </div>
-
-            {/* <div className="gap-3 flex mt-5 lg:mt-0">
-              <Button
-                onClick={() => router.push("coursesList/addCourse")}
-                variant="contained"
-                className="flex gap-5"
-              >
-                <span>Add Course</span>
-                <span>
-                  <AddIcon />
-                </span>
-              </Button>
-
-              <Button variant="contained">
-                <span>Download Course</span>
-              </Button>
-            </div> */}
           </div>
 
-          {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
           {!isMobile ? (
-            <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block hidden bg-white">
+            <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 bg-white">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     {[
                       "ID",
-                      "Category",
-                      "Course Name",
-                      "Course Code",
-                      "Module",
-                      "Featured",
-                      "In Portal",
-                      "In Training",
-                      "Languages",
-                      "Manage",
-                      "Actions",
+                      "Trainer ",
+                      "Course",
+                      "Language",
+                      "Meeting Date",
+                      "Duration",
+                      "Meeting Password",
+                      "Google Meeting Link",
+                      "Google Meeting Host",
+                      "Send Link",
+                      "Details",
                     ].map((header, index) => (
-                      <th key={index} className="px-3 py-3">
+                      <th key={index} className="px-6 py-3">
                         {header}
                       </th>
                     ))}
@@ -273,28 +251,31 @@ export default function BasicTabs() {
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                     >
                       <td className="px-6 py-4">{row.ID}</td>
-                      <td className="px-6 py-4">{row.Category}</td>
-                      <td className="px-6 py-4">{row.Course_Name}</td>
-                      <td className="px-6 py-4">{row.Course_Code}</td>
-                      <td className="px-6 py-4">{row.Module}</td>
-                      <td className="px-6 py-4">{row.Featured}</td>
-                      <td className="px-6 py-4">{row.In_Portal}</td>
-                      <td className="px-6 py-4">{row.In_Training}</td>
-                      <td className="px-6 py-4">{row.Languages}</td>
+                      <td className="px-6 py-4">{row.Trainer}</td>
+                      <td className="px-6 py-4">{row.Course}</td>
+                      <td className="px-6 py-4">{row.Language}</td>
+                      <td className="px-6 py-4">{row.MeetingDate}</td>
+                      <td className="px-6 py-4">{row.Duration}</td>
+                      <td className="px-6 py-4">{row.MeetingPassword}</td>
                       <td className="px-6 py-4">
-                        <Link href={`/coursesList/manage/${row.ID}`}>
-                          <button className="text-blue-500 hover:text-blue-700">
-                            Manage
-                          </button>
-                        </Link>
+                        <button>
+                          {" "}
+                          <a href={row.SendLink} className="text-blue-500">
+                            Link
+                          </a>
+                        </button>
                       </td>
-
+                      <td className="px-6 py-4">{row.GoogleMeetingHost}</td>
                       <td className="px-6 py-4">
-                        <Link href={`/coursesList/${row.ID}`}>
-                          <button className="text-blue-500 hover:text-blue-700">
-                            Edit
-                          </button>
-                        </Link>
+                        {row.SendLink == true ? "Yes" : "No"}
+                      </td>
+                      <td className="px-6 py-4">
+                        <button>
+                          {" "}
+                          <a href={row.Details} className="text-blue-500">
+                            Details
+                          </a>
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -327,45 +308,53 @@ export default function BasicTabs() {
                   key={index}
                   className="bg-white p-4 shadow rounded-lg border"
                 >
+                  <h3 className="font-semibold text-lg">{row.title}</h3>
                   <p>
                     <strong>ID:</strong> {row.ID}
                   </p>
                   <p>
-                    <strong>Category:</strong> {row.Category}
+                    <strong>Trainer:</strong> {row.Trainer}
                   </p>
                   <p>
-                    <strong>Course Name:</strong> {row.Course_Name}
+                    <strong>Course:</strong> {row.Course}
                   </p>
                   <p>
-                    <strong>Course Code:</strong> {row.Course_Code}
+                    <strong>Language:</strong> {row.Language}
                   </p>
                   <p>
-                    <strong>Module:</strong> {row.Module}
+                    <strong>Meeting Date:</strong> {row.MeetingDate}
                   </p>
                   <p>
-                    <strong>Featured:</strong> {row.Featured}
+                    <strong>Duration:</strong> {row.Duration}
                   </p>
                   <p>
-                    <strong>In Portal:</strong> {row.In_Portal}
+                    <strong>Meeting Password:</strong> {row.MeetingPassword}
                   </p>
                   <p>
-                    <strong>In Training:</strong> {row.In_Training}
+                    <strong>Google Meeting Link:</strong>{" "}
+                    <a
+                      href={row.SendLink}
+                      className="text-blue-500 cursor-pointer"
+                    >
+                      Link
+                    </a>
                   </p>
                   <p>
-                    <strong>Languages:</strong> {row.Languages}
+                    <strong>Google Meeting Host:</strong>{" "}
+                    {row.GoogleMeetingHost}
                   </p>
-                  <div className="flex justify-between mt-3">
-                    <Link href={`/coursesList/manage/${row.ID}`}>
-                      <button className="text-blue-500 hover:text-blue-700">
-                        Manage
-                      </button>
-                    </Link>
-                    <Link href={`/coursesList/${row.ID}`}>
-                      <button className="text-blue-500 hover:text-blue-700">
-                        Edit
-                      </button>
-                    </Link>
-                  </div>
+                  <p>
+                    <strong>Send Link:</strong>{" "}
+                    {row.SendLink == true ? "Yes" : "No"}
+                  </p>
+                  <p>
+                    <button>
+                      <strong>Details:</strong>{" "}
+                      <a href={row.Details} className="text-blue-500">
+                        Details
+                      </a>
+                    </button>
+                  </p>
                 </div>
               ))}
 
@@ -391,13 +380,10 @@ export default function BasicTabs() {
             </div>
           )}
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <AddCourses />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          Item Three
-        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}></CustomTabPanel>
       </Box>
     </>
   );
-}
+};
+
+export default Page;

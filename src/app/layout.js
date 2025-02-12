@@ -37,9 +37,11 @@ import Person3Icon from "@mui/icons-material/Person3";
 import profile from "../../src/assets/profile.png";
 import logo from "../../src/assets/logo.png";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Image from "next/image";
-
+import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import { useRouter } from "next/navigation";
 const drawerWidth = 240;
 
@@ -52,8 +54,50 @@ const menuItems = [
   { href: "/coursesList", icon: <ListIcon />, text: "Courses List" },
   { href: "/categoriesList", icon: <CategoryIcon />, text: "Categories List" },
   { href: "/faqs", icon: <LiveHelpIcon />, text: "FAQs List" },
-  { href: "/usersList", icon: <PeopleOutlineIcon />, text: "Users List" },
+  // { href: "/usersList", icon: <PeopleOutlineIcon />, text: "Users List" },
 ];
+
+const meetLinks = [
+  {
+    href: "/meet/NewGoogleMeetLink",
+    icon: <InsertLinkIcon />,
+    text: "New Google meet Link",
+  },
+  {
+    href: "/meet/GoogleMeetingLink",
+    icon: <InsertLinkIcon />,
+    text: "Google meet Links",
+  },
+  {
+    href: "/meet/SendAssessmentLink",
+    icon: <InsertLinkIcon />,
+    text: "Send Assessment Links",
+  },
+  {
+    href: "/Assessment/ManageAssessmentLinks",
+    icon: <AssessmentIcon />,
+    text: "Assessment Links",
+  },
+  {
+    href: "/Assessment/AssessmentResults",
+    icon: <CheckCircleOutlineIcon />,
+    text: "Assessment Results",
+  },
+];
+
+const trainers = [
+  {
+    href: "/Trainer/Trainers",
+    icon: <PsychologyAltIcon />,
+    text: "Trainers",
+  },
+  {
+    href: "/Trainer/AddNewTrainer",
+    icon: <PsychologyAltIcon />,
+    text: "Add New Trainer",
+  }
+];
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -153,6 +197,7 @@ export default function RootLayout({ children }) {
   const isMobile = useMediaQuery(
     theme.breakpoints.down("sm") && theme.breakpoints.down("md")
   );
+  const isMobile2 = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [open, setOpen] = React.useState(!isMobile);
 
@@ -166,6 +211,12 @@ export default function RootLayout({ children }) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleContentClick = () => {
+    if (isMobile2) {
+      handleDrawerClose();
+    }
   };
 
   return (
@@ -211,8 +262,10 @@ export default function RootLayout({ children }) {
             <DrawerHeader>
               <Typography component="div">
                 <div className="flex gap-2 items-center">
-                  <Image src={logo} alt="Description" width={30} height={30} />
-                  <button className="relative right-">AP Color Academy</button>
+                  <Image src={logo} alt="Description" width={20} height={22} />
+                  <button className="relative right- text-[15px]">
+                    AP Color Academy
+                  </button>
                 </div>
               </Typography>
               <IconButton onClick={handleDrawerClose}>
@@ -232,7 +285,7 @@ export default function RootLayout({ children }) {
                     sx={[
                       {
                         minHeight: 60,
-                        px: 2.5,
+                        px: 1.5,
                       },
                       open
                         ? {
@@ -266,7 +319,12 @@ export default function RootLayout({ children }) {
                       />
                     </ListItemIcon>
                     <ListItemText
-                      primary={"ABC -Admin Login"}
+                      primary={
+                        <Typography variant="body2">
+                          {" "}
+                          ABC -Admin Login
+                        </Typography>
+                      }
                       sx={[
                         open
                           ? {
@@ -283,12 +341,12 @@ export default function RootLayout({ children }) {
               <Divider />
 
               <ListItem disablePadding sx={{ display: "block" }}>
-                <Link href="/">
+                <Link href="/" onClick={handleContentClick}>
                   <ListItemButton
                     sx={[
                       {
                         minHeight: 48,
-                        px: 2.5,
+                        px: 1.5,
                       },
                       open
                         ? {
@@ -317,7 +375,13 @@ export default function RootLayout({ children }) {
                       <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary={"Dashboard"}
+                      primary={
+                        <Typography variant="body2">
+                          {" "}
+                          {/* Reduce the text size */}
+                          Dashboard
+                        </Typography>
+                      }
                       sx={[
                         open
                           ? {
@@ -340,12 +404,79 @@ export default function RootLayout({ children }) {
                       disablePadding
                       sx={{ display: "block" }}
                     >
-                      <Link href={items.href}>
+                      <Link href={items.href} onClick={handleContentClick}>
                         <ListItemButton
                           sx={[
                             {
                               minHeight: 48,
-                              px: 2.5,
+                              px: 1.5,
+                            },
+                            open
+                              ? {
+                                  justifyContent: "initial",
+                                }
+                              : {
+                                  justifyContent: "center",
+                                },
+                          ]}
+                        >
+                          <ListItemIcon
+                            sx={[
+                              {
+                                minWidth: 0,
+                                justifyContent: "center",
+                              },
+                              open
+                                ? {
+                                    mr: 3,
+                                  }
+                                : {
+                                    mr: "auto",
+                                  },
+                            ]}
+                          >
+                            {items.icon}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={
+                              <Typography variant="body2">
+                                {" "}
+                                {/* Reduce text size */}
+                                {items.text}
+                              </Typography>
+                            }
+                            sx={[
+                              open
+                                ? {
+                                    opacity: 1,
+                                  }
+                                : {
+                                    opacity: 0,
+                                  },
+                            ]}
+                          />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  );
+                })}
+              </div>
+
+              <Divider />
+              <div className="mt-5">
+                {meetLinks.map((items, index) => {
+                  return (
+                    <ListItem
+                      key={index}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <Link href={items.href} onClick={handleContentClick}>
+                        <ListItemButton
+                          sx={[
+                            {
+                              minHeight: 48,
+                              px: 1,
                             },
                             open
                               ? {
@@ -391,6 +522,70 @@ export default function RootLayout({ children }) {
                   );
                 })}
               </div>
+
+
+              <Divider />
+              <div className="mt-5">
+                {trainers.map((items, index) => {
+                  return (
+                    <ListItem
+                      key={index}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <Link href={items.href} onClick={handleContentClick}>
+                        <ListItemButton
+                          sx={[
+                            {
+                              minHeight: 48,
+                              px: 1,
+                            },
+                            open
+                              ? {
+                                  justifyContent: "initial",
+                                }
+                              : {
+                                  justifyContent: "center",
+                                },
+                          ]}
+                        >
+                          <ListItemIcon
+                            sx={[
+                              {
+                                minWidth: 0,
+                                justifyContent: "center",
+                              },
+                              open
+                                ? {
+                                    mr: 3,
+                                  }
+                                : {
+                                    mr: "auto",
+                                  },
+                            ]}
+                          >
+                            {items.icon}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={items.text}
+                            sx={[
+                              open
+                                ? {
+                                    opacity: 1,
+                                  }
+                                : {
+                                    opacity: 0,
+                                  },
+                            ]}
+                          />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  );
+                })}
+              </div>
+
+              
             </List>
             <Divider />
             <Divider />
