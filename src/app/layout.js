@@ -43,7 +43,8 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Image from "next/image";
 import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import { useRouter } from "next/navigation";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 const drawerWidth = 240;
 
 const menuItems = [
@@ -96,9 +97,37 @@ const trainers = [
     href: "/Trainer/AddNewTrainer",
     icon: <AddIcon />,
     text: "Add New Trainer",
-  }
+  },
 ];
 
+const ReportsLogs = [
+  {
+    href: "/Reports&Logs/PartcipantsResults",
+    icon: <EqualizerIcon />,
+    text: "Partcipants Results",
+  },
+  {
+    href: "/Reports&Logs/OnDemnPendVideos",
+    icon: <EqualizerIcon />,
+    text: "On-Demand Videos Pending Assessments",
+  },
+  {
+    href: "/Reports&Logs/VirtualTrain",
+    icon: <EqualizerIcon />,
+    text: "Virtual Train. (Division)",
+  },
+  {
+    href: "/Reports&Logs/VirtualTrainRegion",
+    icon: <EqualizerIcon />,
+    text: "Virtual Train. (Region)",
+  },
+  {
+    href: "/Reports&Logs/AssessmentSummray",
+    icon: <EqualizerIcon />,
+    text: "Assessment Summray",
+  },
+
+];
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -506,7 +535,12 @@ export default function RootLayout({ children }) {
                             {items.icon}
                           </ListItemIcon>
                           <ListItemText
-                            primary={items.text}
+                            primary={
+                              <Typography variant="body2">
+                                {" "}
+                                {items.text}
+                              </Typography>
+                            }
                             sx={[
                               open
                                 ? {
@@ -523,7 +557,6 @@ export default function RootLayout({ children }) {
                   );
                 })}
               </div>
-
 
               <Divider />
               <div className="mt-5">
@@ -568,7 +601,12 @@ export default function RootLayout({ children }) {
                             {items.icon}
                           </ListItemIcon>
                           <ListItemText
-                            primary={items.text}
+                            primary={
+                              <Typography variant="body2">
+                                {" "}
+                                {items.text}
+                              </Typography>
+                            }
                             sx={[
                               open
                                 ? {
@@ -586,7 +624,71 @@ export default function RootLayout({ children }) {
                 })}
               </div>
 
-              
+              <Divider />
+              <div className="text-center mt-3">Reports & Logs</div>
+              <div className="mt-5">
+                {ReportsLogs.map((items, index) => {
+                  return (
+                    <ListItem
+                      key={index}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <Link href={items.href} onClick={handleContentClick}>
+                        <ListItemButton
+                          sx={[
+                            {
+                              minHeight: 48,
+                              px: 1,
+                            },
+                            open
+                              ? {
+                                  justifyContent: "initial",
+                                }
+                              : {
+                                  justifyContent: "center",
+                                },
+                          ]}
+                        >
+                          <ListItemIcon
+                            sx={[
+                              {
+                                minWidth: 0,
+                                justifyContent: "center",
+                              },
+                              open
+                                ? {
+                                    mr: 3,
+                                  }
+                                : {
+                                    mr: "auto",
+                                  },
+                            ]}
+                          >
+                            {items.icon}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={
+                              <Typography variant="body2">
+                                {items.text}
+                              </Typography>
+                            }
+                            sx={[
+                              open ? { opacity: 1 } : { opacity: 0 },
+                              {
+                                whiteSpace: "normal",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                maxWidth: "160px",
+                              },
+                            ]}
+                          />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  );
+                })}
+              </div>
             </List>
             <Divider />
             <Divider />
