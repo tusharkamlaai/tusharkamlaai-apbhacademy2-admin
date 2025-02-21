@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import AddCourses from "./addCourse/page";
-import { Select, useMediaQuery, MenuItem } from "@mui/material";
+import { Select, useMediaQuery, MenuItem, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 const rowsData = [
@@ -127,7 +127,7 @@ export default function BasicTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const headings = ["Manage Courses", "Add New Course", "Download Course"];
+  const headings = ["Add New Course", "Manages Courses", "Download Course"];
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [currentPage, setCurrentPage] = useState(0);
@@ -194,8 +194,8 @@ export default function BasicTabs() {
               fullWidth
               displayEmpty
             >
-              <MenuItem value={0}>Courses List</MenuItem>
-              <MenuItem value={1}>Add Course</MenuItem>
+              <MenuItem value={0}>Add Course</MenuItem>
+              <MenuItem value={1}>Courses List</MenuItem>
               <MenuItem value={2}>Download Course</MenuItem>
             </Select>
           ) : (
@@ -204,13 +204,16 @@ export default function BasicTabs() {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="Courses List" />
               <Tab label="Add Course" />
+              <Tab label="Courses List" />
               <Tab label="Download Course" />
             </Tabs>
           )}
         </Box>
         <CustomTabPanel value={value} index={0}>
+          <AddCourses />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
           <div className="lg:flex justify-end">
             <div className="mb-5 lg:mb-0">
               <TextField
@@ -222,26 +225,8 @@ export default function BasicTabs() {
                 className="w-[100%]"
               />
             </div>
-
-            {/* <div className="gap-3 flex mt-5 lg:mt-0">
-              <Button
-                onClick={() => router.push("coursesList/addCourse")}
-                variant="contained"
-                className="flex gap-5"
-              >
-                <span>Add Course</span>
-                <span>
-                  <AddIcon />
-                </span>
-              </Button>
-
-              <Button variant="contained">
-                <span>Download Course</span>
-              </Button>
-            </div> */}
           </div>
 
-          {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
           {!isMobile ? (
             <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block hidden bg-white">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -391,11 +376,12 @@ export default function BasicTabs() {
             </div>
           )}
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <AddCourses />
-        </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Item Three
+          <div>
+            <a href="/example.pdf" download>
+              <Button variant="contained">Download PDF</Button>
+            </a>
+          </div>
         </CustomTabPanel>
       </Box>
     </>

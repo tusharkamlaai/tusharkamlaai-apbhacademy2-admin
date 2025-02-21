@@ -13,6 +13,8 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import AddUser from "./addUsers/page";
 import Link from "next/link";
+import BulkUpdateBPNumbers from "./BulkUpdateBPNumbers/page";
+import BulkUpdateUsers from "./BulkUpdateUsers/page";
 
 const rowsData = [
   {
@@ -81,7 +83,7 @@ const Page = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const headings = ["Manage User", "Add New User"];
+  const headings = ["Manage User", "Add New User","Download","User Upload BP Numbers","Bulk Update Users"];
 
   const router = useRouter();
   const rowsPerPage = 5;
@@ -331,13 +333,17 @@ const Page = () => {
           <AddUser />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          hello3
+          <div>
+            <a href="/example.pdf" download>
+              <Button variant="contained">Download PDF</Button>
+            </a>
+          </div>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
-          hello4
+          <BulkUpdateBPNumbers />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
-          hello5
+          <BulkUpdateUsers/>
         </CustomTabPanel>
       </Box>
     </>

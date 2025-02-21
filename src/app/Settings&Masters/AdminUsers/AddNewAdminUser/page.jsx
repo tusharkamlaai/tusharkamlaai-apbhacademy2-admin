@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import {
@@ -11,8 +12,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Typography,
 } from "@mui/material";
-import Link from "next/link";
 import TextField from "@mui/material/TextField";
 
 let Trainer = [
@@ -23,17 +24,26 @@ let Trainer = [
   },
 ];
 
-const AddNewTrainer = () => {
+const SendAssessmentLink = () => {
+  const [fileSize, setFileSize] = useState(null);
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFileSize(file.size);
+    } else {
+      setFileSize(null);
+    }
+  };
 
   return (
     <>
-      {/* <h2 className='font-semibold lg:text-[25px] mb-5'>Add New Course</h2> */}
+      {""}
       <div className="items-center justify-center flex">
         <Card className="lg:w-[70%] ">
           <CardContent>
             <h2 className="font-semibold text-[20px] mb-3">
-              Send Assessment Link
+              Add New Admin User
             </h2>
             <hr />
             <div>
@@ -89,68 +99,44 @@ const AddNewTrainer = () => {
                       <Box className="lg:w-[100%]">
                         <FormControl fullWidth>
                           <InputLabel id="demo-simple-select-label">
-                            Division
+                            User Role
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            label="Language"
-                            value="Division"
+                            label="Default Language"
                           >
-                            <MenuItem value="Division">Division</MenuItem>
+                            <MenuItem value="Course">Numbers</MenuItem>
                           </Select>
                         </FormControl>
                       </Box>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                      <TextField
-                        id="outlined-basic"
-                        label="Region"
-                        variant="outlined"
-                        className="w-[100%]"
+                      <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+                        Upload Profile Pic
+                      </Typography>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        name="photo"
+                        style={{ width: "100%" }}
+                        onChange={handleFileChange}
                       />
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        id="outlined-basic"
-                        label="Zoom User Email"
-                        variant="outlined"
-                        className="w-[100%]"
-                      />
-                    </Grid>
-                  </Grid>
-
-                  {/* <h3 className="py-5">
-                  Profile Picture</h3> */}
-
-                  <Grid item xs={12}>
-                    <div className="flex gap-5 items-center mt-5">
-                      <p>Profile Pic:</p>
-                      <div>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          name="photo"
-                          style={{ width: "100%" }}
-                        />
-                      </div>
-                    </div>
+                      {fileSize && (
+                        <Typography variant="body2" sx={{ mt: 1 }}>
+                          File size: {(fileSize / 1024).toFixed(2)} KB
+                        </Typography>
+                      )}
                     <p className="text-[13px] mt-3">Maximum file size: 200 KB.</p>  
 
+                    </Grid>
                   </Grid>
 
                   <div className="flex gap-3 mt-5">
                     <Button type="submit" variant="contained">
                       Save
                     </Button>
-
-                    <Link href="/">
-                      <Button type="submit" variant="outlined">
-                        Cancel
-                      </Button>
-                    </Link>
                   </div>
                 </Box>
               </Container>
@@ -162,4 +148,4 @@ const AddNewTrainer = () => {
   );
 };
 
-export default AddNewTrainer;
+export default SendAssessmentLink;

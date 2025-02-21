@@ -326,7 +326,7 @@ const AddFaqs = () => {
                       <Button variant="contained">Save</Button>
                     </span>
                     <span>
-                      <Button variant="outlined" >Cancel</Button>
+                      <Button variant="outlined"  onClick={() => router.push('/')} >Cancel</Button>
                     </span>
                   </div>
                 </div>

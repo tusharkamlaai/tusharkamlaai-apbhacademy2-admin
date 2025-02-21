@@ -1,32 +1,26 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import { useRouter } from "next/navigation";
-import { Select, useMediaQuery, MenuItem } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import PropTypes from "prop-types";
-import AddFaqs from "./addFaqs/page";
+import React, { useState, useMemo, useEffect } from "react";
+import TextField from "@mui/material/TextField";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Select, useMediaQuery, MenuItem, Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import AddNewLanguage from "./AddNewLanguage/page";
 
 const rowsData = [
-  { id: "1", title: "FAQ", orderDis: "1", Status: "Active", translate: "1" },
-  { id: "2", title: "FAQ2", orderDis: "1", Status: "Active", translate: "1" },
-  { id: "3", title: "FAQ3", orderDis: "2", Status: "Active", translate: "1" },
-  { id: "4", title: "FAQ4", orderDis: "2", Status: "Active", translate: "1" },
-  { id: "5", title: "FAQ5", orderDis: "3", Status: "Active", translate: "1" },
-  { id: "6", title: "FAQ6", orderDis: "3", Status: "Active", translate: "1" },
-  { id: "7", title: "FAQ7", orderDis: "4", Status: "Active", translate: "1" },
-  { id: "8", title: "FAQ8", orderDis: "4", Status: "Active", translate: "1" },
-  { id: "9", title: "FAQ9", orderDis: "5", Status: "Active", translate: "1" },
-  { id: "10", title: "FAQ10", orderDis: "5", Status: "Active", translate: "1" },
-  { id: "11", title: "FAQ11", orderDis: "6", Status: "Active", translate: "1" },
-  { id: "12", title: "FAQ12", orderDis: "6", Status: "Active", translate: "1" },
+  {
+    Language_ID: 101,
+    Language_Name: "English",
+    Status: "Maharashtra",
+    Translations: "Translations",
+    Download_Trans: "Download",
+    Upload_Trans: "Upload",
+  },
 ];
 
 function CustomTabPanel(props) {
@@ -58,30 +52,27 @@ function a11yProps(index) {
   };
 }
 
-console.log(rowsData, "PPP");
-
-const Page = () => {
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
+export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
-  const theme = useTheme();
-
-  const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const headings = ["Manage FAQs", "Add FAQs"];
+  const headings = ["Manage Languages", "Manage Languages"];
 
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isMobile, setIsMobile] = useState(false); // Detect Mobile
+  const theme = useTheme();
+  const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
   const router = useRouter();
   const rowsPerPage = 5;
 
   useEffect(() => {
     // Check screen size to switch between table & card view
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768); // Change view if width is below 768px
+      setIsMobile(window.innerWidth < 1200); // Change view if width is below 768px
     };
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
@@ -134,8 +125,8 @@ const Page = () => {
               fullWidth
               displayEmpty
             >
-              <MenuItem value={0}>List</MenuItem>
-              <MenuItem value={1}>Add Course</MenuItem>
+              <MenuItem value={0}> Languages List</MenuItem>
+              <MenuItem value={1}> Add New Language</MenuItem>
             </Select>
           ) : (
             <Tabs
@@ -143,8 +134,8 @@ const Page = () => {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="List" />
-              <Tab label="Add Faq" />
+              <Tab label="Languages List" />
+              <Tab label=" Add New Language" />
             </Tabs>
           )}
         </Box>
@@ -157,26 +148,27 @@ const Page = () => {
                 variant="outlined"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                fullWidth
+                className="w-[100%]"
               />
             </div>
           </div>
 
-          {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
           {!isMobile ? (
             <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block hidden bg-white">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     {[
-                      "ID",
-                      "FAQ",
-                      "Display Order",
+                      "Language ID",
+                      "Language Name",
                       "Status",
-                      "Translate Lang.",
-                      "Actions",
+                      "Translations",
+                      "Download Trans.",
+                      "Upload Trans.",
+                      "Edit",
+                      "Delete",
                     ].map((header, index) => (
-                      <th key={index} className="px-6 py-3">
+                      <th key={index} className="px-3 py-3">
                         {header}
                       </th>
                     ))}
@@ -188,23 +180,50 @@ const Page = () => {
                       key={rowIndex}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                     >
-                      <td className="px-6 py-4">{row.id}</td>
-                      <td className="px-6 py-4">{row.title}</td>
-                      <td className="px-6 py-4">{row.orderDis}</td>
-                      <td
-                        className={`px-6 py-4 ${
-                          row.Status == "Active" ? "text-green-600" : ""
-                        } ${row.Status == "Inactive" ? "text-red-600" : ""} ${
-                          row.Status == "Pending" ? "text-yellow-600" : ""
-                        }`}
-                      >
-                        {row.Status}
-                      </td>
-                      <td className="px-6 py-4">{row.translate}</td>
+                      <td className="px-6 py-4">{row.Language_ID}</td>
+                      <td className="px-6 py-4">{row.Language_Name}</td>
+                      <td className="px-6 py-4">{row.Status}</td>
+
                       <td className="px-6 py-4">
-                        <Link href={`/faqs/EditFaq/${row.id}`}>
+                        <Link href={`/Settings&Masters/Translations/`}>
+                          <button className="text-blue-500 hover:text-blue-700">
+                            {row.Translations}
+                          </button>
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4">
+                        <button className="text-blue-500 hover:text-blue-700">
+                          <div>
+                            <a href="/example.pdf" download>
+                              <button >
+                                {" "}
+                                {row.Download_Trans}
+                              </button>
+                            </a>
+                          </div>
+                        </button>
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <Link href={`/Settings&Masters/ManageLanguages/UploadTrans/`}>
+                          <button className="text-blue-500 hover:text-blue-700">
+                            {row.Upload_Trans}
+                          </button>
+                        </Link>
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <Link href={`/coursesList/${row.ID}`}>
                           <button className="text-blue-500 hover:text-blue-700">
                             Edit
+                          </button>
+                        </Link>
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <Link href={`/coursesList/${row.ID}`}>
+                          <button className="text-blue-500 hover:text-blue-700">
+                            Delete
                           </button>
                         </Link>
                       </td>
@@ -240,35 +259,33 @@ const Page = () => {
                   className="bg-white p-4 shadow rounded-lg border"
                 >
                   <p>
-                    <strong>FAQ</strong> {row.title}
+                    <strong>City ID:</strong> {row.City_ID}
                   </p>
                   <p>
-                    <strong>ID:</strong> {row.id}
+                    <strong> City Name:</strong> {row.City_Name}
                   </p>
                   <p>
-                    <strong>Display Order:</strong> {row.orderDis}
+                    <strong> State:</strong> {row.State}
                   </p>
                   <p>
-                    <strong>Status:</strong>{" "}
-                    <span
-                      className={`px-2 py-1 rounded ${
-                        row.Status === "Active"
-                          ? "bg-green-200 text-green-800"
-                          : row.Status === "Pending"
-                          ? "bg-yellow-200 text-yellow-800"
-                          : "bg-red-200 text-red-800"
-                      }`}
-                    >
-                      {row.Status}
-                    </span>
+                    <strong>District:</strong> {row.District}
                   </p>
                   <p>
-                    <strong>Translate Lang.:</strong> {row.translate}
+                    <strong>Region:</strong> {row.Region}
                   </p>
+                  <p>
+                    <strong>Division:</strong> {row.Division}
+                  </p>
+
                   <div className="flex justify-between mt-3">
-                    <Link href={`/faqs/EditFaq/${row.id}`}>
+                    <Link href={`/coursesList/manage/${row.ID}`}>
                       <button className="text-blue-500 hover:text-blue-700">
                         Edit
+                      </button>
+                    </Link>
+                    <Link href={`/coursesList/${row.ID}`}>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        Delete
                       </button>
                     </Link>
                   </div>
@@ -298,11 +315,10 @@ const Page = () => {
           )}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <AddFaqs />
+          <AddNewLanguage />
         </CustomTabPanel>
+        <CustomTabPanel value={value} index={4}></CustomTabPanel>
       </Box>
     </>
   );
-};
-
-export default Page;
+}

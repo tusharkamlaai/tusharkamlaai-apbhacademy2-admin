@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import * as React from "react";
@@ -14,26 +14,18 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import Link from "next/link";
 import { useMediaQuery } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import ListIcon from "@mui/icons-material/List";
 import CategoryIcon from "@mui/icons-material/Category";
 import LiveHelpIcon from "@mui/icons-material/LiveHelp";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import Button from "@mui/material/Button";
-import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import Person3Icon from "@mui/icons-material/Person3";
 import profile from "../../src/assets/profile.png";
 import logo from "../../src/assets/logo.png";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -42,21 +34,23 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Image from "next/image";
 import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
-import { useRouter } from "next/navigation";
 import AddIcon from "@mui/icons-material/Add";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 const drawerWidth = 240;
-
+import LogoutIcon from '@mui/icons-material/Logout';
 const menuItems = [
-  {
-    href: "/coursesList/addCourse",
-    icon: <AddToPhotosIcon />,
-    text: "Add Course",
-  },
+  // {
+  //   href: "/coursesList/addCourse",
+  //   icon: <AddToPhotosIcon />,
+  //   text: "Add Course",
+  // },
   { href: "/coursesList", icon: <ListIcon />, text: "Courses List" },
   { href: "/categoriesList", icon: <CategoryIcon />, text: "Categories List" },
   { href: "/faqs", icon: <LiveHelpIcon />, text: "FAQs List" },
-  // { href: "/usersList", icon: <PeopleOutlineIcon />, text: "Users List" },
+  { href: "/usersList", icon: <GroupAddIcon />, text: "Users List" },
 ];
 
 const meetLinks = [
@@ -126,7 +120,91 @@ const ReportsLogs = [
     icon: <EqualizerIcon />,
     text: "Assessment Summray",
   },
+  {
+    href: "/Reports&Logs/TrainerWiseSummary",
+    icon: <EqualizerIcon />,
+    text: " Trainer-wise Summary",
+  },
+  {
+    href: "/Reports&Logs/TrainerIPReport",
+    icon: <EqualizerIcon />,
+    text: " Trainer IP Report",
+  },
+  {
+    href: "/Reports&Logs/TrainerAccessLogs",
+    icon: <EqualizerIcon />,
+    text: " Trainer Access Log",
+  },
+];
 
+const Campaign = [
+  {
+    href: "/Campaign/NewCampaignURL",
+    icon: <EqualizerIcon />,
+    text: "New Campaign URL",
+  },
+  {
+    href: "/Campaign/CampaignURLs",
+    icon: <EqualizerIcon />,
+    text: "Campaign URLs",
+  },
+  {
+    href: "/Campaign/CampaignsReport",
+    icon: <EqualizerIcon />,
+    text: "Campaign Report",
+  },
+];
+
+const SettingsMasters = [
+  {
+    href: "/Settings&Masters/Configuration",
+    icon: <ArrowForwardIcon />,
+    text: " Configuration",
+  },
+  {
+    href: "/Settings&Masters/AdminUsers",
+    icon: <ArrowForwardIcon />,
+    text: "AdminUsers",
+  },
+  {
+    href: "/Settings&Masters/Roles&Permissions",
+    icon: <ArrowForwardIcon />,
+    text: " Roles & Permissions",
+  },
+  {
+    href: "/Settings&Masters/Sliders",
+    icon: <ArrowForwardIcon />,
+    text: "Sliders",
+  },
+  {
+    href: "/Settings&Masters/ManageCities",
+    icon: <ArrowForwardIcon />,
+    text: "Manage Cities",
+  },
+  {
+    href: "/Settings&Masters/ManageLanguages",
+    icon: <ArrowForwardIcon />,
+    text: "Manage Languages",
+  },
+  {
+    href: "/Settings&Masters/ReportScheduler",
+    icon: <ArrowForwardIcon />,
+    text: "Report Scheduler",
+  },
+  {
+    href: "/Settings&Masters/Translations",
+    icon: <ArrowForwardIcon />,
+    text: "Translations",
+  },
+];
+
+
+const Logout = [
+  {
+    href: "/",
+    icon: <LogoutIcon />,
+    text: "Logout",
+  },
 ];
 
 const openedMixin = (theme) => ({
@@ -193,8 +271,27 @@ const Drawer = styled(MuiDrawer, {
       props: ({ open }) => open,
       style: {
         ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
-        boxShadow: "3px 0 8px rgba(0, 0, 0, 0.1)",
+        "& .MuiDrawer-paper": {
+          ...openedMixin(theme),
+          boxShadow: "3px 0 8px rgba(0, 0, 0, 0.1)",
+          overflowY: "auto", // Enable vertical scrolling
+          scrollbarWidth: "thin", // For Firefox
+          scrollbarColor: "#888 #f1f1f1", // For Firefox
+          "&::-webkit-scrollbar": {
+            width: "6px", // Thinner scrollbar for modern look
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "#f1f1f1", // Light gray track
+            borderRadius: "4px", // Rounded corners
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#888", // Dark gray scrollbar
+            borderRadius: "4px", // Rounded corners
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            background: "#555", // Darker gray on hover
+          },
+        },
       },
     },
     {
@@ -248,6 +345,10 @@ export default function RootLayout({ children }) {
       handleDrawerClose();
     }
   };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
 
   return (
     <html lang="en">
@@ -628,6 +729,247 @@ export default function RootLayout({ children }) {
               <div className="text-center mt-3">Reports & Logs</div>
               <div className="mt-5">
                 {ReportsLogs.map((items, index) => {
+                  return (
+                    <ListItem
+                      key={index}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <Link href={items.href} onClick={handleContentClick}>
+                        <ListItemButton
+                          sx={[
+                            {
+                              minHeight: 48,
+                              px: 1,
+                            },
+                            open
+                              ? {
+                                  justifyContent: "initial",
+                                }
+                              : {
+                                  justifyContent: "center",
+                                },
+                          ]}
+                        >
+                          <ListItemIcon
+                            sx={[
+                              {
+                                minWidth: 0,
+                                justifyContent: "center",
+                              },
+                              open
+                                ? {
+                                    mr: 3,
+                                  }
+                                : {
+                                    mr: "auto",
+                                  },
+                            ]}
+                          >
+                            {items.icon}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={
+                              <Typography variant="body2">
+                                {items.text}
+                              </Typography>
+                            }
+                            sx={[
+                              open ? { opacity: 1 } : { opacity: 0 },
+                              {
+                                whiteSpace: "normal",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                maxWidth: "160px",
+                              },
+                            ]}
+                          />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  );
+                })}
+              </div>
+
+              <Divider />
+              <div className="text-center mt-3">Reports & Logs</div>
+              <div className="mt-5">
+                {Campaign.map((items, index) => {
+                  return (
+                    <ListItem
+                      key={index}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <Link href={items.href} onClick={handleContentClick}>
+                        <ListItemButton
+                          sx={[
+                            {
+                              minHeight: 48,
+                              px: 1,
+                            },
+                            open
+                              ? {
+                                  justifyContent: "initial",
+                                }
+                              : {
+                                  justifyContent: "center",
+                                },
+                          ]}
+                        >
+                          <ListItemIcon
+                            sx={[
+                              {
+                                minWidth: 0,
+                                justifyContent: "center",
+                              },
+                              open
+                                ? {
+                                    mr: 3,
+                                  }
+                                : {
+                                    mr: "auto",
+                                  },
+                            ]}
+                          >
+                            {items.icon}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={
+                              <Typography variant="body2">
+                                {items.text}
+                              </Typography>
+                            }
+                            sx={[
+                              open ? { opacity: 1 } : { opacity: 0 },
+                              {
+                                whiteSpace: "normal",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                maxWidth: "160px",
+                              },
+                            ]}
+                          />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  );
+                })}
+              </div>
+
+              <Divider />
+              <div className="text-center mt-3"> </div>
+
+              <div className="m-1 hs-dropdown relative ">
+                <button
+                  id="hs-dropdown-hover-event"
+                  type="button"
+                  className="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  aria-haspopup="menu"
+                  aria-expanded={isOpen}
+                  aria-label="Dropdown"
+                  onClick={toggleDropdown}
+                >
+                  <SettingsIcon /> Settings & Masters
+                  <svg
+                    className={`hs-dropdown-open:rotate-180 size-4 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+
+                <div
+                  className={`hs-dropdown-menu transition-[opacity,margin] duration-300 ${
+                    isOpen ? "opacity-100" : "opacity-0"
+                  } ${
+                    isOpen ? "block" : "hidden"
+                  } min-w-60 bg-white  mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700`}
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="hs-dropdown-hover-event"
+                >
+                  <div className="mt-5">
+                    {SettingsMasters.map((items, index) => {
+                      return (
+                        <ListItem
+                          key={index}
+                          disablePadding
+                          sx={{ display: "block" }}
+                        >
+                          <Link href={items.href} onClick={handleContentClick}>
+                            <ListItemButton
+                              sx={[
+                                {
+                                  minHeight: 48,
+                                  px: 1,
+                                },
+                                open
+                                  ? {
+                                      justifyContent: "initial",
+                                    }
+                                  : {
+                                      justifyContent: "center",
+                                    },
+                              ]}
+                            >
+                              <ListItemIcon
+                                sx={[
+                                  {
+                                    minWidth: 0,
+                                    justifyContent: "center",
+                                  },
+                                  open
+                                    ? {
+                                        mr: 3,
+                                      }
+                                    : {
+                                        mr: "auto",
+                                      },
+                                ]}
+                              >
+                                {items.icon}
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={
+                                  <Typography variant="body2">
+                                    {items.text}
+                                  </Typography>
+                                }
+                                sx={[
+                                  open ? { opacity: 1 } : { opacity: 0 },
+                                  {
+                                    whiteSpace: "normal",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    maxWidth: "160px",
+                                  },
+                                ]}
+                              />
+                            </ListItemButton>
+                          </Link>
+                        </ListItem>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+
+                <Divider />
+              {/* <div className="text-center mt-3">logout</div> */}
+              <div className="mt-5">
+                {Logout.map((items, index) => {
                   return (
                     <ListItem
                       key={index}

@@ -23,6 +23,7 @@ const page = () => {
   const [Division, setDivision] = useState("");
   const [Languages, setLanguages] = useState("");
   const [Courses, setCourses] = useState("");
+  const [Region, setRegion] = useState("");
   const [StartDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -30,13 +31,13 @@ const page = () => {
     <>
       {""}
       <div className="justify-between lg:flex ">
-        <h2 className="font-semibold lg:text-[25px] mb-5">Reports</h2>
+        <h2 className="font-semibold lg:text-[25px] mb-5">Trainer-wise Assessment Results Summary</h2>
       </div>
       <div className="items-center justify-center flex">
         <Card className="lg:w-[70%] ">
           <CardContent>
             <h2 className="font-semibold text-[20px] mb-3">
-              Virtual Training Assessment Results - Division
+              Filter
             </h2>
             <hr />
             <div>
@@ -53,8 +54,29 @@ const page = () => {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={Division}
-                            label="Division"
+                            label="Age"
                             onChange={(e) => setDivision(e.target.value)}
+                          >
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value={20}>Twenty</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Box>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                      <Box sx={{ minWidth: 120 }}>
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                          Region
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={Region}
+                            label="Start Date"
+                            onChange={(e) => setRegion(e.target.value)}
                           >
                             <MenuItem value={10}>Ten</MenuItem>
                             <MenuItem value={20}>Twenty</MenuItem>
@@ -128,46 +150,20 @@ const page = () => {
                       </LocalizationProvider>
                     </Grid>
 
-                    <Grid item xs={12} sm={12}>
-                      <p className="my-2 text-[18px]">Email Report To:</p>
-                    </Grid>
-
-                    <Grid item xs={12} sm={12}>
-                      <TextField
-                        label="Enter Email Id's"
-                        variant="outlined"
-                        sx={{ mb: 3 }}
-                        className="lg:w-[70%] w-[100%] "
-                        type="email"
-                        fullWidth
-                      />
-
-                      <div className="text-center flex justify-center items-center ">
-                        <p className=" text-[14px] w-[60%]">
-                          You can enter multple emails, seperated by comma
-                        </p>
-                      </div>
-                    </Grid>
                   </Grid>
 
                   <div className="flex gap-3 mt-5 justify-center py-5">
                     <Button type="submit" variant="contained">
-                      gemerate report
+                      view report
                     </Button>
 
                     <Link href="/">
                       <Button type="submit" variant="outlined">
-                        Cancel
+                        download report
                       </Button>
                     </Link>
                   </div>
-                  <div className="text-center flex justify-center items-center mt-5 text-blue-500">
-                    <p className=" text-[12px] w-[60%]">
-                      Your report will be generated within 30-40 minutes after
-                      you click on generate report button. It will be available
-                      for download below.
-                    </p>
-                  </div>
+                  
                 </Box>
               </Container>
             </div>
@@ -178,7 +174,7 @@ const page = () => {
         <Card className="lg:w-[70%] ">
           <CardContent>
             <h2 className="font-semibold text-[20px] mb-3">
-              Generated Reports
+            Trainer-Wise Assessment Summary
             </h2>
             <hr />
 

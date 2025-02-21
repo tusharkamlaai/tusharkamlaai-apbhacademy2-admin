@@ -267,7 +267,15 @@ const Page = () => {
                       <td className="px-6 py-4">{row.title}</td>
                       <td className="px-6 py-4">{row.quantity}</td>
                       <td className="px-6 py-4">{row.required}</td>
-                      <td className="px-6 py-4">{row.status}</td>
+                      <td
+                        className={`px-6 py-4 ${
+                          row.status == "Active" ? "text-green-600" : ""
+                        } ${row.status == "Inactive" ? "text-red-600" : ""} ${
+                          row.status == "Pending" ? "text-yellow-600" : ""
+                        }`}
+                      >
+                        {row.status}
+                      </td>
                       <td className="px-6 py-4">
                         <Link
                           href={`/categoriesList/CategoryCoursesChange/${row.id}`}

@@ -1,23 +1,31 @@
-'use client'
+"use client";
 
-import { useState } from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import { Button, TextField, Grid, Box, Container, Typography } from '@mui/material';
-
+import { useState } from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import {
+  Button,
+  TextField,
+  Grid,
+  Box,
+  Container,
+  Typography,
+} from "@mui/material";
+import { useRouter } from 'next/navigation'; // Correct import
 
 const page = () => {
+  const router = useRouter();
 
   return (
     <>
-      <h2 className='font-semibold lg:text-[25px] mb-5'>Update Profile</h2>
-      <div className='items-center justify-center flex'>
-        <Card className='lg:w-[70%] '>
+      <h2 className="font-semibold lg:text-[25px] mb-5">Update Profile</h2>
+      <div className="items-center justify-center flex">
+        <Card className="lg:w-[70%]">
           <CardContent>
-            <h2 className='font-semibold text-[20px] mb-3'>My Profile</h2>
+            <h2 className="font-semibold text-[20px] mb-3">My Profile</h2>
             <hr />
-            <div >
-              <Container component="main" className=''>
+            <div>
+              <Container component="main">
                 <Box component="form" noValidate sx={{ mt: 1 }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
@@ -39,7 +47,6 @@ const page = () => {
                         name="Email"
                         autoComplete="family-name"
                         value="test@gmail.com"
-
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -50,7 +57,6 @@ const page = () => {
                         name=""
                         autoComplete="family-name"
                         value="7888010097"
-
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -65,43 +71,40 @@ const page = () => {
                     </Grid>
                     <Grid item xs={12}>
                       <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
-                       Profile Picture
+                        Profile Picture
                       </Typography>
                       <input
                         type="file"
                         accept="image/*"
                         name="photo"
-                        style={{ width: '100%' }}
+                        style={{ width: "100%" }}
                       />
+                      <p className="text-[13px] mt-3">
+                        Maximum file size: 200 KB.
+                      </p>
                     </Grid>
                   </Grid>
 
                   <div className="flex gap-3 mt-5">
-                    <Button
-                      type="submit"
-                      variant="contained"
-
-                    >
+                    <Button type="submit" variant="contained">
                       Save
                     </Button>
 
                     <Button
-                      type="submit"
+                      onClick={() => router.push('/')}
                       variant="outlined"
                     >
                       Cancel
                     </Button>
                   </div>
-
                 </Box>
               </Container>
             </div>
-
           </CardContent>
         </Card>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;

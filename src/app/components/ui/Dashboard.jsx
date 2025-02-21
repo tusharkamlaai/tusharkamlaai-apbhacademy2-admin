@@ -18,6 +18,8 @@ import {
   Info as InfoIcon,
 } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
+import Link from "next/link";
+
 
 const userData = [
   {
@@ -26,6 +28,7 @@ const userData = [
     subtitle: "Users/Participants",
     icon: <PeopleIcon fontSize="large" />,
     color: "#4CAF50",
+    href: "/usersList",
   },
   {
     id: 2,
@@ -33,6 +36,7 @@ const userData = [
     subtitle: "Active Trainers",
     icon: <SchoolIcon fontSize="large" />,
     color: "#2196F3",
+    href:"/Trainer/Trainers"
   },
   {
     id: 3,
@@ -40,6 +44,7 @@ const userData = [
     subtitle: "Links Shared",
     icon: <LinkIcon fontSize="large" />,
     color: "#FF9800",
+    href:"/Assessment/ManageAssessmentLinks"
   },
   {
     id: 4,
@@ -47,6 +52,7 @@ const userData = [
     subtitle: "Assessments Taken (Trainer)",
     icon: <AssessmentIcon fontSize="large" />,
     color: "#9C27B0",
+    href:"/Assessment/AssessmentResults"
   },
   {
     id: 5,
@@ -54,6 +60,7 @@ const userData = [
     subtitle: "Assessments Taken (Self)",
     icon: <AssessmentIcon fontSize="large" />,
     color: "#E91E63",
+    href:"/Assessment/AssessmentResults"
   },
   {
     id: 6,
@@ -61,6 +68,7 @@ const userData = [
     subtitle: "Assessments Taken (Total)",
     icon: <AssessmentIcon fontSize="large" />,
     color: "#FF5722",
+    href:"/Assessment/AssessmentResults"
   },
   {
     id: 7,
@@ -68,6 +76,7 @@ const userData = [
     subtitle: "Cities",
     icon: <LocationCityIcon fontSize="large" />,
     color: "#00BCD4",
+    href:"/Settings&Masters/ManageCities"
   },
   {
     id: 8,
@@ -75,6 +84,7 @@ const userData = [
     subtitle: "Courses",
     icon: <MenuBookIcon fontSize="large" />,
     color: "#673AB7",
+    href:"/coursesList"
   },
   {
     id: 9,
@@ -82,6 +92,7 @@ const userData = [
     subtitle: "Active Languages",
     icon: <LanguageIcon fontSize="large" />,
     color: "#3F51B5",
+    href:"/Settings&Masters/ManageLanguages"
   },
 ];
 
@@ -139,20 +150,36 @@ const Dashboard = () => {
                 <Typography variant="subtitle1" sx={{ marginBottom: "1rem" }}>
                   {data.subtitle}
                 </Typography>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#fff",
-                    color: data.color,
-                    "&:hover": {
-                      backgroundColor: "#f5f5f5",
-                    },
-                  }}
-                  startIcon={<InfoIcon />}
-                  onClick={() => handleMoreInfo(data.id)}
-                >
-                  More Info
-                </Button>
+                {data.href ? (
+  <Link href={data.href} passHref>
+    <Button
+      variant="contained"
+      sx={{
+        backgroundColor: "#fff",
+        color: data.color,
+        "&:hover": { backgroundColor: "#f5f5f5" },
+      }}
+      startIcon={<InfoIcon />}
+      onClick={() => handleMoreInfo(data.id)}
+    >
+      More Info
+    </Button>
+  </Link>
+) : (
+  <Button
+    variant="contained"
+    sx={{
+      backgroundColor: "#fff",
+      color: data.color,
+      "&:hover": { backgroundColor: "#f5f5f5" },
+    }}
+    startIcon={<InfoIcon />}
+    onClick={() => handleMoreInfo(data.id)}
+  >
+    More Info
+  </Button>
+)}
+
               </CardContent>
             </Card>
           </Grid>

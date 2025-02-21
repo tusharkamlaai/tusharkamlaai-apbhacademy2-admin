@@ -11,23 +11,10 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
-import AddFaqs from "./addFaqs/page";
 import Link from "next/link";
+import NewCampaignURL from "../NewCampaignURL/page";
 
-const rowsData = [
-  { id: "1", title: "FAQ", orderDis: "1", Status: "Active", translate: "1" },
-  { id: "2", title: "FAQ2", orderDis: "1", Status: "Active", translate: "1" },
-  { id: "3", title: "FAQ3", orderDis: "2", Status: "Active", translate: "1" },
-  { id: "4", title: "FAQ4", orderDis: "2", Status: "Active", translate: "1" },
-  { id: "5", title: "FAQ5", orderDis: "3", Status: "Active", translate: "1" },
-  { id: "6", title: "FAQ6", orderDis: "3", Status: "Active", translate: "1" },
-  { id: "7", title: "FAQ7", orderDis: "4", Status: "Active", translate: "1" },
-  { id: "8", title: "FAQ8", orderDis: "4", Status: "Active", translate: "1" },
-  { id: "9", title: "FAQ9", orderDis: "5", Status: "Active", translate: "1" },
-  { id: "10", title: "FAQ10", orderDis: "5", Status: "Active", translate: "1" },
-  { id: "11", title: "FAQ11", orderDis: "6", Status: "Active", translate: "1" },
-  { id: "12", title: "FAQ12", orderDis: "6", Status: "Active", translate: "1" },
-];
+const rowsData = [];
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,6 +52,7 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
+  const [hasMounted, setHasMounted] = useState(false);
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
 
@@ -73,15 +61,15 @@ const Page = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const headings = ["Manage FAQs", "Add FAQs"];
+  const headings = ["Manage Campaigns", "Add  New Campaign URL"];
 
   const router = useRouter();
   const rowsPerPage = 5;
 
   useEffect(() => {
-    // Check screen size to switch between table & card view
+    setHasMounted(true);
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768); // Change view if width is below 768px
+      setIsMobile(window.innerWidth < 768);
     };
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
@@ -115,6 +103,10 @@ const Page = () => {
     return sortedData.slice(start, end);
   }, [sortedData, currentPage]);
 
+  if (!hasMounted) {
+    return null;
+  }
+
   const handleSelectChange = (event) => {
     setValue(event.target.value);
   };
@@ -134,8 +126,8 @@ const Page = () => {
               fullWidth
               displayEmpty
             >
-              <MenuItem value={0}>List</MenuItem>
-              <MenuItem value={1}>Add Course</MenuItem>
+              <MenuItem value={0}> Campaign URLs</MenuItem>
+              <MenuItem value={1}> New Campaign URL</MenuItem>
             </Select>
           ) : (
             <Tabs
@@ -143,8 +135,8 @@ const Page = () => {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="List" />
-              <Tab label="Add Faq" />
+              <Tab label="Campaign URLs" />
+              <Tab label=" New Campaign URL" />
             </Tabs>
           )}
         </Box>
@@ -157,24 +149,23 @@ const Page = () => {
                 variant="outlined"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                fullWidth
+                className="w-full"
               />
             </div>
           </div>
 
-          {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
           {!isMobile ? (
-            <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block hidden bg-white">
+            <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 bg-white">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     {[
                       "ID",
-                      "FAQ",
-                      "Display Order",
-                      "Status",
-                      "Translate Lang.",
-                      "Actions",
+                      "Campaign",
+                      "URL",
+                      "Short URL",
+                      "URL",
+                      "Short URL",
                     ].map((header, index) => (
                       <th key={index} className="px-6 py-3">
                         {header}
@@ -190,24 +181,35 @@ const Page = () => {
                     >
                       <td className="px-6 py-4">{row.id}</td>
                       <td className="px-6 py-4">{row.title}</td>
-                      <td className="px-6 py-4">{row.orderDis}</td>
+                      <td className="px-6 py-4">{row.quantity}</td>
+                      <td className="px-6 py-4">{row.required}</td>
                       <td
                         className={`px-6 py-4 ${
-                          row.Status == "Active" ? "text-green-600" : ""
-                        } ${row.Status == "Inactive" ? "text-red-600" : ""} ${
-                          row.Status == "Pending" ? "text-yellow-600" : ""
+                          row.status == "Active" ? "text-green-600" : ""
+                        } ${row.status == "Inactive" ? "text-red-600" : ""} ${
+                          row.status == "Pending" ? "text-yellow-600" : ""
                         }`}
                       >
-                        {row.Status}
+                        {row.status}
                       </td>
-                      <td className="px-6 py-4">{row.translate}</td>
                       <td className="px-6 py-4">
-                        <Link href={`/faqs/EditFaq/${row.id}`}>
+                        <Link
+                          href={`/categoriesList/CategoryCoursesChange/${row.id}`}
+                        >
                           <button className="text-blue-500 hover:text-blue-700">
-                            Edit
+                            {row.description}
                           </button>
                         </Link>
                       </td>
+                      <Link
+                        href={`/categoriesList/categoriesListEdit/${row.id}`}
+                      >
+                        <td className="px-6 py-4">
+                          <button className="text-blue-500 hover:text-blue-700">
+                            Edit
+                          </button>
+                        </td>
+                      </Link>
                     </tr>
                   ))}
                 </tbody>
@@ -239,37 +241,42 @@ const Page = () => {
                   key={index}
                   className="bg-white p-4 shadow rounded-lg border"
                 >
-                  <p>
-                    <strong>FAQ</strong> {row.title}
-                  </p>
+                  <h3 className="font-semibold text-lg">{row.title}</h3>
                   <p>
                     <strong>ID:</strong> {row.id}
                   </p>
                   <p>
-                    <strong>Display Order:</strong> {row.orderDis}
+                    <strong>Campaign:</strong> {row.quantity}
                   </p>
                   <p>
-                    <strong>Status:</strong>{" "}
-                    <span
-                      className={`px-2 py-1 rounded ${
-                        row.Status === "Active"
-                          ? "bg-green-200 text-green-800"
-                          : row.Status === "Pending"
-                          ? "bg-yellow-200 text-yellow-800"
-                          : "bg-red-200 text-red-800"
-                      }`}
-                    >
-                      {row.Status}
-                    </span>
+                    <strong>URL:</strong> {row.required}
                   </p>
                   <p>
-                    <strong>Translate Lang.:</strong> {row.translate}
+                    <strong>Short URL:</strong> {row.required}
                   </p>
+                  <p>
+                    <strong>URL:</strong> {row.required}
+                  </p>
+                  <p>
+                    <strong>Short URL:</strong> {row.required}
+                  </p>
+
                   <div className="flex justify-between mt-3">
-                    <Link href={`/faqs/EditFaq/${row.id}`}>
+                    {/* <button className="text-blue-500 hover:text-blue-700">View Courses</button> */}
+                    <Link
+                      href={`/categoriesList/CategoryCoursesChange/${row.id}`}
+                    >
                       <button className="text-blue-500 hover:text-blue-700">
-                        Edit
+                        {row.description}
                       </button>
+                    </Link>
+
+                    <Link href={`/categoriesList/categoriesListEdit/${row.id}`}>
+                      <td className="px-6 py-4">
+                        <button className="text-blue-500 hover:text-blue-700">
+                          Edit
+                        </button>
+                      </td>
                     </Link>
                   </div>
                 </div>
@@ -298,7 +305,7 @@ const Page = () => {
           )}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <AddFaqs />
+          <NewCampaignURL />
         </CustomTabPanel>
       </Box>
     </>

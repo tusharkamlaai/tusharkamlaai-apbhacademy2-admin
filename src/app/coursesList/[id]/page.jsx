@@ -96,6 +96,9 @@ const CourseEdit = () => {
                         name="photo"
                         style={{ width: "100%" }}
                       />
+                      <p className="text-[13px] mt-3">
+                        Maximum file size: 200 KB.
+                      </p>
                     </Grid>
                   </Grid>
 

@@ -2,7 +2,14 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import { Select, useMediaQuery, MenuItem } from "@mui/material";
+import {
+  Select,
+  useMediaQuery,
+  MenuItem,
+  Card,
+  CardContent,
+  Container,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -110,7 +117,6 @@ function a11yProps(index) {
   };
 }
 
-
 const Page = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [currentPage, setCurrentPage] = useState(0);
@@ -156,7 +162,7 @@ const Page = () => {
     if (searchTerm) {
       sortableItems = sortableItems.filter((item) =>
         Object.values(item).some((value) =>
-         String(value).toLowerCase().includes(searchTerm.toLowerCase())
+          String(value).toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
     }
@@ -380,7 +386,24 @@ const Page = () => {
             </div>
           )}
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}></CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <div className="items-center justify-center flex">
+            <Card className="lg:w-[70%]">
+              <CardContent>
+                <h2 className="font-semibold text-[20px] mb-3">
+                  Authorize Meet
+                </h2>
+
+                <hr />
+                <Container component="main" className="mt-8">
+                  <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <p>Trainer is not Mapped with Google Account User!</p>
+                  </Box>
+                </Container>
+              </CardContent>
+            </Card>
+          </div>
+        </CustomTabPanel>
       </Box>
     </>
   );

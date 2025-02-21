@@ -36,7 +36,7 @@ const page = () => {
         <Card className="lg:w-[70%] ">
           <CardContent>
             <h2 className="font-semibold text-[20px] mb-3">
-              Virtual Training Assessment Results - Division
+              Virtual Training Assessment Results - Region
             </h2>
             <hr />
             <div>

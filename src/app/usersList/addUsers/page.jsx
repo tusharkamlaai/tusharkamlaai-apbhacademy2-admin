@@ -60,6 +60,7 @@ const AddUser = () => {
 
   return (
     <>
+    {''}
       <div className="items-center justify-center flex">
         <Card className="lg:w-[70%]">
           <CardContent>
@@ -172,6 +173,7 @@ const AddUser = () => {
                           className="w-full lg:w-auto"
                         />
                       </div>
+                      Maximum file size: 200 KB.
                     </Grid>
                   </Grid>
                   <div className="flex gap-3 mt-8">

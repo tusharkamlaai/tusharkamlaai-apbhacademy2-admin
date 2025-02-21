@@ -6,6 +6,8 @@ import CardContent from "@mui/material/CardContent";
 import { TextField, Container, Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
+import { useRouter } from 'next/navigation'; 
+
 const AddCategories = () => {
   const [age, setAge] = useState("");
   const [state, setState] = useState("");
@@ -35,6 +37,8 @@ const AddCategories = () => {
   const districts = state
     ? states.find((s) => s.name === state)?.districts
     : [];
+
+    const router = useRouter();
 
   return (
     <>
@@ -206,9 +210,11 @@ const AddCategories = () => {
                     type="file"
                     accept="image/*"
                     name="photo"
-                    style={{ width: "100%", maxWidth: "500px" }} // Ensures input does not stretch too far in larger screens
+                    style={{ width: "100%", maxWidth: "500px" }} 
                   />
+                  
                 </div>
+                <p className="text-[13px] mt-3">Maximum file size: 200 KB.</p>  
 
                 <div className="text-center">
                   <label className="font-semibold" htmlFor="">
@@ -236,7 +242,7 @@ const AddCategories = () => {
                       <Button variant="contained">Save</Button>
                     </span>
                     <span>
-                      <Button variant="outlined">Cancel</Button>
+                      <Button   onClick={() => router.push('/')} variant="outlined">Cancel</Button>
                     </span>
                   </div>
                 </div>
