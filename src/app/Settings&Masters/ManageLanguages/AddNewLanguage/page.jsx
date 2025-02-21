@@ -15,7 +15,7 @@ const AddNewLanguage = () => {
     <>
       {""}
       <div className="items-center justify-center flex">
-        <Card className="lg:w-[70%] ">
+        <Card className="lg:w-[70%]  w-[100%]">
           <CardContent>
             <h2 className="font-semibold text-[20px] mb-3"> Add New Language</h2>
             <hr />

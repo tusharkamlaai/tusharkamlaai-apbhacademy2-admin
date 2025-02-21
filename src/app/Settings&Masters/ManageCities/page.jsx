@@ -157,8 +157,8 @@ export default function BasicTabs() {
             >
               <MenuItem value={0}> Cities List</MenuItem>
               <MenuItem value={1}> Add New City</MenuItem>
-              <MenuItem value={3}>Download Cities</MenuItem>
-              <MenuItem value={4}>Upload Cities</MenuItem>
+              <MenuItem value={2}>Download Cities</MenuItem>
+              <MenuItem value={3}>Upload Cities</MenuItem>
             </Select>
           ) : (
             <Tabs
