@@ -213,7 +213,7 @@ export default function BasicTabs() {
                       </td>
 
                       <td className="px-6 py-4">
-                        <Link href={`/coursesList/${row.ID}`}>
+                        <Link href={``}>
                           <button className="text-blue-500 hover:text-blue-700">
                             Edit
                           </button>
@@ -221,7 +221,7 @@ export default function BasicTabs() {
                       </td>
 
                       <td className="px-6 py-4">
-                        <Link href={`/coursesList/${row.ID}`}>
+                        <Link href={``}>
                           <button className="text-blue-500 hover:text-blue-700">
                             Delete
                           </button>
