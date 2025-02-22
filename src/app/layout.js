@@ -38,9 +38,9 @@ import AddIcon from "@mui/icons-material/Add";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 const drawerWidth = 240;
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 const menuItems = [
   // {
   //   href: "/coursesList/addCourse",
@@ -197,7 +197,6 @@ const SettingsMasters = [
     text: "Translations",
   },
 ];
-
 
 const Logout = [
   {
@@ -726,7 +725,7 @@ export default function RootLayout({ children }) {
               </div>
 
               <Divider />
-              <div className="text-center mt-3">Reports & Logs</div>
+              <div className="text-center mt-3 lg:visible invisible ">Reports & Logs</div>
               <div className="mt-5">
                 {ReportsLogs.map((items, index) => {
                   return (
@@ -792,7 +791,7 @@ export default function RootLayout({ children }) {
               </div>
 
               <Divider />
-              <div className="text-center mt-3">Reports & Logs</div>
+              <div className="text-center mt-3 lg:visible invisible">Reports & Logs</div>
               <div className="mt-5">
                 {Campaign.map((items, index) => {
                   return (
@@ -860,17 +859,24 @@ export default function RootLayout({ children }) {
               <Divider />
               <div className="text-center mt-3"> </div>
 
-              <div className="m-1 hs-dropdown relative ">
+              <div className="m-1 hs-dropdown relative">
                 <button
                   id="hs-dropdown-hover-event"
                   type="button"
-                  className="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                  className="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
                   aria-haspopup="menu"
                   aria-expanded={isOpen}
                   aria-label="Dropdown"
                   onClick={toggleDropdown}
                 >
-                  <SettingsIcon /> Settings & Masters
+                  <div className="flex gap-3 items-center">
+                    <span>
+                      {" "}
+                      <SettingsIcon />
+                    </span>
+                    <span className="none">Settings & Masters </span>
+                  </div>
+
                   <svg
                     className={`hs-dropdown-open:rotate-180 size-4 ${
                       isOpen ? "rotate-180" : ""
@@ -892,9 +898,7 @@ export default function RootLayout({ children }) {
                 <div
                   className={`hs-dropdown-menu transition-[opacity,margin] duration-300 ${
                     isOpen ? "opacity-100" : "opacity-0"
-                  } ${
-                    isOpen ? "block" : "hidden"
-                  } min-w-60 bg-white  mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700`}
+                  } ${isOpen ? "block" : "hidden"} min-w-60 bg-white mt-2`}
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="hs-dropdown-hover-event"
@@ -915,27 +919,14 @@ export default function RootLayout({ children }) {
                                   px: 1,
                                 },
                                 open
-                                  ? {
-                                      justifyContent: "initial",
-                                    }
-                                  : {
-                                      justifyContent: "center",
-                                    },
+                                  ? { justifyContent: "initial" }
+                                  : { justifyContent: "center" },
                               ]}
                             >
                               <ListItemIcon
                                 sx={[
-                                  {
-                                    minWidth: 0,
-                                    justifyContent: "center",
-                                  },
-                                  open
-                                    ? {
-                                        mr: 3,
-                                      }
-                                    : {
-                                        mr: "auto",
-                                      },
+                                  { minWidth: 0, justifyContent: "center" },
+                                  open ? { mr: 3 } : { mr: "auto" },
                                 ]}
                               >
                                 {items.icon}
@@ -965,8 +956,7 @@ export default function RootLayout({ children }) {
                 </div>
               </div>
 
-
-                <Divider />
+              <Divider />
               {/* <div className="text-center mt-3">logout</div> */}
               <div className="mt-5">
                 {Logout.map((items, index) => {
