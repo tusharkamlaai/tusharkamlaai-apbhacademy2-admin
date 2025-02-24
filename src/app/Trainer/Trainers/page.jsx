@@ -2,6 +2,8 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/navigation";
 import { Select, useMediaQuery, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -12,7 +14,9 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import AddNewTrainer from "../AddNewTrainer/page";
 
-const rowsData = [];
+const rowsData = [
+
+];
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,6 +54,7 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
+  const [hasMounted, setHasMounted] = useState(false);
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
 
@@ -64,9 +69,9 @@ const Page = () => {
   const rowsPerPage = 5;
 
   useEffect(() => {
-    // Check screen size to switch between table & card view
+    setHasMounted(true);
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768); // Change view if width is below 768px
+      setIsMobile(window.innerWidth < 768);
     };
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
@@ -100,6 +105,10 @@ const Page = () => {
     return sortedData.slice(start, end);
   }, [sortedData, currentPage]);
 
+  if (!hasMounted) {
+    return null;
+  }
+
   const handleSelectChange = (event) => {
     setValue(event.target.value);
   };
@@ -119,8 +128,8 @@ const Page = () => {
               fullWidth
               displayEmpty
             >
-              <MenuItem value={0}>Trainer List</MenuItem>
-              <MenuItem value={1}>Add New Trainer</MenuItem>
+              <MenuItem value={0}> Trainers List</MenuItem>
+              <MenuItem value={1}> Add New Trainer</MenuItem>
             </Select>
           ) : (
             <Tabs
@@ -128,7 +137,7 @@ const Page = () => {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="Trainer List" />
+              <Tab label="Trainers List" />
               <Tab label="Add New Trainer" />
             </Tabs>
           )}
@@ -142,14 +151,23 @@ const Page = () => {
                 variant="outlined"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                fullWidth
+                className="w-full"
               />
             </div>
+
+            {/* <Button
+              className="mb-5"
+              onClick={() => router.push("/categoriesList/addCategories")}
+              variant="contained"
+              startIcon={<AddIcon />}
+            >
+              Add New Category
+            </Button> */}
           </div>
 
           {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
           {!isMobile ? (
-            <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block hidden bg-white">
+            <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 bg-white">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
