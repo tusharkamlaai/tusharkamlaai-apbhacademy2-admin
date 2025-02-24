@@ -2,8 +2,6 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/navigation";
 import { Select, useMediaQuery, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -15,7 +13,51 @@ import Link from "next/link";
 import AddNewTrainer from "../AddNewTrainer/page";
 
 const rowsData = [
-
+  {
+    TrainerID: "T001",
+    Name: "Alex Johnson",
+    EmailID: "alex.johnson@email.com",
+    Mobile: "123-456-7890",
+    Division: "North",
+    Region: "Northeast",
+    Status: "Active",
+  },
+  {
+    TrainerID: "T002",
+    Name: "Casey Lee",
+    EmailID: "casey.lee@email.com",
+    Mobile: "098-765-4321",
+    Division: "East",
+    Region: "Southeast",
+    Status: "Inactive",
+  },
+  {
+    TrainerID: "T003",
+    Name: "Jordan Smith",
+    EmailID: "jordan.smith@email.com",
+    Mobile: "234-567-8901",
+    Division: "South",
+    Region: "Southwest",
+    Status: "Active",
+  },
+  {
+    TrainerID: "T004",
+    Name: "Taylor Brown",
+    EmailID: "taylor.brown@email.com",
+    Mobile: "345-678-9012",
+    Division: "West",
+    Region: "Northwest",
+    Status: "Active",
+  },
+  {
+    TrainerID: "T005",
+    Name: "Morgan Davis",
+    EmailID: "morgan.davis@email.com",
+    Mobile: "456-789-0123",
+    Division: "Central",
+    Region: "Midwest",
+    Status: "Inactive",
+  },
 ];
 
 function CustomTabPanel(props) {
@@ -155,17 +197,9 @@ const Page = () => {
               />
             </div>
 
-            {/* <Button
-              className="mb-5"
-              onClick={() => router.push("/categoriesList/addCategories")}
-              variant="contained"
-              startIcon={<AddIcon />}
-            >
-              Add New Category
-            </Button> */}
+         
           </div>
 
-          {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
           {!isMobile ? (
             <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 bg-white">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -194,15 +228,25 @@ const Page = () => {
                       key={rowIndex}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                     >
-                      <td className="px-6 py-4">{row.id}</td>
-                      <td className="px-6 py-4">{row.title}</td>
-                      <td className="px-6 py-4">{row.orderDis}</td>
+                      <td className="px-6 py-4">{row.TrainerID}</td>
+                      <td className="px-6 py-4">{row.Name}</td>
+                      <td className="px-6 py-4">{row.EmailID}</td>
+                      <td className="px-6 py-4">{row.Mobile}</td>
+                      <td className="px-6 py-4">{row.Division}</td>
+                      <td className="px-6 py-4">{row.Region}</td>
                       <td className="px-6 py-4">{row.Status}</td>
-                      <td className="px-6 py-4">{row.translate}</td>
+
                       <td className="px-6 py-4">
                         <Link href={`/faqs/EditFaq/${row.id}`}>
                           <button className="text-blue-500 hover:text-blue-700">
                             Edit
+                          </button>
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4">
+                        <Link href={`/faqs/EditFaq/${row.id}`}>
+                          <button className="text-blue-500 hover:text-blue-700">
+                            Delete
                           </button>
                         </Link>
                       </td>
@@ -238,13 +282,22 @@ const Page = () => {
                   className="bg-white p-4 shadow rounded-lg border"
                 >
                   <p>
-                    <strong>FAQ</strong> {row.title}
+                    <strong>Trainer ID</strong> {row.TrainerID}
                   </p>
                   <p>
-                    <strong>ID:</strong> {row.id}
+                    <strong>Name:</strong> {row.Name}
                   </p>
                   <p>
-                    <strong>Display Order:</strong> {row.orderDis}
+                    <strong>Email ID:</strong> {row.EmailID}
+                  </p>
+                  <p>
+                    <strong>Mobile:</strong> {row.Mobile}
+                  </p>{" "}
+                  <p>
+                    <strong>Division :</strong> {row.Division}
+                  </p>{" "}
+                  <p>
+                    <strong>Region:</strong> {row.Region}
                   </p>
                   <p>
                     <strong>Status:</strong>{" "}
@@ -260,13 +313,16 @@ const Page = () => {
                       {row.Status}
                     </span>
                   </p>
-                  <p>
-                    <strong>Translate Lang.:</strong> {row.translate}
-                  </p>
                   <div className="flex justify-between mt-3">
-                    <Link href={`/faqs/EditFaq/${row.id}`}>
+                    <Link href={``}>
                       <button className="text-blue-500 hover:text-blue-700">
                         Edit
+                      </button>
+                    </Link>
+
+                    <Link href={``}>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        Delete
                       </button>
                     </Link>
                   </div>
