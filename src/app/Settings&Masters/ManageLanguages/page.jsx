@@ -154,7 +154,7 @@ export default function BasicTabs() {
           </div>
 
           {!isMobile ? (
-            <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block hidden bg-white">
+            <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block bg-white">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
