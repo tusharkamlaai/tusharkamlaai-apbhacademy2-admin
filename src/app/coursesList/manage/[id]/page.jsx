@@ -7,6 +7,14 @@ import Box from "@mui/material/Box";
 import React, { useState, useMemo, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Link from "next/link";
+import {
+  Button,
+  Card,
+  CardContent,
+  Container,
+  FormControlLabel,
+  Radio,
+} from "@mui/material";
 
 const rowsData = [
   { ID: 1, Language: "English", Portal: "Active", Training: "Active" },
@@ -157,6 +165,7 @@ export default function CourseMange() {
           <Tab label="Course Language" {...a11yProps(0)} />
           <Tab label="Upload Translations" {...a11yProps(1)} />
           <Tab label="Upload Videos" {...a11yProps(2)} />
+          <Tab label="Upload Questions" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -351,10 +360,256 @@ export default function CourseMange() {
         )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+        <div className="items-center justify-center flex">
+          <Card className="lg:w-[70%]">
+            <CardContent>
+              <h2 className="font-semibold text-[20px] mb-3">
+                Upload Translations
+              </h2>
+              <hr />
+              <div>
+                <Container component="main">
+                  <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <div>
+                      <span>
+                        You can download the sample excel file here. The order
+                        of columns should be exactly as in
+                      </span>
+                      <span className="text-blue-400 ml-2">
+                        {" "}
+                        <a href="">sample file.</a>{" "}
+                      </span>
+                      <div>
+                        <span className="font-semibold">
+                          Columns in Excel File:{" "}
+                        </span>
+                        <span className="ml-2">
+                          Language ID, Course Name, Description, Course
+                          Duration, Active on Portal, Active in Training
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-5 items-center mt-5">
+                      <p className="font-semibold">Upload XLSX File:</p>
+                      <div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          name="photo"
+                          style={{ width: "100%" }}
+                        />
+                        <p className="text-[13px] mt-3">
+                          Maximum file size: 200 KB.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex mt-5 items-center">
+                      <div className="w-[200px]">
+                        <p> Old Records:</p>
+                      </div>
+                      <div>
+                        <span>
+                          {" "}
+                          <FormControlLabel
+                            value="male"
+                            control={<Radio />}
+                            label="Append New records. (Keep Existing as it is.)"
+                          />
+                        </span>
+                        <span>
+                          <FormControlLabel
+                            value="male"
+                            control={<Radio />}
+                            label="Remove All Old Records and Add New from Excel"
+                          />
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 mt-5 justify-center">
+                      <Button type="submit" variant="contained">
+                        Upload
+                      </Button>
+                      <Button type="submit" variant="outlined">
+                        Cancel
+                      </Button>
+                    </div>
+                  </Box>
+                </Container>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        <div className="items-center justify-center flex">
+          <Card className="lg:w-[70%]">
+            <CardContent>
+              <h2 className="font-semibold text-[20px] mb-3">
+                Upload Translations
+              </h2>
+              <hr />
+              <div>
+                <Container component="main">
+                  <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <div>
+                      <span>
+                        You can download the sample excel file here. The order
+                        of columns should be exactly as in
+                      </span>
+                      <span className="text-blue-400 ml-2">
+                        {" "}
+                        <a href="">sample file.</a>{" "}
+                      </span>
+                      <div>
+                        <span className="font-semibold">
+                          Columns in Excel File:{" "}
+                        </span>
+                        <span className="ml-2">
+                          Language ID, Title, YoutubeID, Description, Display
+                          Order, Status
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-5 items-center mt-5">
+                      <p className="font-semibold">Upload XLSX File:</p>
+                      <div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          name="photo"
+                          style={{ width: "100%" }}
+                        />
+                        <p className="text-[13px] mt-3">
+                          Maximum file size: 200 KB.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex mt-5 items-center">
+                      <div className="w-[200px]">
+                        <p> Old Records:</p>
+                      </div>
+                      <div>
+                        <span>
+                          {" "}
+                          <FormControlLabel
+                            value="male"
+                            control={<Radio />}
+                            label="Append New records. (Keep Existing as it is.)"
+                          />
+                        </span>
+                        <span>
+                          <FormControlLabel
+                            value="male"
+                            control={<Radio />}
+                            label="Remove All Old Records and Add New from Excel"
+                          />
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 mt-5 justify-center">
+                      <Button type="submit" variant="contained">
+                        Upload
+                      </Button>
+                      <Button type="submit" variant="outlined">
+                        Cancel
+                      </Button>
+                    </div>
+                  </Box>
+                </Container>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
+        <div className="items-center justify-center flex">
+          <Card className="lg:w-[70%]">
+            <CardContent>
+              <h2 className="font-semibold text-[20px] mb-3">
+                Upload Translations
+              </h2>
+              <hr />
+              <div>
+                <Container component="main">
+                  <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <div>
+                      <span>
+                        You can download the sample excel file here. The order
+                        of columns should be exactly as in
+                      </span>
+                      <span className="text-blue-400 ml-2">
+                        {" "}
+                        <a href="">sample file.</a>{" "}
+                      </span>
+                      <div>
+                        <span className="font-semibold">
+                          Columns in Excel File:{" "}
+                        </span>
+                        <span className="ml-2">
+                          Language ID, Question, Option 1, Option 2, Option 3,
+                          Option 4, Answer Option Number, Status
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-5 items-center mt-5">
+                      <p className="font-semibold">Upload XLSX File:</p>
+                      <div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          name="photo"
+                          style={{ width: "100%" }}
+                        />
+                        <p className="text-[13px] mt-3">
+                          Maximum file size: 200 KB.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex mt-5 items-center">
+                      <div className="w-[200px]">
+                        <p> Old Records:</p>
+                      </div>
+                      <div>
+                        <span>
+                          {" "}
+                          <FormControlLabel
+                            value="male"
+                            control={<Radio />}
+                            label="Append New records. (Keep Existing as it is.)"
+                          />
+                        </span>
+                        <span>
+                          <FormControlLabel
+                            value="male"
+                            control={<Radio />}
+                            label="Remove All Old Records and Add New from Excel"
+                          />
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 mt-5 justify-center">
+                      <Button type="submit" variant="contained">
+                        Upload
+                      </Button>
+                      <Button type="submit" variant="outlined">
+                        Cancel
+                      </Button>
+                    </div>
+                  </Box>
+                </Container>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </CustomTabPanel>
     </Box>
   );

@@ -42,11 +42,9 @@ const BulkUpdateBPNumbers = () => {
                         name="photo"
                         style={{ width: "100%" }}
                       />
-                      <p className="text-[13px] mt-3">
-                        Maximum file size: 200 KB.
-                      </p>
                     </div>
                   </div>
+                  <p className="text-[13px] mt-3">Maximum file size: 200 KB.</p>
 
                   <div className="flex gap-3 mt-5 justify-center">
                     <Button type="submit" variant="contained">
@@ -62,8 +60,6 @@ const BulkUpdateBPNumbers = () => {
           </CardContent>
         </Card>
       </div>
-
-     
     </>
   );
 };
