@@ -99,6 +99,8 @@ const Page = () => {
   const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
   const [hasMounted, setHasMounted] = useState(false);
   const [value, setValue] = React.useState(0);
+  const [languageFilter, setLanguageFilter] = useState("");
+  const [linkStatusFilter, setLinkStatusFilter] = useState("");
   const theme = useTheme();
 
   const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
@@ -141,11 +143,24 @@ const Page = () => {
     return sortableItems;
   }, [sortConfig, searchTerm]);
 
+  const filteredData = useMemo(() => {
+    return rowsData.filter((item) => {
+      return (
+        (!searchTerm ||
+          Object.values(item).some((val) =>
+            String(val).toLowerCase().includes(searchTerm.toLowerCase())
+          )) &&
+        (!languageFilter || item.Language === languageFilter) &&
+        (!linkStatusFilter || item.LinkStatus === linkStatusFilter)
+      );
+    });
+  }, [searchTerm, linkStatusFilter, languageFilter]);
+  
+
   const displayedRows = useMemo(() => {
     const start = currentPage * rowsPerPage;
-    const end = start + rowsPerPage;
-    return sortedData.slice(start, end);
-  }, [sortedData, currentPage]);
+    return filteredData.slice(start, start + rowsPerPage);
+  }, [filteredData, currentPage]);
 
   if (!hasMounted) {
     return null;
@@ -185,7 +200,7 @@ const Page = () => {
           )}
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <div className="lg:flex justAdd Categorify-end justify-end">
+          {/* <div className="lg:flex justAdd Categorify-end justify-end">
             <div className="mb-5 lg:mb-0">
               <TextField
                 id="Search"
@@ -196,8 +211,46 @@ const Page = () => {
                 className="w-full"
               />
             </div>
+          </div> */}
+          <div className="lg:flex justify-between my-4 gap-4">
+            <TextField
+              label="Search..."
+              variant="outlined"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              fullWidth
+            />
+            <Select
+              value={languageFilter}
+              onChange={(e) => setLanguageFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+            >
+              <MenuItem value="">All Categories</MenuItem>
+              {[...new Set(rowsData.map((row) => row.Language))].map(
+                (Language) => (
+                  <MenuItem key={Language} value={Language}>
+                    {Language}
+                  </MenuItem>
+                )
+              )}
+            </Select>
+            <Select
+              value={linkStatusFilter}
+              onChange={(e) => setLinkStatusFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+            >
+              <MenuItem value="">Link Status</MenuItem>
+              <MenuItem value="Active">Active</MenuItem>
+              <MenuItem value="Inactive">Inactive</MenuItem>
+            </Select>
+           
           </div>
 
+          <div className="mb-4">
+            <strong>Total Courses:</strong> {sortedData.length}
+          </div>
           {!isMobile ? (
             <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 bg-white">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -232,7 +285,17 @@ const Page = () => {
                       <td className="px-6 py-4">{row.TrainingDate}</td>
                       <td className="px-6 py-4">{row.Mobile}</td>
                       <td className="px-6 py-4">{row.LinkID}</td>
-                      <td className="px-6 py-4">{row.LinkStatus}</td>
+                      <td
+                        className={`px-6 py-4 ${
+                          row.LinkStatus == "Active" ? "text-green-600" : ""
+                        } ${
+                          row.LinkStatus == "Inactive" ? "text-red-600" : ""
+                        } ${
+                          row.LinkStatus == "Pending" ? "text-yellow-600" : ""
+                        }`}
+                      >
+                        <button> {row.LinkStatus}</button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

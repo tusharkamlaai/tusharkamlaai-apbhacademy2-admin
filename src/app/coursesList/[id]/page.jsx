@@ -13,11 +13,42 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const CourseEdit = () => {
   const router = useRouter();
+
+    const [warning, setWarning] = useState("");
+  
+    const handleFileUpload = (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+  
+      if (file.size > 500 * 1024) {
+        setWarning("File size exceeds 500 KB. Please upload a smaller file.");
+        event.target.value = "";
+        return;
+      }
+  
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        const { width, height } = img;
+        const standardWidth = 500;
+        const standardHeight = 500;
+  
+        if (width > standardWidth || height > standardHeight) {
+          setWarning(
+            `Uploaded image dimensions (${width}x${height}) do not match the required dimensions (${standardWidth}x${standardHeight}).`
+          );
+        } else {
+          setWarning("");
+        }
+      };
+    };
+  
 
   return (
     <>
@@ -87,19 +118,32 @@ const CourseEdit = () => {
                       </div>
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
-                        Course Display Image
-                      </Typography>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        name="photo"
-                        style={{ width: "100%" }}
-                      />
-                      <p className="text-[13px] mt-3">
-                        Maximum file size: 200 KB.
+                    <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+                      Profile Picture
+                    </Typography>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="photo"
+                      style={{ width: "100%" }}
+                      onChange={handleFileUpload}
+                    />
+                    <p className="text-[13px] mt-3">
+                      Maximum file size: 500 KB.
+                    </p>
+                    {warning && (
+                      <p
+                        style={{
+                          color: "orange",
+                          fontSize: "13px",
+                          marginTop: "8px",
+                        }}
+                      >
+                        {warning}
                       </p>
-                    </Grid>
+                    )}
+                  </Grid>
+
                   </Grid>
 
                   <div className="flex gap-3 mt-10">

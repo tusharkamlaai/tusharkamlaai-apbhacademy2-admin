@@ -9,24 +9,48 @@ import {
   Box,
   Container,
   Typography,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
 } from "@mui/material";
 import Link from "next/link";
 import { useState } from "react";
 
 const AddCourses = () => {
-  const [fileSize, setFileSize] = useState(null);
+  const [all, setAll] = useState("");
 
-  const handleFileChange = (event) => {
+  const [warning, setWarning] = useState("");
+
+  const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      setFileSize(file.size);
-    } else {
-      setFileSize(null);
+    if (!file) return;
+
+    if (file.size > 500 * 1024) {
+      setWarning("File size exceeds 500 KB. Please upload a smaller file.");
+      event.target.value = "";
+      return;
     }
+
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const { width, height } = img;
+      const standardWidth = 500;
+      const standardHeight = 500;
+
+      if (width > standardWidth || height > standardHeight) {
+        setWarning(
+          `Uploaded image dimensions (${width}x${height}) do not match the required dimensions (${standardWidth}x${standardHeight}).`
+        );
+      } else {
+        setWarning("");
+      }
+    };
   };
   return (
     <>
-    {''}
+      {""}
       <div className="items-center justify-center flex">
         <Card className="lg:w-[70%] ">
           <CardContent>
@@ -37,15 +61,23 @@ const AddCourses = () => {
                 <Box component="form" noValidate sx={{ mt: 1 }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
-                      <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Category"
-                        name="Category"
-                        autoComplete="given-name"
-                        autoFocus
-                      />
+                      <Box sx={{ minWidth: 120 }} >
+                        <FormControl fullWidth margin="normal">
+                          <InputLabel id="demo-simple-select-label">
+                            Category
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            label="Category"
+                            onChange={(e) => setAll(e.target.value)}
+                          >
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value={20}>Twenty</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Box>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField
@@ -79,21 +111,29 @@ const AddCourses = () => {
                     </Grid>
                     <Grid item xs={12}>
                       <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
-                        Course Display Image
+                      Course Display Image
                       </Typography>
                       <input
                         type="file"
                         accept="image/*"
                         name="photo"
                         style={{ width: "100%" }}
-                        onChange={handleFileChange}
+                        onChange={handleFileUpload}
                       />
-                      {fileSize && (
-                        <Typography variant="body2" sx={{ mt: 1 }}>
-                          File size: {(fileSize / 1024).toFixed(2)} KB
-                        </Typography>
+                      <p className="text-[13px] mt-3">
+                        Maximum file size: 500 KB.
+                      </p>
+                      {warning && (
+                        <p
+                          style={{
+                            color: "orange",
+                            fontSize: "13px",
+                            marginTop: "8px",
+                          }}
+                        >
+                          {warning}
+                        </p>
                       )}
-                    <p className="text-[13px] mt-3">Maximum file size: 200 KB.</p>  
                     </Grid>
                   </Grid>
 
@@ -102,7 +142,7 @@ const AddCourses = () => {
                     variant="body1"
                     sx={{ mt: 5, mb: 2 }}
                   >
-                    In the next step, you will add translations, Videos and
+                    In the next step, you will need to add course details such as translations, Videos and
                     Questionnaire of this course.
                   </Typography>
 

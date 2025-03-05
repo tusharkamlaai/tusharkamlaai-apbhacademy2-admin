@@ -38,7 +38,7 @@ const AddCategories = () => {
     ? states.find((s) => s.name === state)?.districts
     : [];
 
-    const router = useRouter();
+  const router = useRouter();
 
   return (
     <>
@@ -58,7 +58,7 @@ const AddCategories = () => {
                     id="english-question"
                     label="In English"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -72,7 +72,7 @@ const AddCategories = () => {
                     id="hindi-question"
                     label="In हिन्दी (Hindi)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -86,7 +86,7 @@ const AddCategories = () => {
                     id="gujarati-question"
                     label="In गुजराती (Gujarati)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -100,7 +100,7 @@ const AddCategories = () => {
                     id="marathi-question"
                     label="In मराठी (Marathi)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -114,7 +114,7 @@ const AddCategories = () => {
                     id="malayalam-question"
                     label="In മലയാളം (Malayalam)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -128,7 +128,7 @@ const AddCategories = () => {
                     id="kannada-question"
                     label="In ಕನ್ನಡ (Kannada)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -142,7 +142,7 @@ const AddCategories = () => {
                     id="bangla-question"
                     label="In বাংলা (Bangla)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -156,7 +156,7 @@ const AddCategories = () => {
                     id="odia-question"
                     label="In ଓଡିଆ (Odia)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -170,7 +170,7 @@ const AddCategories = () => {
                     id="tamil-question"
                     label="In தமிழ் (Tamil)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -184,7 +184,7 @@ const AddCategories = () => {
                     id="telugu-question"
                     label="In తెలుగు (Telugu)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -198,7 +198,7 @@ const AddCategories = () => {
                     id="assamese-question"
                     label="In অসমীয়া (Assamese)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -240,12 +240,9 @@ const AddCategories = () => {
                       <Button variant="contained">Update</Button>
                     </span>
                     <span>
-                    <Button
-                            variant="outlined"
-                            onClick={() => router.back()}
-                          >
-                            Cancel
-                          </Button>
+                      <Button variant="outlined" onClick={() => router.back()}>
+                        Cancel
+                      </Button>
                     </span>
                   </div>
                 </div>

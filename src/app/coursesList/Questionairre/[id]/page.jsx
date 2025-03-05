@@ -107,13 +107,11 @@ function a11yProps(index) {
 
 const page = () => {
   const [value, setValue] = useState(0);
-  const [selectedLanguage, setSelectedLanguage] = useState("");
-  
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [currentPage, setCurrentPage] = useState(0);
@@ -179,6 +177,7 @@ const page = () => {
             >
               <MenuItem value={0}> Course Questionairre</MenuItem>
               <MenuItem value={1}>Interactive Questionairre</MenuItem>
+              <MenuItem value={3}>Upload Questions</MenuItem>
             </Select>
           ) : (
             <Tabs
@@ -186,8 +185,9 @@ const page = () => {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label=" Course Questionairre" />
-              <Tab label=" Interactive Questionairre" />
+              <Tab label="Course Questionairre" />
+              <Tab label="Interactive Questionairre" />
+              <Tab label="Upload Questions" />
             </Tabs>
           )}
         </Box>
@@ -240,7 +240,7 @@ const page = () => {
 
                     {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
                     {!isMobile ? (
-                      <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block hidden bg-white">
+                      <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block  bg-white">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                           <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -322,8 +322,7 @@ const page = () => {
                             <p>
                               <strong>Status:</strong> {row.Status}
                             </p>
-                           
-                          
+
                             <div className="flex justify-between mt-3">
                               <button className="text-blue-500 hover:text-blue-700">
                                 Edit
@@ -446,7 +445,9 @@ const page = () => {
                     </div>
                     <div className="flex justify-center mt-5 gap-5">
                       <Button variant="contained">Save</Button>
-                      <Button variant="outlined" onClick={() => router.back()}>Cancel</Button>
+                      <Button variant="outlined" onClick={() => router.back()}>
+                        Cancel
+                      </Button>
                     </div>
                   </Container>
                 </div>
@@ -515,7 +516,6 @@ const page = () => {
                                 "Status",
                                 "Edit",
                                 "Delete",
-
                               ].map((header, index) => (
                                 <th key={index} className="px-3 py-3">
                                   {header}
@@ -524,14 +524,12 @@ const page = () => {
                             </tr>
                           </thead>
                           <tbody>
-                              <tr
-                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                              >
-                                <td className="px-6 py-4"></td>
-                                <td className="px-6 py-4"></td>
-                                <td className="px-6 py-4"></td>
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                              <td className="px-6 py-4"></td>
+                              <td className="px-6 py-4"></td>
+                              <td className="px-6 py-4"></td>
 
-                                {/* <td className="px-6 py-4">
+                              {/* <td className="px-6 py-4">
                                   <button className="text-blue-500 hover:text-blue-700">
                                     Edit
                                   </button>
@@ -542,7 +540,7 @@ const page = () => {
                                     Delete
                                   </button>
                                 </td> */}
-                              </tr>
+                            </tr>
                           </tbody>
                         </table>
                         <div className="flex justify-between p-4">
@@ -571,39 +569,37 @@ const page = () => {
                       </div>
                     ) : (
                       <div className="grid gap-4 mt-5">
-                          <div
-                            className="bg-white p-4 shadow rounded-lg border"
-                          >
-                            <p>
-                              <strong>ID:</strong> 
-                            </p>
-                            <p>
-                              <strong>Qtype:</strong>
-                            </p>
-                            <p>
-                              <strong>After Video ID:</strong> 
-                            </p>
-                            <p>
-                              <strong>Question:</strong> 
-                            </p>
-                            <p>
-                              <strong>Status:</strong> 
-                            </p>
-                            <p>
-                              <strong>Edit:</strong>
-                            </p>
-                            <p>
-                              <strong>Delete:</strong>
-                            </p>
-                            <div className="flex justify-between mt-3">
-                              <button className="text-blue-500 hover:text-blue-700">
-                                Edit
-                              </button>
-                              <button className="text-blue-500 hover:text-blue-700">
-                                Delet
-                              </button>
-                            </div>
+                        <div className="bg-white p-4 shadow rounded-lg border">
+                          <p>
+                            <strong>ID:</strong>
+                          </p>
+                          <p>
+                            <strong>Qtype:</strong>
+                          </p>
+                          <p>
+                            <strong>After Video ID:</strong>
+                          </p>
+                          <p>
+                            <strong>Question:</strong>
+                          </p>
+                          <p>
+                            <strong>Status:</strong>
+                          </p>
+                          <p>
+                            <strong>Edit:</strong>
+                          </p>
+                          <p>
+                            <strong>Delete:</strong>
+                          </p>
+                          <div className="flex justify-between mt-3">
+                            <button className="text-blue-500 hover:text-blue-700">
+                              Edit
+                            </button>
+                            <button className="text-blue-500 hover:text-blue-700">
+                              Delet
+                            </button>
                           </div>
+                        </div>
 
                         <div className="flex justify-between p-4">
                           <button
@@ -679,12 +675,97 @@ const page = () => {
                           <MenuItem>Select</MenuItem>
                         </Select>
                       </FormControl>
-                      
                     </div>
                     <div className="flex justify-center mt-5 gap-5">
-                      <Button variant="contained" >Save</Button>
-                      <Button variant="outlined" onClick={() => router.back()}>Cancel</Button>
+                      <Button variant="contained">Save</Button>
+                      <Button variant="outlined" onClick={() => router.back()}>
+                        Cancel
+                      </Button>
                     </div>
+                  </Container>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          <div className="items-center justify-center flex">
+            <Card className="lg:w-[70%]">
+              <CardContent>
+                <h2 className="font-semibold text-[20px] mb-3">
+                  Upload Questions
+                </h2>
+                <hr />
+                <div>
+                  <Container component="main">
+                    <Box component="form" noValidate sx={{ mt: 1 }}>
+                      <div>
+                        <span>
+                          You can download the sample excel file here. The order
+                          of columns should be exactly as in
+                        </span>
+                        <span className="text-blue-400 ml-2">
+                          {" "}
+                          <a href="">sample file.</a>{" "}
+                        </span>
+                        <div>
+                          <span className="font-semibold">
+                            Columns in Excel File:{" "}
+                          </span>
+                          <span className="ml-2">
+                            Language ID, Question, Option 1, Option 2, Option 3,
+                            Option 4, Answer Option Number, Status
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-5 items-center mt-5">
+                        <p className="font-semibold">Upload XLSX File:</p>
+                        <div>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            name="photo"
+                            style={{ width: "100%" }}
+                          />
+                          <p className="text-[13px] mt-3">
+                            Maximum file size: 200 KB.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex mt-5 items-center">
+                        <div className="w-[200px]">
+                          <p> Old Records:</p>
+                        </div>
+                        <div>
+                          <span>
+                            {" "}
+                            <FormControlLabel
+                              value="male"
+                              control={<Radio />}
+                              label="Append New records. (Keep Existing as it is.)"
+                            />
+                          </span>
+                          <span>
+                            <FormControlLabel
+                              value="male"
+                              control={<Radio />}
+                              label="Remove All Old Records and Add New from Excel"
+                            />
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-3 mt-5 justify-center">
+                        <Button type="submit" variant="contained">
+                          Upload
+                        </Button>
+                        <Button type="submit" variant="outlined">
+                          Cancel
+                        </Button>
+                      </div>
+                    </Box>
                   </Container>
                 </div>
               </CardContent>

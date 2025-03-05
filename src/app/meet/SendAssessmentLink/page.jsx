@@ -126,6 +126,7 @@ const SendAssessmentLink = () => {
                           value={selectedDate}
                           onChange={(newValue) => setSelectedDate(newValue)}
                           className="w-[100%]"
+                          format="DD/MM/YYYY" 
                         />
                       </LocalizationProvider>
                     </Grid>
@@ -134,12 +135,12 @@ const SendAssessmentLink = () => {
                       <Box className="lg:w-[100%]">
                         <FormControl fullWidth>
                           <InputLabel id="demo-simple-select-label">
-                            Numbers
+                          No. of Mobile
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            label="Course"
+                            label="No. of Mobile"
                             // onChange={handleChange}
                           >
                             <MenuItem value="Course">Numbers</MenuItem>

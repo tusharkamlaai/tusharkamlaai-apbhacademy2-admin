@@ -21,6 +21,34 @@ const AddUser = () => {
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
   const [city, setCity] = useState("");
+  const [warning, setWarning] = useState("");
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 500 * 1024) {
+      setWarning("File size exceeds 500 KB. Please upload a smaller file.");
+      event.target.value = "";
+      return;
+    }
+
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const { width, height } = img;
+      const standardWidth = 500;
+      const standardHeight = 500;
+
+      if (width > standardWidth || height > standardHeight) {
+        setWarning(
+          `Uploaded image dimensions (${width}x${height}) do not match the required dimensions (${standardWidth}x${standardHeight}).`
+        );
+      } else {
+        setWarning("");
+      }
+    };
+  };
 
   const handleAgeChange = (event) => {
     setAge(event.target.value);
@@ -60,7 +88,7 @@ const AddUser = () => {
 
   return (
     <>
-    {''}
+      {""}
       <div className="items-center justify-center flex">
         <Card className="lg:w-[70%]">
           <CardContent>
@@ -164,16 +192,30 @@ const AddUser = () => {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <div className="flex flex-col lg:flex-row gap-5 items-center">
-                        <Typography>Profile Picture:</Typography>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          name="photo"
-                          className="w-full lg:w-auto"
-                        />
-                      </div>
-                      Maximum file size: 200 KB.
+                      <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+                        Profile Picture
+                      </Typography>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        name="photo"
+                        style={{ width: "100%" }}
+                        onChange={handleFileUpload}
+                      />
+                      <p className="text-[13px] mt-3">
+                        Maximum file size: 500 KB.
+                      </p>
+                      {warning && (
+                        <p
+                          style={{
+                            color: "orange",
+                            fontSize: "13px",
+                            marginTop: "8px",
+                          }}
+                        >
+                          {warning}
+                        </p>
+                      )}
                     </Grid>
                   </Grid>
                   <div className="flex gap-3 mt-8">

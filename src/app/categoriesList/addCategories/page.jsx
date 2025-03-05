@@ -6,12 +6,41 @@ import CardContent from "@mui/material/CardContent";
 import { TextField, Container, Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from "next/navigation";
 
 const AddCategories = () => {
   const [age, setAge] = useState("");
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
+
+  const [warning, setWarning] = useState("");
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 500 * 1024) {
+      setWarning("File size exceeds 500 KB. Please upload a smaller file.");
+      event.target.value = "";
+      return;
+    }
+
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const { width, height } = img;
+      const standardWidth = 500;
+      const standardHeight = 500;
+
+      if (width > standardWidth || height > standardHeight) {
+        setWarning(
+          `Uploaded image dimensions (${width}x${height}) do not match the required dimensions (${standardWidth}x${standardHeight}).`
+        );
+      } else {
+        setWarning("");
+      }
+    };
+  };
 
   const handleAgeChange = (event) => {
     setAge(event.target.value);
@@ -38,7 +67,7 @@ const AddCategories = () => {
     ? states.find((s) => s.name === state)?.districts
     : [];
 
-    const router = useRouter();
+  const router = useRouter();
 
   return (
     <>
@@ -58,7 +87,7 @@ const AddCategories = () => {
                     id="english-question"
                     label="In English"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -72,7 +101,7 @@ const AddCategories = () => {
                     id="hindi-question"
                     label="In हिन्दी (Hindi)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -86,7 +115,7 @@ const AddCategories = () => {
                     id="gujarati-question"
                     label="In गुजराती (Gujarati)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -100,7 +129,7 @@ const AddCategories = () => {
                     id="marathi-question"
                     label="In मराठी (Marathi)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -114,7 +143,7 @@ const AddCategories = () => {
                     id="malayalam-question"
                     label="In മലയാളം (Malayalam)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -128,7 +157,7 @@ const AddCategories = () => {
                     id="kannada-question"
                     label="In ಕನ್ನಡ (Kannada)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -142,7 +171,7 @@ const AddCategories = () => {
                     id="bangla-question"
                     label="In বাংলা (Bangla)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -156,7 +185,7 @@ const AddCategories = () => {
                     id="odia-question"
                     label="In ଓଡିଆ (Odia)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -170,7 +199,7 @@ const AddCategories = () => {
                     id="tamil-question"
                     label="In தமிழ் (Tamil)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -184,7 +213,7 @@ const AddCategories = () => {
                     id="telugu-question"
                     label="In తెలుగు (Telugu)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
@@ -198,23 +227,44 @@ const AddCategories = () => {
                     id="assamese-question"
                     label="In অসমীয়া (Assamese)"
                     variant="outlined"
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 1 }}
                     className="lg:w-[70%] w-[100%] "
                   />
                 </div>
-                <div className="mt-5 flex flex-col lg:flex-row justify-center items-center px-5">
-                  <Typography variant="body1" className="mb-1 lg:mb-0 lg:mr-3">
-                    Category Image:
-                  </Typography>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    name="photo"
-                    style={{ width: "100%", maxWidth: "500px" }} 
-                  />
-                  
+                <div className="mt-5 flex px-5 space-y-4 lg:space-y-0 lg:space-x-6">
+                  <div className="flex-shrink-0">
+                    <Typography
+                      variant="body1"
+                      sx={{ mt: 2, mb: 1 }}
+                      className="w-[250px]"
+                    >
+                      Course Display Image:
+                    </Typography>
+                  </div>
+                  <div className="flex-grow">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="photo"
+                      className="w-full"
+                      onChange={handleFileUpload}
+                    />
+                    <p className="text-[13px] mt-3">
+                      Maximum file size: 500 KB.
+                    </p>
+                    {warning && (
+                      <p
+                        style={{
+                          color: "orange",
+                          fontSize: "13px",
+                          marginTop: "8px",
+                        }}
+                      >
+                        {warning}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <p className="text-[13px] mt-3">Maximum file size: 200 KB.</p>  
 
                 <div className="text-center">
                   <label className="font-semibold" htmlFor="">
@@ -242,7 +292,12 @@ const AddCategories = () => {
                       <Button variant="contained">Save</Button>
                     </span>
                     <span>
-                      <Button   onClick={() => router.push('/')} variant="outlined">Cancel</Button>
+                      <Button
+                        onClick={() => router.push("/")}
+                        variant="outlined"
+                      >
+                        Cancel
+                      </Button>
                     </span>
                   </div>
                 </div>

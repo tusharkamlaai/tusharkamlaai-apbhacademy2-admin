@@ -225,7 +225,9 @@ const Page = () => {
               />
             </div>
           </div>
-
+          <div className="mb-4">
+<strong>Total Courses:</strong> {sortedData.length}
+</div>
           {!isMobile ? (
             <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 bg-white">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

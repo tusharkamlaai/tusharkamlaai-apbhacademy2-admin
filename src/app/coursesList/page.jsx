@@ -11,6 +11,7 @@ import Link from "next/link";
 import AddCourses from "./addCourse/page";
 import { Select, useMediaQuery, MenuItem, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 const rowsData = [
   {
@@ -87,7 +88,7 @@ const rowsData = [
     Module: "Module 4",
     Featured: "No",
     In_Portal: "Active",
-    In_Training: "Active",
+    In_Training: "Inactive",
     Languages: "1",
   },
 ];
@@ -132,6 +133,10 @@ export default function BasicTabs() {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [portalFilter, setPortalFilter] = useState("");
+  const [trainingFilter, setTrainingFilter] = useState("");
+
   const [isMobile, setIsMobile] = useState(false); // Detect Mobile
   const theme = useTheme();
   const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
@@ -169,11 +174,24 @@ export default function BasicTabs() {
     return sortableItems;
   }, [sortConfig, searchTerm]);
 
+  const filteredData = useMemo(() => {
+    return rowsData.filter((item) => {
+      return (
+        (!searchTerm ||
+          Object.values(item).some((val) =>
+            val.toLowerCase().includes(searchTerm.toLowerCase())
+          )) &&
+        (!categoryFilter || item.Category === categoryFilter) &&
+        (!portalFilter || item.In_Portal === portalFilter) &&
+        (!trainingFilter || item.In_Training === trainingFilter)
+      );
+    });
+  }, [searchTerm, categoryFilter, portalFilter, trainingFilter]);
+
   const displayedRows = useMemo(() => {
     const start = currentPage * rowsPerPage;
-    const end = start + rowsPerPage;
-    return sortedData.slice(start, end);
-  }, [sortedData, currentPage]);
+    return filteredData.slice(start, start + rowsPerPage);
+  }, [filteredData, currentPage]);
 
   const handleSelectChange = (event) => {
     setValue(event.target.value);
@@ -215,7 +233,7 @@ export default function BasicTabs() {
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <div className="lg:flex justify-end">
-            <div className="mb-5 lg:mb-0">
+            {/* <div className="mb-5 lg:mb-0">
               <TextField
                 id="Search"
                 label="Search..."
@@ -224,7 +242,63 @@ export default function BasicTabs() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-[100%]"
               />
+            </div> */}
+          </div>
+
+          <div className="flex items-center gap-2 mb-4 mt-5">
+            <div>
+              <FilterListIcon />
             </div>
+            <div>Filter</div>
+          </div>
+
+          <div className="lg:flex justify-between my-4 gap-4">
+            <TextField
+              label="Search..."
+              variant="outlined"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              fullWidth
+            />
+            <Select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+            >
+              <MenuItem value="">All Categories</MenuItem>
+              {[...new Set(rowsData.map((row) => row.Category))].map(
+                (category) => (
+                  <MenuItem key={category} value={category}>
+                    {category}
+                  </MenuItem>
+                )
+              )}
+            </Select>
+            <Select
+              value={portalFilter}
+              onChange={(e) => setPortalFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+            >
+              <MenuItem value="">All Portal Status</MenuItem>
+              <MenuItem value="Active">Active</MenuItem>
+              <MenuItem value="Inactive">Inactive</MenuItem>
+            </Select>
+            <Select
+              value={trainingFilter}
+              onChange={(e) => setTrainingFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+            >
+              <MenuItem value="">All Training Status</MenuItem>
+              <MenuItem value="Active">Active</MenuItem>
+              <MenuItem value="Inactive">Inactive</MenuItem>
+            </Select>
+          </div>
+
+          <div className="mb-4">
+            <strong>Total Courses:</strong> {sortedData.length}
           </div>
 
           {!isMobile ? (
@@ -262,9 +336,31 @@ export default function BasicTabs() {
                       <td className="px-6 py-4">{row.Course_Name}</td>
                       <td className="px-6 py-4">{row.Course_Code}</td>
                       <td className="px-6 py-4">{row.Module}</td>
-                      <td className="px-6 py-4">{row.Featured}</td>
-                      <td className="px-6 py-4">{row.In_Portal}</td>
-                      <td className="px-6 py-4">{row.In_Training}</td>
+                      <td className="px-6 py-4">{row.Featured}</td>{" "}
+                      <td
+                        className={`px-6 py-4 ${
+                          row.In_Portal == "Active" ? "text-green-600" : ""
+                        } ${
+                          row.In_Portal == "Inactive" ? "text-red-600" : ""
+                        } ${
+                          row.In_Portal == "Pending" ? "text-yellow-600" : ""
+                        }`}
+                      >
+                        <button>{row.In_Portal}</button>
+                      </td>
+                      <td
+                        className={`px-6 py-4 ${
+                          row.In_Training == "Active" ? "text-green-600" : ""
+                        } ${
+                          row.In_Training == "Inactive" ? "text-red-600" : ""
+                        } ${
+                          row.In_Training == "Pending" ? "text-yellow-600" : ""
+                        }`}
+                      >
+                        <button> {row.In_Training}</button>
+                      </td>
+                      {/* <td className="px-6 py-4">{row.In_Portal}</td> */}
+                      {/* <td className="px-6 py-4">{row.In_Training}</td> */}
                       <td className="px-6 py-4">{row.Languages}</td>
                       <td className="px-6 py-4">
                         <Link href={`/coursesList/manage/${row.ID}`}>
@@ -273,7 +369,6 @@ export default function BasicTabs() {
                           </button>
                         </Link>
                       </td>
-
                       <td className="px-6 py-4">
                         <Link href={`/coursesList/${row.ID}`}>
                           <button className="text-blue-500 hover:text-blue-700">

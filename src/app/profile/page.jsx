@@ -11,10 +11,39 @@ import {
   Container,
   Typography,
 } from "@mui/material";
-import { useRouter } from 'next/navigation'; // Correct import
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const router = useRouter();
+
+  const [warning, setWarning] = useState("");
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 500 * 1024) {
+      setWarning("File size exceeds 500 KB. Please upload a smaller file.");
+      event.target.value = "";
+      return;
+    }
+
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const { width, height } = img;
+      const standardWidth = 500;
+      const standardHeight = 500;
+
+      if (width > standardWidth || height > standardHeight) {
+        setWarning(
+          `Uploaded image dimensions (${width}x${height}) do not match the required dimensions (${standardWidth}x${standardHeight}).`
+        );
+      } else {
+        setWarning("");
+      }
+    };
+  };
 
   return (
     <>
@@ -78,10 +107,22 @@ const page = () => {
                         accept="image/*"
                         name="photo"
                         style={{ width: "100%" }}
+                        onChange={handleFileUpload}
                       />
                       <p className="text-[13px] mt-3">
-                        Maximum file size: 200 KB.
+                        Maximum file size: 500 KB.
                       </p>
+                      {warning && (
+                        <p
+                          style={{
+                            color: "orange",
+                            fontSize: "13px",
+                            marginTop: "8px",
+                          }}
+                        >
+                          {warning}
+                        </p>
+                      )}
                     </Grid>
                   </Grid>
 
@@ -90,10 +131,7 @@ const page = () => {
                       Save
                     </Button>
 
-                    <Button
-                      onClick={() => router.push('/')}
-                      variant="outlined"
-                    >
+                    <Button onClick={() => router.push("/")} variant="outlined">
                       Cancel
                     </Button>
                   </div>

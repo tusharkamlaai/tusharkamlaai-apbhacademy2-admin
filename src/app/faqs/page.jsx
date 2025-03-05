@@ -2,8 +2,6 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/navigation";
 import { Select, useMediaQuery, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -13,6 +11,7 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import AddFaqs from "./addFaqs/page";
 import Link from "next/link";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 const rowsData = [
   { id: "1", title: "FAQ", orderDis: "1", Status: "Active", translate: "1" },
@@ -23,7 +22,7 @@ const rowsData = [
   { id: "6", title: "FAQ6", orderDis: "3", Status: "Active", translate: "1" },
   { id: "7", title: "FAQ7", orderDis: "4", Status: "Active", translate: "1" },
   { id: "8", title: "FAQ8", orderDis: "4", Status: "Active", translate: "1" },
-  { id: "9", title: "FAQ9", orderDis: "5", Status: "Active", translate: "1" },
+  { id: "9", title: "FAQ9", orderDis: "5", Status: "Inactive", translate: "1" },
   { id: "10", title: "FAQ10", orderDis: "5", Status: "Active", translate: "1" },
   { id: "11", title: "FAQ11", orderDis: "6", Status: "Active", translate: "1" },
   { id: "12", title: "FAQ12", orderDis: "6", Status: "Active", translate: "1" },
@@ -64,8 +63,11 @@ const Page = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
+  const [isMobile, setIsMobile] = useState(false);
   const [value, setValue] = React.useState(0);
+  const [titleFilter, setTitleFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+
   const theme = useTheme();
 
   const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
@@ -109,11 +111,23 @@ const Page = () => {
     return sortableItems;
   }, [sortConfig, searchTerm]);
 
+  const filteredData = useMemo(() => {
+    return rowsData.filter((item) => {
+      return (
+        (!searchTerm ||
+          Object.values(item).some((val) =>
+            val.toLowerCase().includes(searchTerm.toLowerCase())
+          )) &&
+        (!titleFilter || item.title === titleFilter) &&
+        (!statusFilter || item.Status === statusFilter)
+      );
+    });
+  }, [searchTerm, titleFilter, statusFilter]);
+
   const displayedRows = useMemo(() => {
     const start = currentPage * rowsPerPage;
-    const end = start + rowsPerPage;
-    return sortedData.slice(start, end);
-  }, [sortedData, currentPage]);
+    return filteredData.slice(start, start + rowsPerPage);
+  }, [filteredData, currentPage]);
 
   const handleSelectChange = (event) => {
     setValue(event.target.value);
@@ -149,7 +163,7 @@ const Page = () => {
           )}
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <div className="lg:flex justify-end">
+          {/* <div className="lg:flex justify-end">
             <div className="mb-5 lg:mb-0">
               <TextField
                 id="Search"
@@ -160,8 +174,51 @@ const Page = () => {
                 fullWidth
               />
             </div>
+          </div> */}
+
+          <div className="flex items-center gap-2 mb-4 mt-5">
+            <div>
+              <FilterListIcon />
+            </div>
+            <div>Filter</div>
           </div>
 
+          <div className="lg:flex justify-between my-4 gap-4">
+            <TextField
+              label="Search..."
+              variant="outlined"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              fullWidth
+            />
+            <Select
+              value={titleFilter}
+              onChange={(e) => setTitleFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+            >
+              <MenuItem value="">All Categories</MenuItem>
+              {[...new Set(rowsData.map((row) => row.title))].map((title) => (
+                <MenuItem key={title} value={title}>
+                  {title}
+                </MenuItem>
+              ))}
+            </Select>
+            <Select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+            >
+              <MenuItem value="">Status</MenuItem>
+              <MenuItem value="Active">Active</MenuItem>
+              <MenuItem value="Inactive">Inactive</MenuItem>
+            </Select>
+          </div>
+
+          <div className="mb-4">
+            <strong>Total Courses:</strong> {sortedData.length}
+          </div>
           {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
           {!isMobile ? (
             <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 bg-white">
@@ -199,7 +256,7 @@ const Page = () => {
                           row.Status == "Pending" ? "text-yellow-600" : ""
                         }`}
                       >
-                        {row.Status}
+                        <button>{row.Status}</button>
                       </td>
                       <td className="px-6 py-4">{row.translate}</td>
                       <td className="px-6 py-4">
@@ -260,7 +317,7 @@ const Page = () => {
                           : "bg-red-200 text-red-800"
                       }`}
                     >
-                      {row.Status}
+                      <button> {row.Status}</button>
                     </span>
                   </p>
                   <p>

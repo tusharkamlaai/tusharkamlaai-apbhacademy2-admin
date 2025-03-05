@@ -15,6 +15,7 @@ import AddUser from "./addUsers/page";
 import Link from "next/link";
 import BulkUpdateBPNumbers from "./BulkUpdateBPNumbers/page";
 import BulkUpdateUsers from "./BulkUpdateUsers/page";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 const rowsData = [
   {
@@ -34,6 +35,16 @@ const rowsData = [
     bpNumber: "12345",
     state: "Maharashtra",
     city: "Mumbai",
+    district: "Mumbai",
+    status: "Active",
+  },
+  {
+    id: 2,
+    name: "user",
+    mobile: "7770080488",
+    bpNumber: "12345",
+    state: "Goa",
+    city: "Hydrabad",
     district: "Mumbai",
     status: "Active",
   },
@@ -76,6 +87,10 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
   const [value, setValue] = React.useState(0);
+  const [stateFilter, setStateFilter] = useState("");
+  const [cityFilter, setCityFilter] = useState("");
+  const [districtFilter, setDistrictFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const theme = useTheme();
 
   const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
@@ -83,7 +98,13 @@ const Page = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const headings = ["Manage User", "Add New User","Download","User Upload BP Numbers","Bulk Update Users"];
+  const headings = [
+    "Manage User",
+    "Add New User",
+    "Download",
+    "User Upload BP Numbers",
+    "Bulk Update Users",
+  ];
 
   const router = useRouter();
   const rowsPerPage = 5;
@@ -109,20 +130,40 @@ const Page = () => {
         return 0;
       });
     }
-    if (searchTerm) {
-      sortableItems = sortableItems.filter((item) =>
-        Object.values(item).some((value) =>
-          String(value).toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      );
-    }
     return sortableItems;
-  }, [sortConfig, searchTerm]);
+  }, [sortConfig]);
+
+  const filteredData = useMemo(() => {
+    return sortedData.filter((item) => {
+      return (
+        (!searchTerm ||
+          Object.values(item).some((val) =>
+            String(val).toLowerCase().includes(searchTerm.toLowerCase())
+          )) &&
+        (!statusFilter || item.status === statusFilter) &&
+        (!districtFilter || item.district === districtFilter) &&
+        (!cityFilter || item.city === cityFilter) &&
+        (!stateFilter || item.state === stateFilter)
+      );
+    });
+  }, [
+    searchTerm,
+    statusFilter,
+    districtFilter,
+    cityFilter,
+    stateFilter,
+    sortedData,
+  ]);
+
   const displayedRows = useMemo(() => {
     const start = currentPage * rowsPerPage;
-    const end = start + rowsPerPage;
-    return sortedData.slice(start, end);
-  }, [sortedData, currentPage]);
+    return filteredData.slice(start, start + rowsPerPage);
+  }, [filteredData, currentPage]);
+
+  // const displayedRows = useMemo(() => {
+  //   const start = currentPage * rowsPerPage;
+  //   return filteredData.slice(start, start + rowsPerPage);
+  // }, [statusFilter, districtFilter, cityFilter, stateFilter]);
 
   const handleSelectChange = (event) => {
     setValue(event.target.value);
@@ -164,40 +205,83 @@ const Page = () => {
           )}
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <div className="lg:flex justify-end">
-            <div className="mb-5 lg:mb-0">
-              <TextField
-                id="Search"
-                label="Search..."
-                variant="outlined"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                fullWidth
-              />
+          <div className="flex items-center gap-2 mb-4 mt-5">
+            <div>
+              <FilterListIcon />
             </div>
-
-            {/* <div className="flex flex-col lg:flex-row gap-3 mt-5 lg:mt-0">
-              <Button
-                onClick={() => router.push("/usersList/addUsers")}
-                variant="contained"
-                className="flex gap-2 justify-center items-center w-full lg:w-auto"
-              >
-                <span>Add User</span>
-                <AddIcon />
-              </Button>
-
-              <Button variant="contained" className="w-full lg:w-auto">
-                <span>Download Users</span>
-              </Button>
-              <Button variant="contained" className="w-full lg:w-auto">
-                <span>Bulk Update BP Numbers</span>
-              </Button>
-              <Button variant="contained" className="w-full lg:w-auto">
-                <span>Bulk Update Users</span>
-              </Button>
-            </div> */}
+            <div>Filter</div>
           </div>
 
+          <div className="lg:flex justify-between my-4 gap-4">
+            <TextField
+              label="Search..."
+              variant="outlined"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              fullWidth
+            />
+            <Select
+              value={stateFilter}
+              onChange={(e) => setStateFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+              className="lg:mt-0 mt-5"
+            >
+              <MenuItem value="">All States</MenuItem>
+              {[...new Set(rowsData.map((row) => row.state))].map((state) => (
+                <MenuItem key={state} value={state}>
+                  {state}
+                </MenuItem>
+              ))}
+            </Select>
+
+            <Select
+              value={cityFilter}
+              onChange={(e) => setCityFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+              className="lg:mt-0 mt-5"
+            >
+              <MenuItem value="">All City</MenuItem>
+              {[...new Set(rowsData.map((row) => row.city))].map((city) => (
+                <MenuItem key={city} value={city}>
+                  {city}
+                </MenuItem>
+              ))}
+            </Select>
+
+            <Select
+              value={districtFilter}
+              onChange={(e) => setDistrictFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+              className="lg:mt-0 mt-5"
+            >
+              <MenuItem value="">All District</MenuItem>
+              {[...new Set(rowsData.map((row) => row.district))].map(
+                (district) => (
+                  <MenuItem key={district} value={district}>
+                    {district}
+                  </MenuItem>
+                )
+              )}
+            </Select>
+
+            <Select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              displayEmpty
+              fullWidth
+              className="lg:mt-0 mt-5"
+            >
+              <MenuItem value=""> Status</MenuItem>
+              <MenuItem value="Active">Active</MenuItem>
+              <MenuItem value="Inactive">Inactive</MenuItem>
+            </Select>
+          </div>
+          <div className="mb-4">
+            <strong>Total Courses:</strong> {sortedData.length}
+          </div>
           {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
           {!isMobile ? (
             <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block  bg-white">
@@ -214,6 +298,8 @@ const Page = () => {
                       "District",
                       "Status",
                       "Details",
+                      "Edit",
+                      "Delete",
                     ].map((header, index) => (
                       <th key={index} className="px-3 py-3">
                         {header}
@@ -234,13 +320,29 @@ const Page = () => {
                       <td className="px-6 py-4">{row.state}</td>
                       <td className="px-6 py-4">{row.city}</td>
                       <td className="px-6 py-4">{row.district}</td>
-                      <td className="px-6 py-4">{row.status}</td>
+                      <td
+                        className={`px-6 py-4 ${
+                          row.status == "Active" ? "text-green-600" : ""
+                        } ${row.status == "Inactive" ? "text-red-600" : ""} ${
+                          row.status == "Pending" ? "text-yellow-600" : ""
+                        }`}
+                      >
+                        <button> {row.status}</button>
+                      </td>
                       <td className="px-6 py-4">
                         <Link href={`/usersList/ViewUser/${row.id}`}>
                           <button className="text-blue-500 hover:text-blue-700">
                             Details
                           </button>
                         </Link>
+                      </td>
+                      <td className="px-6 py-4 text-blue-500">
+                        {" "}
+                        <button>Edit</button>{" "}
+                      </td>
+                      <td className="px-6 py-4 text-red-500">
+                        {" "}
+                        <button>Delete</button>{" "}
                       </td>
                     </tr>
                   ))}
@@ -343,7 +445,7 @@ const Page = () => {
           <BulkUpdateBPNumbers />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
-          <BulkUpdateUsers/>
+          <BulkUpdateUsers />
         </CustomTabPanel>
       </Box>
     </>

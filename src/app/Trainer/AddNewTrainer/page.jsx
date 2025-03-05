@@ -1,5 +1,4 @@
 "use client";
-
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import {
@@ -11,9 +10,11 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Typography,
 } from "@mui/material";
 import Link from "next/link";
 import TextField from "@mui/material/TextField";
+import { useState } from "react";
 
 let Trainer = [
   {
@@ -24,7 +25,34 @@ let Trainer = [
 ];
 
 const AddNewTrainer = () => {
+  const [warning, setWarning] = useState("");
 
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 500 * 1024) {
+      setWarning("File size exceeds 500 KB. Please upload a smaller file.");
+      event.target.value = "";
+      return;
+    }
+
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const { width, height } = img;
+      const standardWidth = 500;
+      const standardHeight = 500;
+
+      if (width > standardWidth || height > standardHeight) {
+        setWarning(
+          `Uploaded image dimensions (${width}x${height}) do not match the required dimensions (${standardWidth}x${standardHeight}).`
+        );
+      } else {
+        setWarning("");
+      }
+    };
+  };
 
   return (
     <>
@@ -126,19 +154,30 @@ const AddNewTrainer = () => {
                   Profile Picture</h3> */}
 
                   <Grid item xs={12}>
-                    <div className="flex gap-5 items-center mt-5">
-                      <p>Profile Pic:</p>
-                      <div>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          name="photo"
-                          style={{ width: "100%" }}
-                        />
-                      </div>
-                    </div>
-                    <p className="text-[13px] mt-3">Maximum file size: 200 KB.</p>  
-
+                    <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+                      Profile Picture
+                    </Typography>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="photo"
+                      style={{ width: "100%" }}
+                      onChange={handleFileUpload}
+                    />
+                    <p className="text-[13px] mt-3">
+                      Maximum file size: 500 KB.
+                    </p>
+                    {warning && (
+                      <p
+                        style={{
+                          color: "orange",
+                          fontSize: "13px",
+                          marginTop: "8px",
+                        }}
+                      >
+                        {warning}
+                      </p>
+                    )}
                   </Grid>
 
                   <div className="flex gap-3 mt-5">

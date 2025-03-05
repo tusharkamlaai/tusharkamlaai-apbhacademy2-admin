@@ -103,6 +103,15 @@ const VideoCourse = () => {
                     className="lg:w-[70%] w-[100%] "
                    
                   />
+                   <TextField
+                    id="assamese-question"
+                    label="Display Order"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                    className="lg:w-[70%] w-[100%] "
+                    type="number"
+                  />
+
                   <TextField
                     id="assamese-answer"
                     label="Description"
@@ -112,15 +121,7 @@ const VideoCourse = () => {
                     sx={{ mb: 3 }}
                     className="lg:w-[70%] w-[100%] "
                   />
-                  <TextField
-                    id="assamese-question"
-                    label="Display Order"
-                    variant="outlined"
-                    sx={{ mb: 3 }}
-                    className="lg:w-[70%] w-[100%] "
-                    type="number"
-                  />
-
+                 
                   <div className="flex items-center py-5">
                     <span>Staus</span>
                     <span><Checkbox {...label} /></span>

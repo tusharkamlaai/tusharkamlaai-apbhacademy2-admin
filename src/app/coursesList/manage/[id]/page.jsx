@@ -13,17 +13,16 @@ import {
   CardContent,
   Container,
   FormControlLabel,
+  MenuItem,
   Radio,
+  Select,
 } from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import CourseDetail from "../../CourseDetail/page";
 
 const rowsData = [
   { ID: 1, Language: "English", Portal: "Active", Training: "Active" },
-  {
-    ID: 2,
-    Language: "हिन्दी (Hindi)",
-    Portal: "Inactive",
-    Training: "Inactive",
-  },
+  { ID: 2, Language: "हिन्दी (Hindi)", Portal: "Inactive", Training: "Active" },
   {
     ID: 3,
     Language: "गुजराती (Gujarati)",
@@ -111,81 +110,115 @@ export default function CourseMange() {
     setValue(newValue);
   };
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const handleSelectChange = (event) => {
+    setValue(event.target.value);
+  };
+
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isMobile, setIsMobile] = useState(false); // Detect Mobile View
-
-  const rowsPerPage = 5;
+  const [languageFilter, setLanguageFilter] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+  const rowsPerPage = 100;
 
   useEffect(() => {
-    // Check screen size to switch between table & card view
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768); // Change view if width is below 768px
+      setIsMobile(window.innerWidth < 768);
     };
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  const sortedData = useMemo(() => {
-    let sortableItems = [...rowsData];
-    if (sortConfig.key !== null) {
-      sortableItems.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key])
-          return sortConfig.direction === "ascending" ? -1 : 1;
-        if (a[sortConfig.key] > b[sortConfig.key])
-          return sortConfig.direction === "ascending" ? 1 : -1;
-        return 0;
-      });
-    }
-    if (searchTerm) {
-      sortableItems = sortableItems.filter((item) =>
-        Object.values(item).some((value) =>
-          String(value).toLowerCase().includes(searchTerm.toLowerCase())
-        )
+  const filteredData = useMemo(() => {
+    return rowsData.filter((item) => {
+      return (
+        (!searchTerm ||
+          Object.values(item).some((val) =>
+            val.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          )) &&
+        (!languageFilter || item.Language === languageFilter) // No semicolon here
       );
-    }
-    return sortableItems;
-  }, [sortConfig, searchTerm]);
+    });
+  }, [searchTerm, languageFilter]);
+
   const displayedRows = useMemo(() => {
     const start = currentPage * rowsPerPage;
-    const end = start + rowsPerPage;
-    return sortedData.slice(start, end);
-  }, [sortedData, currentPage]);
+    return filteredData.slice(start, start + rowsPerPage);
+  }, [filteredData, currentPage]);
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Course Language" {...a11yProps(0)} />
-          <Tab label="Upload Translations" {...a11yProps(1)} />
-          <Tab label="Upload Videos" {...a11yProps(2)} />
-          <Tab label="Upload Questions" {...a11yProps(3)} />
-        </Tabs>
+      <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
+        {isMobile ? (
+          <Select
+            value={value}
+            onChange={handleSelectChange}
+            fullWidth
+            displayEmpty
+          >
+            <MenuItem value={0}>Course Language</MenuItem>
+            <MenuItem value={1}>Upload Translations</MenuItem>
+            <MenuItem value={2}>Upload Videos</MenuItem>
+            <MenuItem value={3}>Upload Questions</MenuItem>
+            <MenuItem value={4}>Course Details</MenuItem>
+          </Select>
+        ) : (
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Course Language" {...a11yProps(0)} />
+            <Tab label="Upload Translations" {...a11yProps(1)} />
+            <Tab label="Upload Videos" {...a11yProps(2)} />
+            <Tab label="Upload Questions" {...a11yProps(3)} />
+            <Tab label="Course Details" {...a11yProps(4)} />
+          </Tabs>
+        )}
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <div className="justify-between lg:flex ">
-          <h2 className="font-semibold lg:text-[25px] mb-5">Course Name</h2>
-        </div>
-
-        <div className="lg:flex justify-end">
-          <div className="mb-5 lg:mb-0">
-            <TextField
-              id="Search"
-              label="Search..."
-              variant="outlined"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+        {/* Content for Course Language */}
+        <div className="items-center flex gap-3">
+          <div>
+            <h2 className="font-semibold lg:text-[22px]">Course Name:</h2>
+          </div>
+          <div>
+            <span className="lg:text-[22px]">Coding</span>
           </div>
         </div>
 
-        {/* Conditionally Render Table (Large Screens) or Cards (Mobile View) */}
+        <div className="flex items-center gap-2 mb-4 mt-5">
+          <div>
+            <FilterListIcon />
+          </div>
+          <div>Filter</div>
+        </div>
+
+        <div className="lg:flex justify-between my-4 gap-4">
+          <TextField
+            label="Search..."
+            variant="outlined"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            fullWidth
+          />
+          <Select
+            value={languageFilter}
+            onChange={(e) => setLanguageFilter(e.target.value)}
+            displayEmpty
+            fullWidth
+          >
+            <MenuItem value="">Select Language</MenuItem>
+            {[...new Set(rowsData.map((row) => row.Language))].map(
+              (Language) => (
+                <MenuItem key={Language} value={Language}>
+                  {Language}
+                </MenuItem>
+              )
+            )}
+          </Select>
+        </div>
+
         {!isMobile ? (
           <div className="overflow-x-auto shadow-md sm:rounded-lg mt-5 sm:block bg-white">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -214,9 +247,24 @@ export default function CourseMange() {
                   >
                     <td className="px-6 py-4">{row.ID}</td>
                     <td className="px-6 py-4">{row.Language}</td>
-                    <td className="px-6 py-4">{row.Portal}</td>
-                    <td className="px-6 py-4">{row.Training}</td>
-
+                    <td
+                      className={`px-6 py-4 ${
+                        row.Portal == "Active" ? "text-green-600" : ""
+                      } ${row.Portal == "Inactive" ? "text-red-600" : ""} ${
+                        row.Portal == "Pending" ? "text-yellow-600" : ""
+                      }`}
+                    >
+                      <button>{row.Portal}</button>
+                    </td>
+                    <td
+                      className={`px-6 py-4 ${
+                        row.Training == "Active" ? "text-green-600" : ""
+                      } ${row.Training == "Inactive" ? "text-red-600" : ""} ${
+                        row.Training == "Pending" ? "text-yellow-600" : ""
+                      }`}
+                    >
+                      <button>{row.Training}</button>
+                    </td>
                     <td className="px-6 py-4">
                       <Link href={`/coursesList/translationAdd/${row.ID}`}>
                         <button className="text-blue-500 hover:text-blue-700">
@@ -242,24 +290,6 @@ export default function CourseMange() {
                 ))}
               </tbody>
             </table>
-            <div className="flex justify-between p-4">
-              <button
-                onClick={() => setCurrentPage((current) => current - 1)}
-                disabled={currentPage === 0}
-                className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Previous
-              </button>
-              <button
-                onClick={() => setCurrentPage((current) => current + 1)}
-                disabled={
-                  currentPage >= Math.ceil(sortedData.length / rowsPerPage) - 1
-                }
-                className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Next
-              </button>
-            </div>
           </div>
         ) : (
           <div className="grid gap-4 mt-5">
@@ -278,9 +308,9 @@ export default function CourseMange() {
                   <strong>Portal:</strong>{" "}
                   <span
                     className={`px-2 py-1 rounded ${
-                      row.Status === "Active"
+                      row.Portal === "Active"
                         ? "bg-green-200 text-green-800"
-                        : row.Status === "Pending"
+                        : row.Portal === "Pending"
                         ? "bg-yellow-200 text-yellow-800"
                         : "bg-red-200 text-red-800"
                     }`}
@@ -288,14 +318,13 @@ export default function CourseMange() {
                     {row.Portal}
                   </span>
                 </p>
-
                 <p>
                   <strong>Training:</strong>{" "}
                   <span
                     className={`px-2 py-1 rounded ${
-                      row.Status === "Active"
+                      row.Training === "Active"
                         ? "bg-green-200 text-green-800"
-                        : row.Status === "Pending"
+                        : row.Training === "Pending"
                         ? "bg-yellow-200 text-yellow-800"
                         : "bg-red-200 text-red-800"
                     }`}
@@ -313,7 +342,6 @@ export default function CourseMange() {
                     </div>
                   </Link>
                 </div>
-
                 <div className="flex justify-between mt-3">
                   <Link href={`/coursesList/CourseVideos/${row.ID}`}>
                     <div className="flex items-center gap-3">
@@ -324,7 +352,6 @@ export default function CourseMange() {
                     </div>
                   </Link>
                 </div>
-
                 <div className="flex justify-between mt-3">
                   <Link href={`/coursesList/Questionairre/${row.ID}`}>
                     <div className="flex items-center gap-3">
@@ -337,29 +364,11 @@ export default function CourseMange() {
                 </div>
               </div>
             ))}
-
-            <div className="flex justify-between p-4">
-              <button
-                onClick={() => setCurrentPage((current) => current - 1)}
-                disabled={currentPage === 0}
-                className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Previous
-              </button>
-              <button
-                onClick={() => setCurrentPage((current) => current + 1)}
-                disabled={
-                  currentPage >= Math.ceil(sortedData.length / rowsPerPage) - 1
-                }
-                className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Next
-              </button>
-            </div>
           </div>
         )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
+        {/* Content for Upload Translations */}
         <div className="items-center justify-center flex">
           <Card className="lg:w-[70%]">
             <CardContent>
@@ -376,12 +385,11 @@ export default function CourseMange() {
                         of columns should be exactly as in
                       </span>
                       <span className="text-blue-400 ml-2">
-                        {" "}
-                        <a href="">sample file.</a>{" "}
+                        <a href="">sample file.</a>
                       </span>
                       <div>
                         <span className="font-semibold">
-                          Columns in Excel File:{" "}
+                          Columns in Excel File:
                         </span>
                         <span className="ml-2">
                           Language ID, Course Name, Description, Course
@@ -407,11 +415,10 @@ export default function CourseMange() {
 
                     <div className="flex mt-5 items-center">
                       <div className="w-[200px]">
-                        <p> Old Records:</p>
+                        <p>Old Records:</p>
                       </div>
                       <div>
                         <span>
-                          {" "}
                           <FormControlLabel
                             value="male"
                             control={<Radio />}
@@ -444,12 +451,11 @@ export default function CourseMange() {
         </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
+        {/* Content for Upload Videos */}
         <div className="items-center justify-center flex">
           <Card className="lg:w-[70%]">
             <CardContent>
-              <h2 className="font-semibold text-[20px] mb-3">
-                Upload Translations
-              </h2>
+              <h2 className="font-semibold text-[20px] mb-3">Upload Videos</h2>
               <hr />
               <div>
                 <Container component="main">
@@ -460,12 +466,11 @@ export default function CourseMange() {
                         of columns should be exactly as in
                       </span>
                       <span className="text-blue-400 ml-2">
-                        {" "}
-                        <a href="">sample file.</a>{" "}
+                        <a href="">sample file.</a>
                       </span>
                       <div>
                         <span className="font-semibold">
-                          Columns in Excel File:{" "}
+                          Columns in Excel File:
                         </span>
                         <span className="ml-2">
                           Language ID, Title, YoutubeID, Description, Display
@@ -491,11 +496,10 @@ export default function CourseMange() {
 
                     <div className="flex mt-5 items-center">
                       <div className="w-[200px]">
-                        <p> Old Records:</p>
+                        <p>Old Records:</p>
                       </div>
                       <div>
                         <span>
-                          {" "}
                           <FormControlLabel
                             value="male"
                             control={<Radio />}
@@ -528,11 +532,12 @@ export default function CourseMange() {
         </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
+        {/* Content for Upload Questions */}
         <div className="items-center justify-center flex">
           <Card className="lg:w-[70%]">
             <CardContent>
               <h2 className="font-semibold text-[20px] mb-3">
-                Upload Translations
+                Upload Questions
               </h2>
               <hr />
               <div>
@@ -544,12 +549,11 @@ export default function CourseMange() {
                         of columns should be exactly as in
                       </span>
                       <span className="text-blue-400 ml-2">
-                        {" "}
-                        <a href="">sample file.</a>{" "}
+                        <a href="">sample file.</a>
                       </span>
                       <div>
                         <span className="font-semibold">
-                          Columns in Excel File:{" "}
+                          Columns in Excel File:
                         </span>
                         <span className="ml-2">
                           Language ID, Question, Option 1, Option 2, Option 3,
@@ -575,11 +579,10 @@ export default function CourseMange() {
 
                     <div className="flex mt-5 items-center">
                       <div className="w-[200px]">
-                        <p> Old Records:</p>
+                        <p>Old Records:</p>
                       </div>
                       <div>
                         <span>
-                          {" "}
                           <FormControlLabel
                             value="male"
                             control={<Radio />}
@@ -611,6 +614,10 @@ export default function CourseMange() {
           </Card>
         </div>
       </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
+        <CourseDetail/>
+      </CustomTabPanel>
+
     </Box>
   );
 }
