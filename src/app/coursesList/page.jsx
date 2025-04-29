@@ -12,6 +12,7 @@ import AddCourses from "./addCourse/page";
 import { Select, useMediaQuery, MenuItem, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import axios from "axios";
 
 const rowsData = [
   {
@@ -136,6 +137,23 @@ export default function BasicTabs() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [portalFilter, setPortalFilter] = useState("");
   const [trainingFilter, setTrainingFilter] = useState("");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    FetchData();
+  }, []);
+
+  const FetchData = () => {
+    axios
+      .get(`http://localhost:5000/api/courses`)
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const [isMobile, setIsMobile] = useState(false); // Detect Mobile
   const theme = useTheme();
@@ -326,16 +344,16 @@ export default function BasicTabs() {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayedRows.map((row, rowIndex) => (
+                  {data.map((row, rowIndex) => (
                     <tr
                       key={rowIndex}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                     >
-                      <td className="px-6 py-4">{row.ID}</td>
-                      <td className="px-6 py-4">{row.Category}</td>
-                      <td className="px-6 py-4">{row.Course_Name}</td>
-                      <td className="px-6 py-4">{row.Course_Code}</td>
-                      <td className="px-6 py-4">{row.Module}</td>
+                      <td className="px-6 py-4">{rowIndex + 1}</td>
+                      <td className="px-6 py-4">{row.category}</td>
+                      <td className="px-6 py-4">{row.courseName}</td>
+                      <td className="px-6 py-4">{row.courseCode}</td>
+                      <td className="px-6 py-4">{row.moduleName}</td>
                       <td className="px-6 py-4">{row.Featured}</td>{" "}
                       <td
                         className={`px-6 py-4 ${
@@ -363,7 +381,7 @@ export default function BasicTabs() {
                       {/* <td className="px-6 py-4">{row.In_Training}</td> */}
                       <td className="px-6 py-4">{row.Languages}</td>
                       <td className="px-6 py-4">
-                        <Link href={`/coursesList/manage/${row.ID}`}>
+                        <Link href={`/coursesList/manage/${row.courseId}`}>
                           <button className="text-blue-500 hover:text-blue-700">
                             Manage
                           </button>

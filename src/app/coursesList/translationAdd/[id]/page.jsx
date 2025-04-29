@@ -21,6 +21,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
+import { useNavigate, useParams } from 'react-router-dom';
 
 let languages = [
   {
@@ -103,6 +104,9 @@ const Page = () => {
   const theme = useTheme();
   const [courseDuration, setCourseDuration] = useState("");
   const [durationUnit, setDurationUnit] = useState("Minutes");
+
+  const params = useParams();
+  console.log(params.courseId,"lll")
 
   const isMobileTab = useMediaQuery(theme.breakpoints.down("sm"));
 

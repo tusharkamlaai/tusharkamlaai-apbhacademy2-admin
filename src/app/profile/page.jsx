@@ -65,7 +65,7 @@ const page = () => {
                         name="Full Name"
                         autoComplete="given-name"
                         autoFocus
-                        value="Tushar Patle"
+                        defaultValue="Tushar Patle"
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>

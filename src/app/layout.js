@@ -40,9 +40,10 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { usePathname } from 'next/navigation';
-
+import { usePathname } from "next/navigation";
+import DashboardMain from "./components/ui/Dashboard";
 const drawerWidth = 240;
+import Cookies from 'js-cookie';
 
 const menuItems = [
   { href: "/coursesList", icon: <ListIcon />, text: "Courses List" },
@@ -343,694 +344,753 @@ export default function RootLayout({ children }) {
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
+  const isLoginPage = pathname === "/";
+
+  if (isLoginPage) {
+    return (
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    );
+  }
+
+const adminLogout = () => {
+  Cookies.remove('adminToken', { path: '/' });
+  router.push('/auth/login');
+  localStorage.removeItem("adminToken");
+};
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Box sx={{ display: "flex" }}>
-          <CssBaseline />
-          <AppBar
-            position="fixed"
-            open={open}
-            style={{ background: "white", color: "black" }}
-          >
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-                edge="start"
-                sx={[
-                  {
-                    marginRight: 5,
-                  },
-                  open && { display: "none" },
-                ]}
-              >
-                <MenuIcon />
-              </IconButton>
-              <div style={{ flexGrow: 1 }} />
-              <div className="flex items-center gap-3">
-                <span>
-                  <AccountCircleIcon />
-                </span>
-                <span>
-                  {" "}
-                  <button>Wellcome ABC -Admin Login</button>{" "}
-                </span>
-              </div>
-            </Toolbar>
-          </AppBar>
-          <Drawer variant="permanent" open={open}>
-            <DrawerHeader>
-              <Typography component="div">
-                <div className="flex gap-2 items-center">
-                  <Image src={logo} alt="Description" width={20} height={22} />
-                  <button className="relative right- text-[15px]">
-                    AP Color Academy
+        <div>
+          <Box sx={{ display: "flex" }}>
+            <CssBaseline />
+            <AppBar
+              position="fixed"
+              open={open}
+              style={{ background: "white", color: "black" }}
+            >
+              <Toolbar>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  edge="start"
+                  sx={[
+                    {
+                      marginRight: 5,
+                    },
+                    open && { display: "none" },
+                  ]}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <div style={{ flexGrow: 1 }} />
+                <div className="flex items-center gap-3">
+                  <span>
+                    <AccountCircleIcon />
+                  </span>
+                  <span>
+                    {" "}
+                    <button>Wellcome ABC -Admin Login</button>{" "}
+                  </span>
+                  <button onClick={adminLogout} className="bg-red-400 text-white px-3 py-2 ">
+                    Logout
                   </button>
                 </div>
-              </Typography>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === "rtl" ? (
-                  <ChevronRightIcon />
-                ) : (
-                  <MenuOpenIcon />
-                )}
-              </IconButton>
-            </DrawerHeader>
-            <Divider />
-            <Divider />
-            <List>
-              <ListItem disablePadding sx={{ display: "block" }}>
-                <Link href="/profile">
-                  <ListItemButton
-                    sx={[
-                      {
-                        minHeight: 60,
-                        px: 1.5,
-                        backgroundColor: pathname === "/profile" ? '#e0e0e0' : 'inherit',
-                      },
-                      open
-                        ? {
-                            justifyContent: "initial",
-                          }
-                        : {
-                            justifyContent: "center",
-                          },
-                    ]}
-                  >
-                    <ListItemIcon
-                      sx={[
-                        {
-                          minWidth: 0,
-                          justifyContent: "center",
-                        },
-                        open
-                          ? {
-                              mr: 3,
-                            }
-                          : {
-                              mr: "auto",
-                            },
-                      ]}
-                    >
-                      <Image
-                        src={profile}
-                        alt="Description"
-                        width={30}
-                        height={30}
-                      />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <Typography variant="body2">
-                          {" "}
-                          ABC -Admin Login
-                        </Typography>
-                      }
-                      sx={[
-                        open
-                          ? {
-                              opacity: 1,
-                            }
-                          : {
-                              opacity: 0,
-                            },
-                      ]}
+              </Toolbar>
+            </AppBar>
+            <Drawer variant="permanent" open={open}>
+              <DrawerHeader>
+                <Typography component="div">
+                  <div className="flex gap-2 items-center">
+                    <Image
+                      src={logo}
+                      alt="Description"
+                      width={20}
+                      height={22}
                     />
-                  </ListItemButton>
-                </Link>
-              </ListItem>
-              <Divider />
-
-              <ListItem disablePadding sx={{ display: "block" }}>
-                <Link href="/" onClick={handleContentClick}>
-                  <ListItemButton
-                    sx={[
-                      {
-                        minHeight: 48,
-                        px: 1.5,
-                        backgroundColor: pathname === "/" ? '#e0e0e0' : 'inherit',
-                      },
-                      open
-                        ? {
-                            justifyContent: "initial",
-                          }
-                        : {
-                            justifyContent: "center",
-                          },
-                    ]}
-                  >
-                    <ListItemIcon
-                      sx={[
-                        {
-                          minWidth: 0,
-                          justifyContent: "center",
-                        },
-                        open
-                          ? {
-                              mr: 3,
-                            }
-                          : {
-                              mr: "auto",
-                            },
-                      ]}
-                    >
-                      <DashboardIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <Typography variant="body2">
-                          {" "}
-                          Dashboard
-                        </Typography>
-                      }
-                      sx={[
-                        open
-                          ? {
-                              opacity: 1,
-                            }
-                          : {
-                              opacity: 0,
-                            },
-                      ]}
-                    />
-                  </ListItemButton>
-                </Link>
-              </ListItem>
-              <Divider />
-              <div className="mt-5">
-                {menuItems.map((items, index) => {
-                  return (
-                    <ListItem
-                      key={index}
-                      disablePadding
-                      sx={{ display: "block" }}
-                    >
-                      <Link href={items.href} onClick={handleContentClick}>
-                        <ListItemButton
-                          sx={[
-                            {
-                              minHeight: 48,
-                              px: 1.5,
-                              backgroundColor: pathname === items.href ? '#e0e0e0' : 'inherit',
-                            },
-                            open
-                              ? {
-                                  justifyContent: "initial",
-                                }
-                              : {
-                                  justifyContent: "center",
-                                },
-                          ]}
-                        >
-                          <ListItemIcon
-                            sx={[
-                              {
-                                minWidth: 0,
-                                justifyContent: "center",
-                              },
-                              open
-                                ? {
-                                    mr: 3,
-                                  }
-                                : {
-                                    mr: "auto",
-                                  },
-                            ]}
-                          >
-                            {items.icon}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={
-                              <Typography variant="body2">
-                                {" "}
-                                {items.text}
-                              </Typography>
-                            }
-                            sx={[
-                              open
-                                ? {
-                                    opacity: 1,
-                                  }
-                                : {
-                                    opacity: 0,
-                                  },
-                            ]}
-                          />
-                        </ListItemButton>
-                      </Link>
-                    </ListItem>
-                  );
-                })}
-              </div>
-
-              <Divider />
-              <div className="mt-5">
-                {meetLinks.map((items, index) => {
-                  return (
-                    <ListItem
-                      key={index}
-                      disablePadding
-                      sx={{ display: "block" }}
-                    >
-                      <Link href={items.href} onClick={handleContentClick}>
-                        <ListItemButton
-                          sx={[
-                            {
-                              minHeight: 48,
-                              px: 1,
-                              backgroundColor: pathname === items.href ? '#e0e0e0' : 'inherit',
-                            },
-                            open
-                              ? {
-                                  justifyContent: "initial",
-                                }
-                              : {
-                                  justifyContent: "center",
-                                },
-                          ]}
-                        >
-                          <ListItemIcon
-                            sx={[
-                              {
-                                minWidth: 0,
-                                justifyContent: "center",
-                              },
-                              open
-                                ? {
-                                    mr: 3,
-                                  }
-                                : {
-                                    mr: "auto",
-                                  },
-                            ]}
-                          >
-                            {items.icon}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={
-                              <Typography variant="body2">
-                                {" "}
-                                {items.text}
-                              </Typography>
-                            }
-                            sx={[
-                              open
-                                ? {
-                                    opacity: 1,
-                                  }
-                                : {
-                                    opacity: 0,
-                                  },
-                            ]}
-                          />
-                        </ListItemButton>
-                      </Link>
-                    </ListItem>
-                  );
-                })}
-              </div>
-
-              <Divider />
-              <div className="mt-5">
-                {trainers.map((items, index) => {
-                  return (
-                    <ListItem
-                      key={index}
-                      disablePadding
-                      sx={{ display: "block" }}
-                    >
-                      <Link href={items.href} onClick={handleContentClick}>
-                        <ListItemButton
-                          sx={[
-                            {
-                              minHeight: 48,
-                              px: 1,
-                              backgroundColor: pathname === items.href ? '#e0e0e0' : 'inherit',
-                            },
-                            open
-                              ? {
-                                  justifyContent: "initial",
-                                }
-                              : {
-                                  justifyContent: "center",
-                                },
-                          ]}
-                        >
-                          <ListItemIcon
-                            sx={[
-                              {
-                                minWidth: 0,
-                                justifyContent: "center",
-                              },
-                              open
-                                ? {
-                                    mr: 3,
-                                  }
-                                : {
-                                    mr: "auto",
-                                  },
-                            ]}
-                          >
-                            {items.icon}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={
-                              <Typography variant="body2">
-                                {" "}
-                                {items.text}
-                              </Typography>
-                            }
-                            sx={[
-                              open
-                                ? {
-                                    opacity: 1,
-                                  }
-                                : {
-                                    opacity: 0,
-                                  },
-                            ]}
-                          />
-                        </ListItemButton>
-                      </Link>
-                    </ListItem>
-                  );
-                })}
-              </div>
-
-              <Divider />
-              <div className="text-center mt-3 lg:visible invisible ">Reports & Logs</div>
-              <div className="mt-5">
-                {ReportsLogs.map((items, index) => {
-                  return (
-                    <ListItem
-                      key={index}
-                      disablePadding
-                      sx={{ display: "block" }}
-                    >
-                      <Link href={items.href} onClick={handleContentClick}>
-                        <ListItemButton
-                          sx={[
-                            {
-                              minHeight: 48,
-                              px: 1,
-                              backgroundColor: pathname === items.href ? '#e0e0e0' : 'inherit',
-                            },
-                            open
-                              ? {
-                                  justifyContent: "initial",
-                                }
-                              : {
-                                  justifyContent: "center",
-                                },
-                          ]}
-                        >
-                          <ListItemIcon
-                            sx={[
-                              {
-                                minWidth: 0,
-                                justifyContent: "center",
-                              },
-                              open
-                                ? {
-                                    mr: 3,
-                                  }
-                                : {
-                                    mr: "auto",
-                                  },
-                            ]}
-                          >
-                            {items.icon}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={
-                              <Typography variant="body2">
-                                {items.text}
-                              </Typography>
-                            }
-                            sx={[
-                              open ? { opacity: 1 } : { opacity: 0 },
-                              {
-                                whiteSpace: "normal",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                maxWidth: "160px",
-                              },
-                            ]}
-                          />
-                        </ListItemButton>
-                      </Link>
-                    </ListItem>
-                  );
-                })}
-              </div>
-
-              <Divider />
-              <div className="text-center mt-3 lg:visible invisible">Reports & Logs</div>
-              <div className="mt-5">
-                {Campaign.map((items, index) => {
-                  return (
-                    <ListItem
-                      key={index}
-                      disablePadding
-                      sx={{ display: "block" }}
-                    >
-                      <Link href={items.href} onClick={handleContentClick}>
-                        <ListItemButton
-                          sx={[
-                            {
-                              minHeight: 48,
-                              px: 1,
-                              backgroundColor: pathname === items.href ? '#e0e0e0' : 'inherit',
-                            },
-                            open
-                              ? {
-                                  justifyContent: "initial",
-                                }
-                              : {
-                                  justifyContent: "center",
-                                },
-                          ]}
-                        >
-                          <ListItemIcon
-                            sx={[
-                              {
-                                minWidth: 0,
-                                justifyContent: "center",
-                              },
-                              open
-                                ? {
-                                    mr: 3,
-                                  }
-                                : {
-                                    mr: "auto",
-                                  },
-                            ]}
-                          >
-                            {items.icon}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={
-                              <Typography variant="body2">
-                                {items.text}
-                              </Typography>
-                            }
-                            sx={[
-                              open ? { opacity: 1 } : { opacity: 0 },
-                              {
-                                whiteSpace: "normal",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                maxWidth: "160px",
-                              },
-                            ]}
-                          />
-                        </ListItemButton>
-                      </Link>
-                    </ListItem>
-                  );
-                })}
-              </div>
-
-              <Divider />
-              <div className="text-center mt-3"> </div>
-
-              <div className="m-1 hs-dropdown relative">
-                <button
-                  id="hs-dropdown-hover-event"
-                  type="button"
-                  className="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-                  aria-haspopup="menu"
-                  aria-expanded={isOpen}
-                  aria-label="Dropdown"
-                  onClick={toggleDropdown}
-                >
-                  <div className="flex gap-3 items-center">
-                    <span>
-                      {" "}
-                      <SettingsIcon />
-                    </span>
-                    <span className="none">Settings & Masters </span>
+                    <button className="relative right- text-[15px]">
+                      AP Color Academy
+                    </button>
                   </div>
+                </Typography>
+                <IconButton onClick={handleDrawerClose}>
+                  {theme.direction === "rtl" ? (
+                    <ChevronRightIcon />
+                  ) : (
+                    <MenuOpenIcon />
+                  )}
+                </IconButton>
+              </DrawerHeader>
+              <Divider />
+              <Divider />
+              <List>
+                <ListItem disablePadding sx={{ display: "block" }}>
+                  <Link href="/profile">
+                    <ListItemButton
+                      sx={[
+                        {
+                          minHeight: 60,
+                          px: 1.5,
+                          backgroundColor:
+                            pathname === "/profile" ? "#e0e0e0" : "inherit",
+                        },
+                        open
+                          ? {
+                              justifyContent: "initial",
+                            }
+                          : {
+                              justifyContent: "center",
+                            },
+                      ]}
+                    >
+                      <ListItemIcon
+                        sx={[
+                          {
+                            minWidth: 0,
+                            justifyContent: "center",
+                          },
+                          open
+                            ? {
+                                mr: 3,
+                              }
+                            : {
+                                mr: "auto",
+                              },
+                        ]}
+                      >
+                        <Image
+                          src={profile}
+                          alt="Description"
+                          width={30}
+                          height={30}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          <Typography variant="body2">
+                            {" "}
+                            ABC -Admin Login
+                          </Typography>
+                        }
+                        sx={[
+                          open
+                            ? {
+                                opacity: 1,
+                              }
+                            : {
+                                opacity: 0,
+                              },
+                        ]}
+                      />
+                    </ListItemButton>
+                  </Link>
+                </ListItem>
+                <Divider />
 
-                  <svg
-                    className={`hs-dropdown-open:rotate-180 size-4 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
-                </button>
-
-                <div
-                  className={`hs-dropdown-menu transition-[opacity,margin] duration-300 ${
-                    isOpen ? "opacity-100" : "opacity-0"
-                  } ${isOpen ? "block" : "hidden"} min-w-60 bg-white mt-2`}
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="hs-dropdown-hover-event"
-                >
-                  <div className="mt-5">
-                    {SettingsMasters.map((items, index) => {
-                      return (
-                        <ListItem
-                          key={index}
-                          disablePadding
-                          sx={{ display: "block" }}
-                        >
-                          <Link href={items.href} onClick={handleContentClick}>
-                            <ListItemButton
+                <ListItem disablePadding sx={{ display: "block" }}>
+                  <Link href="/DashboardContent" onClick={handleContentClick}>
+                    <ListItemButton
+                      sx={[
+                        {
+                          minHeight: 48,
+                          px: 1.5,
+                          backgroundColor:
+                            pathname === "/DashboardContent"
+                              ? "#e0e0e0"
+                              : "inherit",
+                        },
+                        open
+                          ? {
+                              justifyContent: "initial",
+                            }
+                          : {
+                              justifyContent: "center",
+                            },
+                      ]}
+                    >
+                      <ListItemIcon
+                        sx={[
+                          {
+                            minWidth: 0,
+                            justifyContent: "center",
+                          },
+                          open
+                            ? {
+                                mr: 3,
+                              }
+                            : {
+                                mr: "auto",
+                              },
+                        ]}
+                      >
+                        <DashboardIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          <Typography variant="body2"> Dashboard</Typography>
+                        }
+                        sx={[
+                          open
+                            ? {
+                                opacity: 1,
+                              }
+                            : {
+                                opacity: 0,
+                              },
+                        ]}
+                      />
+                    </ListItemButton>
+                  </Link>
+                </ListItem>
+                <Divider />
+                <div className="mt-5">
+                  {menuItems.map((items, index) => {
+                    return (
+                      <ListItem
+                        key={index}
+                        disablePadding
+                        sx={{ display: "block" }}
+                      >
+                        <Link href={items.href} onClick={handleContentClick}>
+                          <ListItemButton
+                            sx={[
+                              {
+                                minHeight: 48,
+                                px: 1.5,
+                                backgroundColor:
+                                  pathname === items.href
+                                    ? "#e0e0e0"
+                                    : "inherit",
+                              },
+                              open
+                                ? {
+                                    justifyContent: "initial",
+                                  }
+                                : {
+                                    justifyContent: "center",
+                                  },
+                            ]}
+                          >
+                            <ListItemIcon
                               sx={[
                                 {
-                                  minHeight: 48,
-                                  px: 1,
-                                  backgroundColor: pathname === items.href ? '#e0e0e0' : 'inherit',
-                                },
-                                open
-                                  ? { justifyContent: "initial" }
-                                  : { justifyContent: "center" },
-                              ]}
-                            >
-                              <ListItemIcon
-                                sx={[
-                                  { minWidth: 0, justifyContent: "center" },
-                                  open ? { mr: 3 } : { mr: "auto" },
-                                ]}
-                              >
-                                {items.icon}
-                              </ListItemIcon>
-                              <ListItemText
-                                primary={
-                                  <Typography variant="body2">
-                                    {items.text}
-                                  </Typography>
-                                }
-                                sx={[
-                                  open ? { opacity: 1 } : { opacity: 0 },
-                                  {
-                                    whiteSpace: "normal",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "160px",
-                                  },
-                                ]}
-                              />
-                            </ListItemButton>
-                          </Link>
-                        </ListItem>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              <Divider />
-              {/* <div className="text-center mt-3">logout</div> */}
-              <div className="mt-5">
-                {Logout.map((items, index) => {
-                  return (
-                    <ListItem
-                      key={index}
-                      disablePadding
-                      sx={{ display: "block" }}
-                    >
-                      <Link href={items.href} onClick={handleContentClick}>
-                        <ListItemButton
-                          sx={[
-                            {
-                              minHeight: 48,
-                              px: 1,
-                              backgroundColor: pathname === items.href ? '#e0e0e0' : 'inherit',
-                            },
-                            open
-                              ? {
-                                  justifyContent: "initial",
-                                }
-                              : {
+                                  minWidth: 0,
                                   justifyContent: "center",
                                 },
-                          ]}
-                        >
-                          <ListItemIcon
+                                open
+                                  ? {
+                                      mr: 3,
+                                    }
+                                  : {
+                                      mr: "auto",
+                                    },
+                              ]}
+                            >
+                              {items.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2">
+                                  {" "}
+                                  {items.text}
+                                </Typography>
+                              }
+                              sx={[
+                                open
+                                  ? {
+                                      opacity: 1,
+                                    }
+                                  : {
+                                      opacity: 0,
+                                    },
+                              ]}
+                            />
+                          </ListItemButton>
+                        </Link>
+                      </ListItem>
+                    );
+                  })}
+                </div>
+
+                <Divider />
+                <div className="mt-5">
+                  {meetLinks.map((items, index) => {
+                    return (
+                      <ListItem
+                        key={index}
+                        disablePadding
+                        sx={{ display: "block" }}
+                      >
+                        <Link href={items.href} onClick={handleContentClick}>
+                          <ListItemButton
                             sx={[
                               {
-                                minWidth: 0,
-                                justifyContent: "center",
+                                minHeight: 48,
+                                px: 1,
+                                backgroundColor:
+                                  pathname === items.href
+                                    ? "#e0e0e0"
+                                    : "inherit",
                               },
                               open
                                 ? {
-                                    mr: 3,
+                                    justifyContent: "initial",
                                   }
                                 : {
-                                    mr: "auto",
+                                    justifyContent: "center",
                                   },
                             ]}
                           >
-                            {items.icon}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={
-                              <Typography variant="body2">
-                                {items.text}
-                              </Typography>
-                            }
+                            <ListItemIcon
+                              sx={[
+                                {
+                                  minWidth: 0,
+                                  justifyContent: "center",
+                                },
+                                open
+                                  ? {
+                                      mr: 3,
+                                    }
+                                  : {
+                                      mr: "auto",
+                                    },
+                              ]}
+                            >
+                              {items.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2">
+                                  {" "}
+                                  {items.text}
+                                </Typography>
+                              }
+                              sx={[
+                                open
+                                  ? {
+                                      opacity: 1,
+                                    }
+                                  : {
+                                      opacity: 0,
+                                    },
+                              ]}
+                            />
+                          </ListItemButton>
+                        </Link>
+                      </ListItem>
+                    );
+                  })}
+                </div>
+
+                <Divider />
+                <div className="mt-5">
+                  {trainers.map((items, index) => {
+                    return (
+                      <ListItem
+                        key={index}
+                        disablePadding
+                        sx={{ display: "block" }}
+                      >
+                        <Link href={items.href} onClick={handleContentClick}>
+                          <ListItemButton
                             sx={[
-                              open ? { opacity: 1 } : { opacity: 0 },
                               {
-                                whiteSpace: "normal",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                maxWidth: "160px",
+                                minHeight: 48,
+                                px: 1,
+                                backgroundColor:
+                                  pathname === items.href
+                                    ? "#e0e0e0"
+                                    : "inherit",
                               },
+                              open
+                                ? {
+                                    justifyContent: "initial",
+                                  }
+                                : {
+                                    justifyContent: "center",
+                                  },
                             ]}
-                          />
-                        </ListItemButton>
-                      </Link>
-                    </ListItem>
-                  );
-                })}
-              </div>
-            </List>
-            <Divider />
-            <Divider />
-          </Drawer>
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            <DrawerHeader />
-            {children}
+                          >
+                            <ListItemIcon
+                              sx={[
+                                {
+                                  minWidth: 0,
+                                  justifyContent: "center",
+                                },
+                                open
+                                  ? {
+                                      mr: 3,
+                                    }
+                                  : {
+                                      mr: "auto",
+                                    },
+                              ]}
+                            >
+                              {items.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2">
+                                  {" "}
+                                  {items.text}
+                                </Typography>
+                              }
+                              sx={[
+                                open
+                                  ? {
+                                      opacity: 1,
+                                    }
+                                  : {
+                                      opacity: 0,
+                                    },
+                              ]}
+                            />
+                          </ListItemButton>
+                        </Link>
+                      </ListItem>
+                    );
+                  })}
+                </div>
+
+                <Divider />
+                <div className="text-center mt-3 lg:visible invisible ">
+                  Reports & Logs
+                </div>
+                <div className="mt-5">
+                  {ReportsLogs.map((items, index) => {
+                    return (
+                      <ListItem
+                        key={index}
+                        disablePadding
+                        sx={{ display: "block" }}
+                      >
+                        <Link href={items.href} onClick={handleContentClick}>
+                          <ListItemButton
+                            sx={[
+                              {
+                                minHeight: 48,
+                                px: 1,
+                                backgroundColor:
+                                  pathname === items.href
+                                    ? "#e0e0e0"
+                                    : "inherit",
+                              },
+                              open
+                                ? {
+                                    justifyContent: "initial",
+                                  }
+                                : {
+                                    justifyContent: "center",
+                                  },
+                            ]}
+                          >
+                            <ListItemIcon
+                              sx={[
+                                {
+                                  minWidth: 0,
+                                  justifyContent: "center",
+                                },
+                                open
+                                  ? {
+                                      mr: 3,
+                                    }
+                                  : {
+                                      mr: "auto",
+                                    },
+                              ]}
+                            >
+                              {items.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2">
+                                  {items.text}
+                                </Typography>
+                              }
+                              sx={[
+                                open ? { opacity: 1 } : { opacity: 0 },
+                                {
+                                  whiteSpace: "normal",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  maxWidth: "160px",
+                                },
+                              ]}
+                            />
+                          </ListItemButton>
+                        </Link>
+                      </ListItem>
+                    );
+                  })}
+                </div>
+
+                <Divider />
+                <div className="text-center mt-3 lg:visible invisible">
+                  Reports & Logs
+                </div>
+                <div className="mt-5">
+                  {Campaign.map((items, index) => {
+                    return (
+                      <ListItem
+                        key={index}
+                        disablePadding
+                        sx={{ display: "block" }}
+                      >
+                        <Link href={items.href} onClick={handleContentClick}>
+                          <ListItemButton
+                            sx={[
+                              {
+                                minHeight: 48,
+                                px: 1,
+                                backgroundColor:
+                                  pathname === items.href
+                                    ? "#e0e0e0"
+                                    : "inherit",
+                              },
+                              open
+                                ? {
+                                    justifyContent: "initial",
+                                  }
+                                : {
+                                    justifyContent: "center",
+                                  },
+                            ]}
+                          >
+                            <ListItemIcon
+                              sx={[
+                                {
+                                  minWidth: 0,
+                                  justifyContent: "center",
+                                },
+                                open
+                                  ? {
+                                      mr: 3,
+                                    }
+                                  : {
+                                      mr: "auto",
+                                    },
+                              ]}
+                            >
+                              {items.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2">
+                                  {items.text}
+                                </Typography>
+                              }
+                              sx={[
+                                open ? { opacity: 1 } : { opacity: 0 },
+                                {
+                                  whiteSpace: "normal",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  maxWidth: "160px",
+                                },
+                              ]}
+                            />
+                          </ListItemButton>
+                        </Link>
+                      </ListItem>
+                    );
+                  })}
+                </div>
+
+                <Divider />
+                <div className="text-center mt-3"> </div>
+
+                <div className="m-1 hs-dropdown relative">
+                  <button
+                    id="hs-dropdown-hover-event"
+                    type="button"
+                    className="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                    aria-haspopup="menu"
+                    aria-expanded={isOpen}
+                    aria-label="Dropdown"
+                    onClick={toggleDropdown}
+                  >
+                    <div className="flex gap-3 items-center">
+                      <span>
+                        {" "}
+                        <SettingsIcon />
+                      </span>
+                      <span className="none">Settings & Masters </span>
+                    </div>
+
+                    <svg
+                      className={`hs-dropdown-open:rotate-180 size-4 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+
+                  <div
+                    className={`hs-dropdown-menu transition-[opacity,margin] duration-300 ${
+                      isOpen ? "opacity-100" : "opacity-0"
+                    } ${isOpen ? "block" : "hidden"} min-w-60 bg-white mt-2`}
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="hs-dropdown-hover-event"
+                  >
+                    <div className="mt-5">
+                      {SettingsMasters.map((items, index) => {
+                        return (
+                          <ListItem
+                            key={index}
+                            disablePadding
+                            sx={{ display: "block" }}
+                          >
+                            <Link
+                              href={items.href}
+                              onClick={handleContentClick}
+                            >
+                              <ListItemButton
+                                sx={[
+                                  {
+                                    minHeight: 48,
+                                    px: 1,
+                                    backgroundColor:
+                                      pathname === items.href
+                                        ? "#e0e0e0"
+                                        : "inherit",
+                                  },
+                                  open
+                                    ? { justifyContent: "initial" }
+                                    : { justifyContent: "center" },
+                                ]}
+                              >
+                                <ListItemIcon
+                                  sx={[
+                                    { minWidth: 0, justifyContent: "center" },
+                                    open ? { mr: 3 } : { mr: "auto" },
+                                  ]}
+                                >
+                                  {items.icon}
+                                </ListItemIcon>
+                                <ListItemText
+                                  primary={
+                                    <Typography variant="body2">
+                                      {items.text}
+                                    </Typography>
+                                  }
+                                  sx={[
+                                    open ? { opacity: 1 } : { opacity: 0 },
+                                    {
+                                      whiteSpace: "normal",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      maxWidth: "160px",
+                                    },
+                                  ]}
+                                />
+                              </ListItemButton>
+                            </Link>
+                          </ListItem>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                <Divider />
+                {/* <div className="text-center mt-3">logout</div> */}
+                <div className="mt-5">
+                  {Logout.map((items, index) => {
+                    return (
+                      <ListItem
+                        key={index}
+                        disablePadding
+                        sx={{ display: "block" }}
+                      >
+                        <Link href={items.href} onClick={handleContentClick}>
+                          <ListItemButton
+                            sx={[
+                              {
+                                minHeight: 48,
+                                px: 1,
+                                backgroundColor:
+                                  pathname === items.href
+                                    ? "#e0e0e0"
+                                    : "inherit",
+                              },
+                              open
+                                ? {
+                                    justifyContent: "initial",
+                                  }
+                                : {
+                                    justifyContent: "center",
+                                  },
+                            ]}
+                          >
+                            <ListItemIcon
+                              sx={[
+                                {
+                                  minWidth: 0,
+                                  justifyContent: "center",
+                                },
+                                open
+                                  ? {
+                                      mr: 3,
+                                    }
+                                  : {
+                                      mr: "auto",
+                                    },
+                              ]}
+                            >
+                              {items.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2">
+                                  {items.text}
+                                </Typography>
+                              }
+                              sx={[
+                                open ? { opacity: 1 } : { opacity: 0 },
+                                {
+                                  whiteSpace: "normal",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  maxWidth: "160px",
+                                },
+                              ]}
+                            />
+                          </ListItemButton>
+                        </Link>
+                      </ListItem>
+                    );
+                  })}
+                </div>
+              </List>
+              <Divider />
+              <Divider />
+            </Drawer>
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+              <DrawerHeader />
+              {children}
+            </Box>
           </Box>
-        </Box>
+        </div>
       </body>
     </html>
   );
